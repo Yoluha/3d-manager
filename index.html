@@ -1,0 +1,644 @@
+<title>3D Manager</title>
+<style>
+:root {
+    --bg: #EDEEF1;
+    --surface: #FFFFFF;
+    --surface-2: #F5F6F8;
+    --ink: #1C1E22;
+    --muted: #666B72;
+    --faint: #9498A0;
+    --border: #D7DAE0;
+    --accent: #C96A2E;
+    --accent-ink: #FFFFFF;
+    --teal: #2E8F87;
+    --teal-ink: #FFFFFF;
+    --good: #2E8F5C;
+    --shadow: 0 1px 2px rgba(28,30,34,0.04), 0 8px 24px rgba(28,30,34,0.06);
+}
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --bg: #15171B;
+        --surface: #1E2126;
+        --surface-2: #24272D;
+        --ink: #E9EAEC;
+        --muted: #9B9FA6;
+        --faint: #6C7078;
+        --border: #2E3238;
+        --accent: #E08A4B;
+        --accent-ink: #16181C;
+        --teal: #4CB5AC;
+        --teal-ink: #10201F;
+        --good: #4FBF85;
+        --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 32px rgba(0,0,0,0.35);
+    }
+}
+:root[data-theme="dark"] {
+    --bg: #15171B;
+    --surface: #1E2126;
+    --surface-2: #24272D;
+    --ink: #E9EAEC;
+    --muted: #9B9FA6;
+    --faint: #6C7078;
+    --border: #2E3238;
+    --accent: #E08A4B;
+    --accent-ink: #16181C;
+    --teal: #4CB5AC;
+    --teal-ink: #10201F;
+    --good: #4FBF85;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 32px rgba(0,0,0,0.35);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, .price, .tiercode {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", "Consolas", "Roboto Mono", monospace;
+    text-wrap: balance;
+}
+
+.wrap { max-width: 980px; margin: 0 auto; padding: 44px 24px 100px; }
+
+/* ---------- Header ---------- */
+header.top {
+    padding: 56px 24px 0;
+    max-width: 980px;
+    margin: 0 auto;
+}
+.langswitch { display: flex; justify-content: flex-end; margin-bottom: 32px; }
+.langswitch select {
+    font-family: ui-monospace, "SF Mono", Consolas, monospace;
+    font-size: 12.5px;
+    letter-spacing: 0.04em;
+    padding: 7px 30px 7px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--ink);
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23666B72' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+}
+.langswitch select:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.brand-row { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+.brand-mark {
+    font-family: ui-monospace, "SF Mono", Consolas, monospace;
+    font-weight: 700;
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    letter-spacing: -0.02em;
+    margin: 0;
+}
+.brand-mark .dim { color: var(--accent); }
+.tagline { color: var(--muted); font-size: 1.05rem; max-width: 60ch; margin: 14px 0 0; }
+
+.layerlines { margin: 40px 0 8px; height: 46px; }
+.layerlines svg { width: 100%; height: 100%; display: block; }
+
+/* ---------- Section titles ---------- */
+h2.section { font-size: 1.5rem; margin: 0 0 6px; letter-spacing: -0.01em; }
+.section-sub { color: var(--muted); margin: 0 0 32px; font-size: 0.95rem; max-width: 60ch; }
+
+/* ---------- Feature category cards ---------- */
+.cats { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 72px; }
+.cat { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px; box-shadow: var(--shadow); }
+.cat-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 4px; }
+.cat-name { font-weight: 700; font-size: 1.02rem; display: flex; align-items: center; gap: 8px; }
+.cat-icon { font-size: 1.15rem; }
+.tier-pill {
+    font-family: ui-monospace, "SF Mono", Consolas, monospace;
+    font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 999px; white-space: nowrap; flex-shrink: 0;
+}
+.tier-free { background: color-mix(in srgb, var(--teal) 16%, transparent); color: var(--teal); }
+.tier-basic { background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent); }
+.tier-standard { background: color-mix(in srgb, var(--accent) 22%, transparent); color: var(--accent); }
+.tier-pro { background: var(--ink); color: var(--bg); }
+.cat ul { margin: 12px 0 0; padding: 0 0 0 1.1em; color: var(--muted); font-size: 0.89rem; }
+.cat li { margin: 5px 0; }
+.cat li::marker { color: var(--faint); }
+
+/* ---------- Pricing table ---------- */
+.pricing-note { color: var(--faint); font-size: 0.82rem; margin: -18px 0 28px; }
+.plans { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
+.plan { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px 18px; display: flex; flex-direction: column; box-shadow: var(--shadow); }
+.plan.pro { border-color: var(--accent); position: relative; }
+.plan.pro::before {
+    content: attr(data-badge);
+    position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
+    background: var(--accent); color: var(--accent-ink);
+    font-family: ui-monospace, "SF Mono", Consolas, monospace;
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 999px;
+}
+.plan-name { font-weight: 700; font-size: 1rem; margin-bottom: 2px; }
+.plan-price { font-variant-numeric: tabular-nums; font-size: 1.7rem; font-weight: 700; margin: 10px 0 0; }
+.plan-price .free-tag { color: var(--teal); }
+.plan-alt { color: var(--faint); font-size: 0.76rem; margin: 2px 0 16px; }
+.plan hr { border: none; border-top: 1px solid var(--border); margin: 0 0 14px; }
+.plan-chips { display: flex; flex-wrap: wrap; gap: 6px; flex: 1; align-content: flex-start; }
+.plan-chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px;
+    padding: 5px 9px; font-size: 0.76rem; color: var(--ink); line-height: 1.2;
+}
+.plan-chip .ci { font-size: 0.9rem; }
+.plan-chip.new { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--surface-2)); }
+
+@media (max-width: 760px) { .plans { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) { .plans { grid-template-columns: 1fr; } }
+
+/* ---------- Languages ---------- */
+.langs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.lang-chip { background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 7px 14px; font-size: 0.85rem; box-shadow: var(--shadow); }
+.lang-chip.region { color: var(--muted); font-size: 0.78rem; padding: 5px 12px; }
+.lang-chip.current { border-color: var(--accent); color: var(--accent); font-weight: 700; }
+.lang-group-label {
+    font-family: ui-monospace, "SF Mono", Consolas, monospace;
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--faint); margin: 22px 0 10px;
+}
+.lang-group-label:first-child { margin-top: 0; }
+
+/* ---------- Discord CTA ---------- */
+.discord-cta {
+    display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+    background: var(--ink); color: var(--bg);
+    border-radius: 16px; padding: 26px 30px; margin: 64px 0;
+}
+.discord-cta h3 { margin: 0 0 6px; font-size: 1.15rem; }
+.discord-cta p { margin: 0; color: color-mix(in srgb, var(--bg) 65%, transparent); font-size: 0.9rem; max-width: 46ch; }
+.discord-cta a.btn {
+    flex-shrink: 0; display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent); color: var(--accent-ink);
+    text-decoration: none; font-weight: 700;
+    padding: 12px 22px; border-radius: 10px; font-size: 0.92rem;
+}
+
+/* ---------- Footer ---------- */
+footer {
+    margin-top: 60px; padding-top: 28px; border-top: 1px solid var(--border);
+    color: var(--faint); font-size: 0.82rem;
+    display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
+}
+footer a { color: var(--muted); }
+</style>
+
+<header class="top">
+    <div class="langswitch">
+        <select id="langSelect" onchange="setLang(this.value)"></select>
+    </div>
+    <div class="brand-row">
+        <h1 class="brand-mark">3D<span class="dim">_</span>Manager</h1>
+    </div>
+    <p class="tagline" id="tagline"></p>
+    <div class="layerlines" aria-hidden="true">
+        <svg viewBox="0 0 980 46" preserveAspectRatio="none"><g id="layerlines-g"></g></svg>
+    </div>
+</header>
+
+<div class="wrap">
+
+    <h2 class="section" id="catsTitle"></h2>
+    <p class="section-sub" id="catsSub"></p>
+    <div class="cats" id="cats"></div>
+
+    <h2 class="section" id="plansTitle"></h2>
+    <p class="section-sub" id="plansSub"></p>
+    <p class="pricing-note" id="pricingNote"></p>
+    <div class="plans" id="plans"></div>
+
+    <div class="discord-cta">
+        <div>
+            <h3 id="discordTitle"></h3>
+            <p id="discordDesc"></p>
+        </div>
+        <a class="btn" href="https://discord.gg/9Vj4PxQTtb" target="_blank" rel="noopener">
+            <span id="discordBtn"></span> →
+        </a>
+    </div>
+
+    <h2 class="section" id="langsTitle"></h2>
+    <p class="section-sub" id="langsSub"></p>
+    <div class="lang-group-label" id="langsFullLabel"></div>
+    <div class="langs" id="langs-full"></div>
+    <div class="lang-group-label" id="langsRegionLabel"></div>
+    <div class="langs" id="langs-region"></div>
+
+    <footer>
+        <span id="footerText"></span>
+        <span style="display:flex; gap:16px; flex-wrap:wrap;">
+            <a href="terms.html">Terms</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="refund.html">Refunds</a>
+            <a href="https://discord.gg/9Vj4PxQTtb" target="_blank" rel="noopener">Discord →</a>
+        </span>
+    </footer>
+</div>
+
+<script>
+// ---------- Idiomas suportados (mesma lista dos 12 traduzidos + PT nativo, ver js/9_i18n.js da app) ----------
+const LANG_NAMES = {
+  pt:'Português', en:'English', es:'Español', fr:'Français', de:'Deutsch', it:'Italiano',
+  pl:'Polski', ja:'日本語', nl:'Nederlands', cs:'Čeština', zh:'中文', ru:'Русский', ko:'한국어'
+};
+const LANG_ORDER = ['pt','en','es','fr','de','it','pl','ja','nl','cs','zh','ru','ko'];
+const COUNTRY_NAMES = ['Portugal','Brasil','España','México','Argentina','Colombia','Chile','France','Canada (Québec)','Deutschland','Schweiz','United Kingdom','United States','Australia','Italia','Polska','Nederland','Česko','日本','한국','中国','Россия','+ genérico / other'];
+
+// ---------- Textos de interface ----------
+const UI = {
+  tagline: {
+    pt:'Gestão de negócio para quem imprime a sério — do orçamento à entrega, sem folhas de cálculo soltas.',
+    en:'Business management for people who print seriously — from quote to delivery, no more scattered spreadsheets.',
+    es:'Gestión de negocio para quien imprime en serio — del presupuesto a la entrega, sin hojas de cálculo sueltas.',
+    fr:'Gestion d\'entreprise pour ceux qui impriment sérieusement — du devis à la livraison, fini les tableurs éparpillés.',
+    de:'Geschäftsverwaltung für alle, die 3D-Druck ernst nehmen — vom Angebot bis zur Lieferung, ohne verstreute Tabellenblätter.',
+    it:'Gestione aziendale per chi stampa sul serio — dal preventivo alla consegna, senza fogli di calcolo sparsi.',
+    pl:'Zarządzanie biznesem dla tych, którzy drukują na poważnie — od wyceny po dostawę, bez rozproszonych arkuszy kalkulacyjnych.',
+    ja:'本気で3Dプリントに取り組む人のための業務管理ツール — 見積りから納品まで、バラバラなスプレッドシートはもう不要です。',
+    nl:'Bedrijfsbeheer voor wie serieus print — van offerte tot levering, geen losse spreadsheets meer.',
+    cs:'Správa podnikání pro ty, kdo tisknou naplno — od nabídky až po doručení, žádné roztroušené tabulky.',
+    zh:'为认真做3D打印生意的人打造的业务管理工具 — 从报价到交付,不再需要东拼西凑的表格。',
+    ru:'Управление бизнесом для тех, кто печатает по-настоящему — от сметы до доставки, никаких разрозненных таблиц.',
+    ko:'진지하게 3D 프린팅을 하는 사람들을 위한 비즈니스 관리 도구 — 견적부터 배송까지, 여기저기 흩어진 스프레드시트는 이제 그만.'
+  },
+  catsTitle: { pt:'O que a app faz', en:'What the app does', es:'Qué hace la app', fr:'Ce que fait l\'appli', de:'Was die App kann', it:'Cosa fa l\'app', pl:'Co robi aplikacja', ja:'アプリでできること', nl:'Wat de app doet', cs:'Co aplikace umí', zh:'应用能做什么', ru:'Что умеет приложение', ko:'앱이 하는 일' },
+  catsSub: {
+    pt:'Doze áreas, cada uma a resolver um problema real de quem vive de imprimir.',
+    en:'Twelve areas, each solving a real problem for people who make a living printing.',
+    es:'Doce áreas, cada una resolviendo un problema real de quien vive de imprimir.',
+    fr:'Douze domaines, chacun résolvant un vrai problème de ceux qui vivent de l\'impression.',
+    de:'Zwölf Bereiche, jeder löst ein echtes Problem für alle, die vom Drucken leben.',
+    it:'Dodici aree, ognuna che risolve un problema reale di chi vive di stampa.',
+    pl:'Dwanaście obszarów, każdy rozwiązujący realny problem osób żyjących z druku.',
+    ja:'12の領域、それぞれが印刷業で生計を立てる人の実際の課題を解決します。',
+    nl:'Twaalf gebieden, elk met een oplossing voor een echt probleem van wie leeft van printen.',
+    cs:'Dvanáct oblastí, každá řeší reálný problém těch, kdo žijí z tisku.',
+    zh:'十二个功能领域,每一个都解决靠打印谋生者的真实问题。',
+    ru:'Двенадцать областей, каждая решает реальную проблему тех, кто зарабатывает печатью.',
+    ko:'12개 영역, 각각 프린팅으로 생계를 유지하는 사람들의 실질적인 문제를 해결합니다.'
+  },
+  plansTitle: { pt:'Planos', en:'Plans', es:'Planes', fr:'Formules', de:'Pläne', it:'Piani', pl:'Plany', ja:'プラン', nl:'Plannen', cs:'Plány', zh:'方案', ru:'Планы', ko:'플랜' },
+  plansSub: {
+    pt:'Pagamento único, sem mensalidades em plano nenhum. Testa 14 dias de acesso completo antes de decidires. Cada plano inclui tudo o que está no(s) plano(s) anterior(es).',
+    en:'One-time payment, no subscriptions on any plan. Try 14 days of full access before deciding. Every plan includes everything in the plan(s) before it.',
+    es:'Pago único, sin mensualidades en ningún plan. Prueba 14 días de acceso completo antes de decidir. Cada plan incluye todo lo del plan o planes anteriores.',
+    fr:'Paiement unique, aucun abonnement sur aucune formule. Essaie 14 jours d\'accès complet avant de décider. Chaque formule inclut tout ce qui précède.',
+    de:'Einmalzahlung, keine Abos bei keinem Plan. Teste 14 Tage vollen Zugriff, bevor du dich entscheidest. Jeder Plan enthält alles aus den vorherigen Plänen.',
+    it:'Pagamento unico, nessun abbonamento su nessun piano. Prova 14 giorni di accesso completo prima di decidere. Ogni piano include tutto quello dei piani precedenti.',
+    pl:'Płatność jednorazowa, żadnych subskrypcji w żadnym planie. Wypróbuj 14 dni pełnego dostępu przed podjęciem decyzji. Każdy plan zawiera wszystko z poprzedniego planu (planów).',
+    ja:'すべてのプランが買い切り、月額課金は一切ありません。決める前に14日間のフルアクセスを試せます。各プランには、それ以前のプランの内容がすべて含まれます。',
+    nl:'Eenmalige betaling, geen abonnementen bij welk plan dan ook. Probeer 14 dagen volledige toegang voor je beslist. Elk plan bevat alles uit het/de vorige plan(nen).',
+    cs:'Jednorázová platba, žádné předplatné u žádného plánu. Vyzkoušej 14 dní plného přístupu, než se rozhodneš. Každý plán obsahuje vše z předchozích plánů.',
+    zh:'一次性付费,任何方案都没有订阅费。决定前可试用14天完整功能。每个方案都包含之前方案的全部内容。',
+    ru:'Единоразовый платёж, никаких подписок ни в одном плане. Попробуй 14 дней полного доступа перед решением. Каждый план включает всё из предыдущих планов.',
+    ko:'모든 플랜은 일회성 결제이며 구독료가 없습니다. 결정하기 전에 14일간 전체 기능을 체험해 보세요. 각 플랜에는 이전 플랜의 모든 기능이 포함됩니다.'
+  },
+  pricingNote: { pt:'* preços de lançamento, sujeitos a ajuste', en:'* launch pricing, subject to adjustment', es:'* precios de lanzamiento, sujetos a ajuste', fr:'* prix de lancement, sujets à ajustement', de:'* Einführungspreise, Anpassung vorbehalten', it:'* prezzi di lancio, soggetti a modifica', pl:'* ceny startowe, mogą ulec zmianie', ja:'※ローンチ価格、変更の可能性あり', nl:'* introductieprijzen, onder voorbehoud van aanpassing', cs:'* startovní ceny, mohou se změnit', zh:'* 上线价格,可能调整', ru:'* стартовые цены, могут быть скорректированы', ko:'* 출시 가격이며 조정될 수 있습니다' },
+  discordTitle: { pt:'💬 Suporte, sugestões e a beta', en:'💬 Support, suggestions & the beta', es:'💬 Soporte, sugerencias y la beta', fr:'💬 Support, suggestions et la bêta', de:'💬 Support, Vorschläge & die Beta', it:'💬 Supporto, suggerimenti e la beta', pl:'💬 Wsparcie, sugestie i beta', ja:'💬 サポート・ご提案・ベータ版', nl:'💬 Ondersteuning, suggesties & de beta', cs:'💬 Podpora, návrhy a beta verze', zh:'💬 支持、建议与测试版', ru:'💬 Поддержка, предложения и бета', ko:'💬 지원, 제안 및 베타' },
+  discordDesc: {
+    pt:'Bugs, dúvidas, pedidos de funcionalidades, ou queres testar antes de todos — é tudo no Discord.',
+    en:'Bugs, questions, feature requests, or want early access — it\'s all on Discord.',
+    es:'Errores, dudas, peticiones de funciones, o quieres probarlo antes que nadie — todo está en Discord.',
+    fr:'Bugs, questions, demandes de fonctionnalités, ou tu veux tester en avant-première — tout se passe sur Discord.',
+    de:'Fehler, Fragen, Funktionswünsche, oder du willst vorab testen — alles auf Discord.',
+    it:'Bug, domande, richieste di funzionalità, o vuoi provarlo in anteprima — è tutto su Discord.',
+    pl:'Błędy, pytania, prośby o funkcje, albo chcesz przetestować jako pierwszy — wszystko na Discordzie.',
+    ja:'バグ報告、質問、機能リクエスト、あるいは誰よりも早く試したい方も — すべてDiscordで。',
+    nl:'Bugs, vragen, functieverzoeken, of vroegtijdig testen — het gebeurt allemaal op Discord.',
+    cs:'Chyby, dotazy, žádosti o funkce, nebo chceš vyzkoušet jako první — vše na Discordu.',
+    zh:'报告错误、提问、功能建议,或想抢先体验 — 都在Discord上进行。',
+    ru:'Баги, вопросы, запросы функций или хочешь протестировать раньше всех — всё на Discord.',
+    ko:'버그, 질문, 기능 요청, 혹은 누구보다 먼저 체험해 보고 싶으신가요 — 모두 Discord에서 이루어집니다.'
+  },
+  discordBtn: { pt:'Entrar no Discord', en:'Join the Discord', es:'Unirse a Discord', fr:'Rejoindre Discord', de:'Discord beitreten', it:'Unisciti a Discord', pl:'Dołącz do Discorda', ja:'Discordに参加', nl:'Word lid van Discord', cs:'Připojit se na Discord', zh:'加入Discord', ru:'Присоединиться к Discord', ko:'Discord 참여하기' },
+  langsTitle: { pt:'Idiomas & Localizações', en:'Languages & Localizations', es:'Idiomas y Localizaciones', fr:'Langues et Localisations', de:'Sprachen & Lokalisierungen', it:'Lingue e Localizzazioni', pl:'Języki i Lokalizacje', ja:'言語・ローカライズ', nl:'Talen & Lokalisaties', cs:'Jazyky a Lokalizace', zh:'语言与本地化', ru:'Языки и Локализации', ko:'언어 및 현지화' },
+  langsSub: {
+    pt:'A interface inteira, traduzida — não só alguns menus.',
+    en:'The whole interface, translated — not just a handful of menus.',
+    es:'Toda la interfaz, traducida — no solo unos cuantos menús.',
+    fr:'Toute l\'interface, traduite — pas juste quelques menus.',
+    de:'Die gesamte Oberfläche übersetzt — nicht nur ein paar Menüs.',
+    it:'Tutta l\'interfaccia, tradotta — non solo qualche menu.',
+    pl:'Cały interfejs przetłumaczony — nie tylko kilka menu.',
+    ja:'一部のメニューだけでなく、インターフェース全体を翻訳しています。',
+    nl:'De hele interface vertaald — niet slechts een paar menu\'s.',
+    cs:'Celé rozhraní přeložené — ne jen pár nabídek.',
+    zh:'整个界面均已翻译 — 而不仅仅是几个菜单。',
+    ru:'Весь интерфейс переведён — а не только пара меню.',
+    ko:'몇 개의 메뉴만이 아니라 전체 인터페이스가 번역되어 있습니다.'
+  },
+  langsFullLabel: { pt:'13 idiomas completos', en:'13 full languages', es:'13 idiomas completos', fr:'13 langues complètes', de:'13 vollständige Sprachen', it:'13 lingue complete', pl:'13 pełnych języków', ja:'13の完全対応言語', nl:'13 volledige talen', cs:'13 kompletních jazyků', zh:'13种完整语言', ru:'13 полных языков', ko:'13개 전체 언어' },
+  langsRegionLabel: { pt:'+ País/Localização independente do idioma (23 países — ajusta NIF, imposto e forma de pagamento sozinho)', en:'+ Country/Location independent from the language (23 countries — adjusts tax ID, tax rate & payment fields on its own)', es:'+ País/Localización independiente del idioma (23 países — ajusta NIF, impuesto y forma de pago solo)', fr:'+ Pays/Localisation indépendant de la langue (23 pays — ajuste identifiant fiscal, taxe et paiement tout seul)', de:'+ Land/Standort unabhängig von der Sprache (23 Länder — passt Steuernummer, Steuersatz & Zahlungsfelder eigenständig an)', it:'+ Paese/Località indipendente dalla lingua (23 paesi — adatta da solo P. IVA, imposta e pagamento)', pl:'+ Kraj/Lokalizacja niezależne od języka (23 kraje — samodzielnie dostosowuje NIP, podatek i płatność)', ja:'+ 言語から独立した国/所在地設定(23か国 — 税番号・税率・支払い項目を自動調整)', nl:'+ Land/Locatie onafhankelijk van de taal (23 landen — past fiscaal nr., belasting & betaalvelden zelf aan)', cs:'+ Země/Lokalita nezávislá na jazyce (23 zemí — sama upraví daňové číslo, sazbu daně a platbu)', zh:'+ 独立于语言的国家/地区设置(23个国家 — 自动调整税号、税率与付款字段)', ru:'+ Страна/Локация независимо от языка (23 страны — сама настраивает налоговый номер, ставку и оплату)', ko:'+ 언어와 독립적인 국가/위치 설정(23개국 — 세금 번호, 세율, 결제 항목을 알아서 조정)' },
+  footerText: { pt:'3D Manager · construído por um só maker, para outros makers.', en:'3D Manager · built by one maker, for other makers.', es:'3D Manager · construido por un solo maker, para otros makers.', fr:'3D Manager · construit par un seul maker, pour d\'autres makers.', de:'3D Manager · von einem Maker gebaut, für andere Maker.', it:'3D Manager · costruito da un solo maker, per altri maker.', pl:'3D Manager · zbudowany przez jednego makera, dla innych makerów.', ja:'3D Manager · 一人のメイカーが、仲間のメイカーのために作りました。', nl:'3D Manager · gebouwd door één maker, voor andere makers.', cs:'3D Manager · postavil jeden maker, pro ostatní makery.', zh:'3D Manager · 由一位创客打造,献给所有创客。', ru:'3D Manager · создано одним мейкером для других мейкеров.', ko:'3D Manager · 한 메이커가 다른 메이커들을 위해 만들었습니다.' },
+  freeAlt: { pt:'para sempre', en:'forever', es:'para siempre', fr:'pour toujours', de:'für immer', it:'per sempre', pl:'na zawsze', ja:'永久無料', nl:'voor altijd', cs:'navždy', zh:'永久免费', ru:'навсегда', ko:'영원히' },
+  oneTimeAlt: { pt:'pagamento único', en:'one-time', es:'pago único', fr:'paiement unique', de:'Einmalzahlung', it:'pagamento unico', pl:'płatność jednorazowa', ja:'買い切り', nl:'eenmalige betaling', cs:'jednorázová platba', zh:'一次性付费', ru:'единоразовый платёж', ko:'일회성 결제' },
+  proAlt: { pt:'pagamento único · tudo incluído', en:'one-time · everything included', es:'pago único · todo incluido', fr:'paiement unique · tout inclus', de:'Einmalzahlung · alles inklusive', it:'pagamento unico · tutto incluso', pl:'płatność jednorazowa · wszystko wliczone', ja:'買い切り・すべて含む', nl:'eenmalige betaling · alles inbegrepen', cs:'jednorázová platba · vše zahrnuto', zh:'一次性付费 · 包含所有功能', ru:'единоразовый платёж · всё включено', ko:'일회성 결제 · 모든 기능 포함' },
+  proBadge: { pt:'Melhor valor', en:'Best value', es:'Mejor valor', fr:'Meilleure offre', de:'Bester Wert', it:'Miglior valore', pl:'Najlepsza wartość', ja:'ベストバリュー', nl:'Beste waarde', cs:'Nejlepší hodnota', zh:'最超值', ru:'Лучшая цена', ko:'최고 가치' }
+};
+
+const CATS = [
+  { icon:'🧮', tier:'free',
+    name:{ pt:'Calculadora', en:'Calculator', es:'Calculadora', fr:'Calculateur', de:'Rechner', it:'Calcolatore', pl:'Kalkulator', ja:'計算機', nl:'Rekenmachine', cs:'Kalkulačka', zh:'计算器', ru:'Калькулятор', ko:'계산기' },
+    items:{
+      pt:['Custo real: material, energia, mão-de-obra, desgaste da máquina','Modo Filamento e Modo Resina (mL automático)','Importa .gcode/.3mf/.stl — peso e tempo sozinhos','Multi-Bed: várias impressões num orçamento só','Orçamentos guardados com foto, prontos a reutilizar'],
+      en:['Real cost: material, power, labor, machine wear','Filament & Resin modes (auto mL)','Imports .gcode/.3mf/.stl — weight & time filled in','Multi-Bed: several prints in one quote','Saved quotes with photo, ready to reuse'],
+      es:['Costo real: material, energía, mano de obra, desgaste de la máquina','Modo Filamento y Modo Resina (mL automático)','Importa .gcode/.3mf/.stl — peso y tiempo automáticos','Multi-Bed: varias impresiones en un solo presupuesto','Presupuestos guardados con foto, listos para reutilizar'],
+      fr:['Coût réel : matériau, énergie, main-d\'œuvre, usure machine','Modes Filament et Résine (mL automatique)','Importe .gcode/.3mf/.stl — poids et temps remplis automatiquement','Multi-Bed : plusieurs impressions dans un seul devis','Devis enregistrés avec photo, prêts à réutiliser'],
+      de:['Echte Kosten: Material, Strom, Arbeit, Maschinenverschleiß','Filament- und Harz-Modus (automatisch in mL)','Importiert .gcode/.3mf/.stl — Gewicht & Zeit automatisch ausgefüllt','Multi-Bed: mehrere Drucke in einem Angebot','Gespeicherte Angebote mit Foto, sofort wiederverwendbar'],
+      it:['Costo reale: materiale, energia, manodopera, usura macchina','Modalità Filamento e Resina (mL automatico)','Importa .gcode/.3mf/.stl — peso e tempo compilati da soli','Multi-Bed: più stampe in un solo preventivo','Preventivi salvati con foto, pronti da riutilizzare'],
+      pl:['Realny koszt: materiał, energia, robocizna, zużycie maszyny','Tryb Filament i Żywica (automatyczne mL)','Import .gcode/.3mf/.stl — waga i czas wypełniane same','Multi-Bed: kilka wydruków w jednej wycenie','Zapisane wyceny ze zdjęciem, gotowe do ponownego użycia'],
+      ja:['実コスト計算:材料費・電気代・人件費・機械の摩耗','フィラメントモードとレジンモード(mL自動計算)','.gcode/.3mf/.stlをインポート — 重量と時間を自動入力','マルチベッド:複数のプリントを1つの見積りにまとめる','写真付きで見積りを保存、いつでも再利用可能'],
+      nl:['Echte kosten: materiaal, stroom, arbeid, machineslijtage','Filament- en Harsmodus (automatische mL)','Importeert .gcode/.3mf/.stl — gewicht en tijd automatisch ingevuld','Multi-Bed: meerdere prints in één offerte','Opgeslagen offertes met foto, klaar voor hergebruik'],
+      cs:['Reálné náklady: materiál, energie, práce, opotřebení stroje','Režim Filament a Pryskyřice (automatické mL)','Import .gcode/.3mf/.stl — váha a čas se vyplní sami','Multi-Bed: více tisků v jedné nabídce','Uložené nabídky s fotkou, připravené k opětovnému použití'],
+      zh:['真实成本核算:材料、电费、人工、机器损耗','长丝模式与树脂模式(自动计算mL)','导入 .gcode/.3mf/.stl — 自动填入重量和时间','多平台批量:一份报价包含多次打印','保存带照片的报价,随时重复使用'],
+      ru:['Реальная стоимость: материал, электричество, труд, износ станка','Режимы Filament и Resin (автоматический мл)','Импорт .gcode/.3mf/.stl — вес и время заполняются сами','Multi-Bed: несколько печатей в одной смете','Сохранённые сметы с фото, готовые к повторному использованию'],
+      ko:['실제 원가 계산: 재료, 전기, 인건비, 기계 마모','필라멘트 모드와 레진 모드(자동 mL 계산)','.gcode/.3mf/.stl 가져오기 — 무게와 시간 자동 입력','멀티 베드: 여러 출력물을 하나의 견적으로','사진과 함께 저장된 견적, 언제든 재사용 가능']
+    }},
+  { icon:'🧵', tier:'free',
+    name:{ pt:'Materiais', en:'Materials', es:'Materiales', fr:'Matériaux', de:'Materialien', it:'Materiali', pl:'Materiały', ja:'材料', nl:'Materialen', cs:'Materiály', zh:'材料', ru:'Материалы', ko:'재료' },
+    items:{
+      pt:['Armazém de filamentos e resinas, cor a cor','Alertas de stock baixo','Acabamentos (Matte/Silk/Glow…) com custo próprio'],
+      en:['Filament & resin stock, color by color','Low-stock alerts','Finishes (Matte/Silk/Glow…) with their own cost'],
+      es:['Almacén de filamentos y resinas, color a color','Alertas de stock bajo','Acabados (Mate/Seda/Glow…) con su propio costo'],
+      fr:['Stock de filaments et résines, couleur par couleur','Alertes de stock faible','Finitions (Mat/Soie/Glow…) avec leur propre coût'],
+      de:['Filament- und Harzlager, Farbe für Farbe','Warnungen bei niedrigem Bestand','Oberflächen (Matt/Silk/Glow…) mit eigenen Kosten'],
+      it:['Magazzino filamenti e resine, colore per colore','Avvisi di scorte basse','Finiture (Matte/Silk/Glow…) con costo proprio'],
+      pl:['Magazyn filamentów i żywic, kolor po kolorze','Alerty o niskim stanie magazynowym','Wykończenia (Matte/Silk/Glow…) z własnym kosztem'],
+      ja:['フィラメントとレジンの在庫を色ごとに管理','在庫少アラート','仕上げ(マット/シルク/グロー…)ごとの追加コスト設定'],
+      nl:['Voorraad filament en hars, kleur voor kleur','Meldingen bij lage voorraad','Afwerkingen (Mat/Silk/Glow…) met eigen kosten'],
+      cs:['Sklad filamentů a pryskyřic, barva po barvě','Upozornění na nízké zásoby','Povrchové úpravy (Matte/Silk/Glow…) s vlastní cenou'],
+      zh:['长丝与树脂库存,按颜色管理','低库存提醒','表面处理(哑光/丝滑/夜光…)可设置额外成本'],
+      ru:['Склад филамента и смол, цвет за цветом','Оповещения о низком остатке','Отделка (Matte/Silk/Glow…) со своей стоимостью'],
+      ko:['필라멘트 및 레진 재고를 색상별로 관리','재고 부족 알림','마감(무광/실크/글로우…)별 추가 비용 설정']
+    }},
+  { icon:'🖨️', tier:'free',
+    name:{ pt:'Máquinas', en:'Machines', es:'Máquinas', fr:'Machines', de:'Maschinen', it:'Macchine', pl:'Maszyny', ja:'マシン', nl:'Machines', cs:'Stroje', zh:'设备', ru:'Станки', ko:'기계' },
+    items:{
+      pt:['Frota de impressoras com consumo (Watts)','Cofre de Máquinas — vê o ROI de cada uma','Manutenção preventiva por horas reais de uso'],
+      en:['Printer fleet with power draw (Watts)','Machine Vault — see each printer\'s ROI','Preventive maintenance by real usage hours'],
+      es:['Flota de impresoras con consumo (Watts)','Caja Fuerte de Máquinas — ve el ROI de cada una','Mantenimiento preventivo por horas reales de uso'],
+      fr:['Parc d\'imprimantes avec consommation (Watts)','Coffre des Machines — vois le ROI de chacune','Maintenance préventive selon les heures d\'utilisation réelles'],
+      de:['Druckerflotte mit Leistungsaufnahme (Watt)','Maschinentresor — sieh den ROI jeder Maschine','Vorbeugende Wartung nach echten Nutzungsstunden'],
+      it:['Flotta di stampanti con consumo (Watt)','Cassaforte Macchine — vedi il ROI di ognuna','Manutenzione preventiva per ore reali di utilizzo'],
+      pl:['Flota drukarek ze zużyciem energii (Waty)','Skarbiec Maszyn — zobacz ROI każdej z nich','Konserwacja zapobiegawcza wg realnych godzin pracy'],
+      ja:['プリンター群の消費電力(ワット)を管理','マシン金庫 — 各プリンターのROIを確認','実際の使用時間に基づく予防保全'],
+      nl:['Printervloot met stroomverbruik (Watt)','Machinekluis — bekijk de ROI van elke printer','Preventief onderhoud op basis van echte gebruiksuren'],
+      cs:['Flotila tiskáren se spotřebou (Watty)','Trezor Strojů — sleduj ROI každého z nich','Preventivní údržba podle reálných hodin provozu'],
+      zh:['打印机机群功耗(瓦特)管理','设备金库 — 查看每台设备的投资回报率','按真实使用时长进行预防性维护'],
+      ru:['Парк принтеров с учётом мощности (Ватт)','Сейф Станков — смотри окупаемость каждого','Профилактическое обслуживание по реальным часам работы'],
+      ko:['프린터 함대의 전력 소비(와트) 관리','기계 금고 — 각 프린터의 ROI 확인','실제 사용 시간 기준 예방 정비']
+    }},
+  { icon:'⚙️', tier:'free',
+    name:{ pt:'Configurações', en:'Settings', es:'Configuración', fr:'Paramètres', de:'Einstellungen', it:'Impostazioni', pl:'Ustawienia', ja:'設定', nl:'Instellingen', cs:'Nastavení', zh:'设置', ru:'Настройки', ko:'설정' },
+    items:{
+      pt:['Backup/restauro completo num clique','+100 temas visuais, ou cria o teu','PIN de bloqueio com recuperação por pergunta'],
+      en:['One-click full backup & restore','100+ visual themes, or build your own','Lock PIN with security-question recovery'],
+      es:['Copia de seguridad y restauro completo con un clic','+100 temas visuales, o crea el tuyo','PIN de bloqueo con recuperación por pregunta'],
+      fr:['Sauvegarde/restauration complète en un clic','Plus de 100 thèmes visuels, ou crée le tien','Code PIN avec récupération par question de sécurité'],
+      de:['Vollständiges Backup/Wiederherstellung per Klick','100+ visuelle Themes, oder erstelle dein eigenes','Sperr-PIN mit Wiederherstellung per Sicherheitsfrage'],
+      it:['Backup/ripristino completo con un clic','+100 temi visivi, o crea il tuo','PIN di blocco con recupero tramite domanda'],
+      pl:['Pełna kopia zapasowa/przywracanie jednym kliknięciem','100+ motywów wizualnych, lub stwórz własny','PIN blokady z odzyskiwaniem przez pytanie zabezpieczające'],
+      ja:['ワンクリックで完全バックアップ・復元','100種類以上のビジュアルテーマ、または自作も可能','セキュリティ質問によるPIN復旧機能付きロック'],
+      nl:['Volledige back-up/herstel met één klik','100+ visuele thema\'s, of maak je eigen thema','Vergrendel-pincode met herstel via beveiligingsvraag'],
+      cs:['Kompletní záloha/obnova jedním kliknutím','Více než 100 vizuálních motivů, nebo si vytvoř vlastní','Zámkový PIN s obnovou pomocí bezpečnostní otázky'],
+      zh:['一键完整备份与还原','100+种视觉主题,或自行创建','带安全问题找回功能的锁屏PIN'],
+      ru:['Полное резервное копирование/восстановление в один клик','Более 100 визуальных тем, или создай свою','PIN-блокировка с восстановлением по контрольному вопросу'],
+      ko:['원클릭 전체 백업 및 복원','100개 이상의 비주얼 테마, 또는 직접 제작','보안 질문으로 복구 가능한 잠금 PIN']
+    }},
+  { icon:'📚', tier:'basic',
+    name:{ pt:'Modelos', en:'Models', es:'Modelos', fr:'Modèles', de:'Modelle', it:'Modelli', pl:'Modele', ja:'モデル', nl:'Modellen', cs:'Modely', zh:'模型', ru:'Модели', ko:'모델' },
+    items:{
+      pt:['Biblioteca com mural visual por categoria','Organização automática dos ficheiros em pastas','Histórico de vendas e taxa de sucesso por modelo'],
+      en:['Library with a visual category wall','Automatic file organization into folders','Per-model sales history & success rate'],
+      es:['Biblioteca con muro visual por categoría','Organización automática de archivos en carpetas','Historial de ventas y tasa de éxito por modelo'],
+      fr:['Bibliothèque avec mur visuel par catégorie','Organisation automatique des fichiers en dossiers','Historique des ventes et taux de réussite par modèle'],
+      de:['Bibliothek mit visueller Kategorie-Wand','Automatische Dateiorganisation in Ordnern','Verkaufshistorie & Erfolgsquote pro Modell'],
+      it:['Libreria con muro visivo per categoria','Organizzazione automatica dei file in cartelle','Storico vendite e tasso di successo per modello'],
+      pl:['Biblioteka z wizualną ścianą kategorii','Automatyczna organizacja plików w folderach','Historia sprzedaży i wskaźnik sukcesu dla każdego modelu'],
+      ja:['カテゴリー別のビジュアルウォール付きライブラリ','ファイルをフォルダへ自動整理','モデルごとの販売履歴と成功率'],
+      nl:['Bibliotheek met visuele categoriewand','Automatische bestandsorganisatie in mappen','Verkoopgeschiedenis & succespercentage per model'],
+      cs:['Knihovna s vizuální zdí kategorií','Automatické třídění souborů do složek','Historie prodejů a úspěšnost pro každý model'],
+      zh:['带分类可视化墙的模型库','文件自动分类整理到文件夹','每个模型的销售历史与成功率'],
+      ru:['Библиотека с визуальной стеной категорий','Автоматическая организация файлов по папкам','История продаж и процент успеха по каждой модели'],
+      ko:['카테고리별 비주얼 월이 있는 라이브러리','파일을 폴더로 자동 정리','모델별 판매 이력 및 성공률']
+    }},
+  { icon:'📦', tier:'standard',
+    name:{ pt:'Encomendas', en:'Orders', es:'Pedidos', fr:'Commandes', de:'Bestellungen', it:'Ordini', pl:'Zamówienia', ja:'注文', nl:'Bestellingen', cs:'Objednávky', zh:'订单', ru:'Заказы', ko:'주문' },
+    items:{
+      pt:['Fila de produção — Kanban ou Grelha','Fatura A4, etiqueta CTT, certificado de autenticidade','Central de Mensagens: WhatsApp, Telegram, Email real','RMA/garantia por peça vendida'],
+      en:['Production queue — Kanban or Grid view','A4 invoice, shipping label, authenticity certificate','Message Center: WhatsApp, Telegram, real Email','Per-item RMA / warranty tracking'],
+      es:['Cola de producción — vista Kanban o Cuadrícula','Factura A4, etiqueta de envío, certificado de autenticidad','Centro de Mensajes: WhatsApp, Telegram, Email real','Seguimiento de RMA/garantía por pieza'],
+      fr:['File de production — vue Kanban ou Grille','Facture A4, étiquette d\'expédition, certificat d\'authenticité','Centre de Messages : WhatsApp, Telegram, e-mail réel','Suivi RMA/garantie par pièce'],
+      de:['Produktionswarteschlange — Kanban- oder Rasteransicht','A4-Rechnung, Versandetikett, Echtheitszertifikat','Nachrichtenzentrale: WhatsApp, Telegram, echte E-Mail','RMA-/Garantieverfolgung pro Teil'],
+      it:['Coda di produzione — vista Kanban o Griglia','Fattura A4, etichetta di spedizione, certificato di autenticità','Centro Messaggi: WhatsApp, Telegram, Email reale','Tracciamento RMA/garanzia per pezzo'],
+      pl:['Kolejka produkcji — widok Kanban lub Siatka','Faktura A4, etykieta wysyłkowa, certyfikat autentyczności','Centrum Wiadomości: WhatsApp, Telegram, prawdziwy e-mail','Śledzenie RMA/gwarancji dla każdej sztuki'],
+      ja:['生産キュー — カンバンまたはグリッド表示','A4請求書、配送ラベル、真正性証明書','メッセージセンター:WhatsApp、Telegram、実メール送信','製品ごとのRMA・保証管理'],
+      nl:['Productiewachtrij — Kanban- of rasterweergave','A4-factuur, verzendlabel, echtheidscertificaat','Berichtencentrum: WhatsApp, Telegram, echte e-mail','RMA/garantie bijhouden per item'],
+      cs:['Fronta výroby — zobrazení Kanban nebo Mřížka','Faktura A4, přepravní štítek, certifikát pravosti','Centrum zpráv: WhatsApp, Telegram, skutečný e-mail','Sledování RMA/záruky pro každý kus'],
+      zh:['生产队列 — 看板或网格视图','A4发票、运输标签、真品证书','消息中心:WhatsApp、Telegram、真实邮件发送','按件追踪退换货/保修'],
+      ru:['Очередь производства — вид Канбан или Сетка','Счёт A4, транспортная этикетка, сертификат подлинности','Центр сообщений: WhatsApp, Telegram, настоящая почта','Учёт RMA/гарантии по каждому изделию'],
+      ko:['생산 대기열 — 칸반 또는 그리드 보기','A4 인보이스, 배송 라벨, 정품 인증서','메시지 센터: WhatsApp, Telegram, 실제 이메일','품목별 반품/보증 추적']
+    }},
+  { icon:'👥', tier:'standard',
+    name:{ pt:'Clientes', en:'Clients', es:'Clientes', fr:'Clients', de:'Kunden', it:'Clienti', pl:'Klienci', ja:'顧客', nl:'Klanten', cs:'Klienti', zh:'客户', ru:'Клиенты', ko:'고객' },
+    items:{
+      pt:['Diretório com 7 escalões VIP automáticos','Estados: Em Suporte, Aguarda Resposta, Lista Negra','Alerta de clientes que precisam de atenção'],
+      en:['Directory with 7 automatic VIP tiers','Status: In Support, Awaiting Reply, Blacklist','Alert for clients who need attention'],
+      es:['Directorio con 7 escalones VIP automáticos','Estados: En Soporte, Esperando Respuesta, Lista Negra','Alerta de clientes que necesitan atención'],
+      fr:['Répertoire avec 7 niveaux VIP automatiques','Statuts : En Support, En Attente de Réponse, Liste Noire','Alerte pour les clients nécessitant de l\'attention'],
+      de:['Verzeichnis mit 7 automatischen VIP-Stufen','Status: In Betreuung, Wartet auf Antwort, Sperrliste','Warnung für Kunden, die Aufmerksamkeit brauchen'],
+      it:['Elenco con 7 livelli VIP automatici','Stati: In Supporto, In Attesa di Risposta, Lista Nera','Avviso per i clienti che necessitano attenzione'],
+      pl:['Katalog z 7 automatycznymi poziomami VIP','Statusy: W Obsłudze, Czeka na Odpowiedź, Czarna Lista','Alert dla klientów wymagających uwagi'],
+      ja:['7段階の自動VIPランク付き顧客一覧','状態:サポート中、返信待ち、ブラックリスト','対応が必要な顧客のアラート表示'],
+      nl:['Directory met 7 automatische VIP-niveaus','Status: In Ondersteuning, Wacht op Antwoord, Zwarte Lijst','Melding voor klanten die aandacht nodig hebben'],
+      cs:['Adresář se 7 automatickými VIP úrovněmi','Stavy: V Podpoře, Čeká na Odpověď, Černá Listina','Upozornění na klienty vyžadující pozornost'],
+      zh:['带7个自动VIP等级的客户名录','状态:支持中、等待回复、黑名单','需要关注的客户提醒'],
+      ru:['Каталог с 7 автоматическими VIP-уровнями','Статусы: На поддержке, Ждёт ответа, Чёрный список','Оповещение о клиентах, требующих внимания'],
+      ko:['7단계 자동 VIP 등급이 있는 고객 디렉토리','상태: 지원 중, 응답 대기, 블랙리스트','주의가 필요한 고객 알림']
+    }},
+  { icon:'🗄️', tier:'standard',
+    name:{ pt:'Estoque', en:'Stock', es:'Inventario', fr:'Stock', de:'Lager', it:'Magazzino', pl:'Magazyn', ja:'在庫', nl:'Voorraad', cs:'Sklad', zh:'库存', ru:'Склад', ko:'재고' },
+    items:{
+      pt:['Prateleira virtual com faturação híbrida','Inventário físico com reconciliação','Alertas de stock baixo ou parado'],
+      en:['Virtual shelf with hybrid checkout','Physical inventory with reconciliation','Low or stale stock alerts'],
+      es:['Estantería virtual con cobro híbrido','Inventario físico con conciliación','Alertas de stock bajo o estancado'],
+      fr:['Étagère virtuelle avec paiement hybride','Inventaire physique avec réconciliation','Alertes de stock faible ou stagnant'],
+      de:['Virtuelles Regal mit Hybrid-Checkout','Physische Inventur mit Abgleich','Warnungen bei niedrigem oder stagnierendem Bestand'],
+      it:['Scaffale virtuale con checkout ibrido','Inventario fisico con riconciliazione','Avvisi di scorte basse o ferme'],
+      pl:['Wirtualna półka z hybrydową kasą','Inwentaryzacja fizyczna z uzgadnianiem','Alerty o niskim lub zalegającym stanie'],
+      ja:['ハイブリッドチェックアウト対応の仮想棚','実地棚卸と照合機能','在庫僅少・滞留在庫アラート'],
+      nl:['Virtueel schap met hybride afrekenen','Fysieke inventarisatie met reconciliatie','Meldingen bij lage of stilstaande voorraad'],
+      cs:['Virtuální regál s hybridní pokladnou','Fyzická inventura se sesouhlasením','Upozornění na nízké nebo zaseklé zásoby'],
+      zh:['支持混合结账的虚拟货架','实物盘点与对账','低库存或滞销提醒'],
+      ru:['Виртуальная полка с гибридной оплатой','Физическая инвентаризация со сверкой','Оповещения о низком или залежавшемся остатке'],
+      ko:['하이브리드 결제가 가능한 가상 선반','실사 재고 조사 및 대조','재고 부족 또는 정체 알림']
+    }},
+  { icon:'✅', tier:'standard',
+    name:{ pt:'Tarefas', en:'Tasks', es:'Tareas', fr:'Tâches', de:'Aufgaben', it:'Attività', pl:'Zadania', ja:'タスク', nl:'Taken', cs:'Úkoly', zh:'任务', ru:'Задачи', ko:'작업' },
+    items:{
+      pt:['Hoje / Atrasadas / Próximas, ao estilo Todoist','Subtarefas, etiquetas, ligação a clientes e máquinas'],
+      en:['Today / Overdue / Upcoming, Todoist-style','Subtasks, tags, linked to clients & machines'],
+      es:['Hoy / Atrasadas / Próximas, al estilo Todoist','Subtareas, etiquetas, vinculadas a clientes y máquinas'],
+      fr:['Aujourd\'hui / En retard / À venir, façon Todoist','Sous-tâches, étiquettes, liées aux clients et machines'],
+      de:['Heute / Überfällig / Bevorstehend, im Todoist-Stil','Unteraufgaben, Tags, verknüpft mit Kunden & Maschinen'],
+      it:['Oggi / In ritardo / Prossime, in stile Todoist','Sotto-attività, etichette, collegate a clienti e macchine'],
+      pl:['Dziś / Zaległe / Nadchodzące, w stylu Todoist','Podzadania, etykiety, powiązane z klientami i maszynami'],
+      ja:['今日・期限切れ・今後の予定 — Todoist風の分類','サブタスク、タグ、顧客・マシンとの紐付け'],
+      nl:['Vandaag / Achterstallig / Aankomend, in Todoist-stijl','Subtaken, tags, gekoppeld aan klanten & machines'],
+      cs:['Dnes / Po termínu / Nadcházející, ve stylu Todoist','Podúkoly, štítky, propojené s klienty a stroji'],
+      zh:['今日/逾期/即将到来,Todoist风格分类','子任务、标签,与客户及设备关联'],
+      ru:['Сегодня / Просрочено / Предстоящее, в стиле Todoist','Подзадачи, теги, привязка к клиентам и станкам'],
+      ko:['오늘/기한 초과/예정, Todoist 스타일','하위 작업, 태그, 고객 및 기계와 연결']
+    }},
+  { icon:'📊', tier:'pro',
+    name:{ pt:'Analítica', en:'Analytics', es:'Analítica', fr:'Analytique', de:'Analytik', it:'Analitica', pl:'Analityka', ja:'分析', nl:'Analytics', cs:'Analytika', zh:'数据分析', ru:'Аналитика', ko:'분석' },
+    items:{
+      pt:['Painel financeiro completo e histórico de vendas','Gráficos de tendência mensal'],
+      en:['Full financial dashboard & sales history','Monthly trend charts'],
+      es:['Panel financiero completo e historial de ventas','Gráficos de tendencia mensual'],
+      fr:['Tableau de bord financier complet et historique des ventes','Graphiques de tendance mensuels'],
+      de:['Vollständiges Finanz-Dashboard & Verkaufshistorie','Monatliche Trenddiagramme'],
+      it:['Pannello finanziario completo e storico vendite','Grafici di tendenza mensili'],
+      pl:['Pełny panel finansowy i historia sprzedaży','Miesięczne wykresy trendów'],
+      ja:['総合財務ダッシュボードと販売履歴','月次トレンドグラフ'],
+      nl:['Volledig financieel dashboard & verkoopgeschiedenis','Maandelijkse trendgrafieken'],
+      cs:['Kompletní finanční panel a historie prodejů','Měsíční grafy trendů'],
+      zh:['完整财务仪表盘与销售历史','月度趋势图表'],
+      ru:['Полная финансовая панель и история продаж','Графики месячных трендов'],
+      ko:['완전한 재무 대시보드 및 판매 이력','월별 추세 차트']
+    }},
+  { icon:'📢', tier:'pro',
+    name:{ pt:'Custos Fixos', en:'Fixed Costs', es:'Costos Fijos', fr:'Frais Fixes', de:'Fixkosten', it:'Costi Fissi', pl:'Koszty Stałe', ja:'固定費', nl:'Vaste Kosten', cs:'Fixní Náklady', zh:'固定成本', ru:'Постоянные Расходы', ko:'고정비' },
+    items:{
+      pt:['Subscrições e despesas fixas num só sítio','Alertas antes da data de pagamento'],
+      en:['Subscriptions & fixed expenses in one place','Alerts before the payment date'],
+      es:['Suscripciones y gastos fijos en un solo lugar','Alertas antes de la fecha de pago'],
+      fr:['Abonnements et dépenses fixes au même endroit','Alertes avant la date de paiement'],
+      de:['Abos & Fixkosten an einem Ort','Warnungen vor dem Zahlungstermin'],
+      it:['Abbonamenti e spese fisse in un unico posto','Avvisi prima della data di pagamento'],
+      pl:['Subskrypcje i stałe wydatki w jednym miejscu','Alerty przed terminem płatności'],
+      ja:['サブスクリプションと固定費を一元管理','支払日前のアラート通知'],
+      nl:['Abonnementen & vaste kosten op één plek','Meldingen vóór de betaaldatum'],
+      cs:['Předplatná a fixní výdaje na jednom místě','Upozornění před datem platby'],
+      zh:['订阅与固定支出统一管理','付款日期前提醒'],
+      ru:['Подписки и постоянные расходы в одном месте','Оповещения перед датой платежа'],
+      ko:['구독 및 고정 비용을 한곳에서 관리','결제일 전 알림']
+    }},
+  { icon:'🏪', tier:'pro',
+    name:{ pt:'Parceiros B2B', en:'B2B Partners', es:'Socios B2B', fr:'Partenaires B2B', de:'B2B-Partner', it:'Partner B2B', pl:'Partnerzy B2B', ja:'B2Bパートナー', nl:'B2B-Partners', cs:'B2B Partneři', zh:'B2B合作伙伴', ru:'B2B-Партнёры', ko:'B2B 파트너' },
+    items:{
+      pt:['Consignação em lojas físicas, contratos automáticos','Extratos e comissões por parceiro','Ranking entre lojas'],
+      en:['Physical-store consignment, auto-contracts','Per-partner statements & commissions','Store-to-store ranking'],
+      es:['Consignación en tiendas físicas, contratos automáticos','Extractos y comisiones por socio','Ranking entre tiendas'],
+      fr:['Dépôt-vente en boutique physique, contrats automatiques','Relevés et commissions par partenaire','Classement entre boutiques'],
+      de:['Kommission in physischen Läden, automatische Verträge','Abrechnungen & Provisionen pro Partner','Ranking zwischen Läden'],
+      it:['Conto vendita in negozi fisici, contratti automatici','Estratti conto e commissioni per partner','Classifica tra negozi'],
+      pl:['Konsygnacja w sklepach stacjonarnych, automatyczne umowy','Rozliczenia i prowizje dla każdego partnera','Ranking między sklepami'],
+      ja:['実店舗への委託販売、契約書自動生成','パートナーごとの明細書と手数料','店舗間ランキング'],
+      nl:['Consignatie in fysieke winkels, automatische contracten','Overzichten & commissies per partner','Ranglijst tussen winkels'],
+      cs:['Komisní prodej v kamenných obchodech, automatické smlouvy','Výpisy a provize pro každého partnera','Žebříček mezi obchody'],
+      zh:['实体店寄售,自动生成合同','各合作伙伴的对账单与佣金','门店间排名'],
+      ru:['Консигнация в физических магазинах, автодоговоры','Отчёты и комиссии по каждому партнёру','Рейтинг между магазинами'],
+      ko:['오프라인 매장 위탁 판매, 자동 계약서','파트너별 정산서 및 수수료','매장 간 순위']
+    }}
+];
+
+const TIER_ORDER = ['free','basic','standard','pro'];
+const TIER_LABEL = { free:{pt:'Grátis',en:'Free',es:'Gratis',fr:'Gratuit',de:'Kostenlos',it:'Gratis',pl:'Darmowy',ja:'無料',nl:'Gratis',cs:'Zdarma',zh:'免费',ru:'Бесплатно',ko:'무료'},
+  basic:{pt:'Basic',en:'Basic',es:'Basic',fr:'Basic',de:'Basic',it:'Basic',pl:'Basic',ja:'Basic',nl:'Basic',cs:'Basic',zh:'Basic',ru:'Basic',ko:'Basic'},
+  standard:{pt:'Standard',en:'Standard',es:'Standard',fr:'Standard',de:'Standard',it:'Standard',pl:'Standard',ja:'Standard',nl:'Standard',cs:'Standard',zh:'Standard',ru:'Standard',ko:'Standard'},
+  pro:{pt:'Pro',en:'Pro',es:'Pro',fr:'Pro',de:'Pro',it:'Pro',pl:'Pro',ja:'Pro',nl:'Pro',cs:'Pro',zh:'Pro',ru:'Pro',ko:'Pro'} };
+
+// Nomes de plano (Free/Basic/Standard/Pro) ficam sempre em inglês, mesmo padrão da app real
+// (ver window.RYU_TIER_LABELS em js/12_licensing.js) — são nomes de produto, não texto a traduzir.
+const PLANS = [
+  { code:'free', price:'€0', altKey:'freeAlt', isFree:true },
+  { code:'basic', price:'€39', altKey:'oneTimeAlt' },
+  { code:'standard', price:'€89', altKey:'oneTimeAlt' },
+  { code:'pro', price:'€99', altKey:'proAlt', badgeKey:'proBadge' }
+];
+
+function tabsForPlan(planCode) {
+  const maxIdx = TIER_ORDER.indexOf(planCode);
+  return CATS.filter(c => TIER_ORDER.indexOf(c.tier) <= maxIdx);
+}
+
+function renderCats(lang) {
+  document.getElementById('cats').innerHTML = CATS.map(c => `
+    <div class="cat">
+      <div class="cat-head">
+        <span class="cat-name"><span class="cat-icon">${c.icon}</span>${c.name[lang]}</span>
+        <span class="tier-pill tier-${c.tier}">${TIER_LABEL[c.tier][lang]}</span>
+      </div>
+      <ul>${c.items[lang].map(i => `<li>${i}</li>`).join('')}</ul>
+    </div>
+  `).join('');
+}
+
+function renderPlans(lang) {
+  document.getElementById('plans').innerHTML = PLANS.map(p => {
+    const included = tabsForPlan(p.code);
+    return `
+    <div class="plan ${p.code}" ${p.badgeKey ? `data-badge="${UI[p.badgeKey][lang]}"` : ''}>
+      <div class="plan-name">${p.code.charAt(0).toUpperCase() + p.code.slice(1)}</div>
+      <div class="plan-price">${p.isFree ? `<span class="free-tag">${p.price}</span>` : p.price}</div>
+      <div class="plan-alt">${UI[p.altKey][lang]}</div>
+      <hr>
+      <div class="plan-chips">
+        ${included.map(c => `<span class="plan-chip ${c.tier===p.code ? 'new':''}"><span class="ci">${c.icon}</span>${c.name[lang]}</span>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderLangs(lang) {
+  document.getElementById('langs-full').innerHTML = LANG_ORDER.map(code =>
+    `<span class="lang-chip ${code===lang?'current':''}">${LANG_NAMES[code]}</span>`).join('');
+  document.getElementById('langs-region').innerHTML = COUNTRY_NAMES.map(l => `<span class="lang-chip region">${l}</span>`).join('');
+}
+
+function drawLayerLines() {
+  const g = document.getElementById('layerlines-g');
+  const rows = 7;
+  let html = '';
+  for (let i = 0; i < rows; i++) {
+    const y = 4 + i * 6;
+    const inset = Math.abs(3 - i) * 60 + (Math.random() * 20);
+    const op = 0.14 + (i % 2 === 0 ? 0.05 : 0);
+    html += `<line x1="${inset}" y1="${y}" x2="${980-inset}" y2="${y}" stroke="var(--accent)" stroke-width="1.4" stroke-linecap="round" opacity="${op}"/>`;
+  }
+  g.innerHTML = html;
+}
+
+function populateLangSelect(lang) {
+  const sel = document.getElementById('langSelect');
+  sel.innerHTML = LANG_ORDER.map(code => `<option value="${code}" ${code===lang?'selected':''}>${LANG_NAMES[code]}</option>`).join('');
+}
+
+function setLang(lang) {
+  if (!LANG_ORDER.includes(lang)) lang = 'pt';
+  Object.keys(UI).forEach(key => {
+    const el = document.getElementById(key);
+    if (el) el.textContent = UI[key][lang] || UI[key].en;
+  });
+  renderCats(lang);
+  renderPlans(lang);
+  renderLangs(lang);
+  populateLangSelect(lang);
+  localStorage.setItem('ryu_pricing_lang', lang);
+  document.documentElement.lang = lang;
+}
+
+drawLayerLines();
+setLang(localStorage.getItem('ryu_pricing_lang') || 'pt');
+</script>

@@ -1,0 +1,43 @@
+:root {
+    --bg: #EDEEF1;
+    --surface: #FFFFFF;
+    --ink: #1C1E22;
+    --muted: #666B72;
+    --faint: #9498A0;
+    --border: #D7DAE0;
+    --accent: #C96A2E;
+}
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --bg: #15171B; --surface: #1E2126; --ink: #E9EAEC; --muted: #9B9FA6; --faint: #6C7078; --border: #2E3238; --accent: #E08A4B;
+    }
+}
+:root[data-theme="dark"] {
+    --bg: #15171B; --surface: #1E2126; --ink: #E9EAEC; --muted: #9B9FA6; --faint: #6C7078; --border: #2E3238; --accent: #E08A4B;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+    background: var(--bg); color: var(--ink);
+    font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px; line-height: 1.65; -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 100px; }
+.topnav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; gap: 12px; flex-wrap: wrap; }
+.topnav a.home { font-family: ui-monospace, "SF Mono", Consolas, monospace; font-weight: 700; color: var(--ink); text-decoration: none; font-size: 1.05rem; }
+.topnav a.home .dim { color: var(--accent); }
+.langtoggle button {
+    font-family: ui-monospace, "SF Mono", Consolas, monospace; font-size: 12.5px; letter-spacing: 0.04em;
+    padding: 6px 14px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); cursor: pointer;
+}
+.langtoggle button.active { color: var(--accent); border-color: var(--accent); font-weight: 700; }
+h1 { font-size: 1.7rem; margin: 0 0 4px; letter-spacing: -0.01em; }
+.updated { color: var(--faint); font-size: 0.82rem; margin: 0 0 36px; }
+h2 { font-size: 1.1rem; margin: 32px 0 10px; }
+p, li { color: var(--muted); font-size: 0.95rem; }
+li { margin: 4px 0; }
+a { color: var(--accent); }
+.placeholder { background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent); padding: 1px 6px; border-radius: 4px; font-family: ui-monospace, monospace; font-size: 0.85em; }
+footer { margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--faint); font-size: 0.82rem; }
+[lang-block] { display: none; }
+[lang-block].active { display: block; }
