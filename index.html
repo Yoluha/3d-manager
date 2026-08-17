@@ -138,6 +138,27 @@ header.top > * { position: relative; z-index: 1; }
 .layerlines { margin: 44px 0 8px; height: 46px; }
 .layerlines svg { width: 100%; height: 100%; display: block; }
 
+/* ---------- Product screenshot (browser-chrome frame) ---------- */
+.shot-frame {
+    margin: 48px 0 8px; border-radius: 14px; overflow: hidden;
+    background: var(--surface); border: 1px solid var(--border);
+    box-shadow: 0 4px 8px rgba(28,30,34,0.06), 0 28px 60px rgba(28,30,34,0.14);
+}
+.shot-frame .chrome {
+    display: flex; align-items: center; gap: 6px;
+    padding: 11px 14px; background: var(--surface-2); border-bottom: 1px solid var(--border);
+}
+.shot-frame .chrome span { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
+.shot-frame img { display: block; width: 100%; height: auto; }
+
+/* ---------- Product gallery ---------- */
+.gallery-title { font-size: 0.78rem; font-family: ui-monospace, "SF Mono", Consolas, monospace; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); margin: 30px 0 12px; text-align: center; }
+.gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 8px; }
+.gallery-item { border-radius: 10px; overflow: hidden; border: 1px solid var(--border); background: var(--surface); box-shadow: var(--shadow); }
+.gallery-item img { display: block; width: 100%; height: 110px; object-fit: cover; object-position: top; }
+.gallery-item .cap { padding: 8px 10px; font-size: 0.74rem; font-weight: 600; color: var(--muted); }
+@media (max-width: 760px) { .gallery { grid-template-columns: 1fr 1fr; } .gallery-item img { height: 130px; } }
+
 /* ---------- Section titles ---------- */
 h2.section { font-size: 1.5rem; margin: 0 0 6px; letter-spacing: -0.01em; }
 .section-sub { color: var(--muted); margin: 0 0 32px; font-size: 0.95rem; max-width: 60ch; }
@@ -280,6 +301,19 @@ footer a { color: var(--muted); }
 
 <div class="wrap">
 
+    <div class="shot-frame">
+        <div class="chrome"><span></span><span></span><span></span></div>
+        <img src="img/shot-calc.webp" alt="Calculadora de Orçamentos do 3D Manager — custo real e preço mínimo calculados automaticamente" loading="eager" width="1400" height="900">
+    </div>
+
+    <div class="gallery-title" id="galleryTitle"></div>
+    <div class="gallery">
+        <div class="gallery-item"><img src="img/shot-models.webp" alt="Biblioteca de Modelos organizada por categoria" loading="lazy"><div class="cap" id="galCapModels"></div></div>
+        <div class="gallery-item"><img src="img/shot-orders.webp" alt="Fila de produção de Encomendas" loading="lazy"><div class="cap" id="galCapOrders"></div></div>
+        <div class="gallery-item"><img src="img/shot-clients.webp" alt="Diretório de Clientes com níveis VIP" loading="lazy"><div class="cap" id="galCapClients"></div></div>
+        <div class="gallery-item"><img src="img/shot-dash.webp" alt="Painel de Analítica financeira" loading="lazy"><div class="cap" id="galCapDash"></div></div>
+    </div>
+
     <h2 class="section" id="catsTitle"></h2>
     <p class="section-sub" id="catsSub"></p>
     <div class="cats" id="cats"></div>
@@ -360,6 +394,11 @@ const UI = {
   },
   heroCtaPrimary: { pt:'Ver Planos ↓', en:'See Plans ↓', es:'Ver Planes ↓', fr:'Voir les Formules ↓', de:'Pläne Ansehen ↓', it:'Vedi i Piani ↓', pl:'Zobacz Plany ↓', ja:'プランを見る ↓', nl:'Bekijk Plannen ↓', cs:'Zobrazit Plány ↓', zh:'查看方案 ↓', ru:'Смотреть Планы ↓', ko:'플랜 보기 ↓' },
   featuredFlag: { pt:'🔥 Destaque', en:'🔥 Highlight', es:'🔥 Destacado', fr:'🔥 En Avant', de:'🔥 Highlight', it:'🔥 In Evidenza', pl:'🔥 Wyróżnione', ja:'🔥 おすすめ', nl:'🔥 Uitgelicht', cs:'🔥 Doporučujeme', zh:'🔥 亮点', ru:'🔥 Хит', ko:'🔥 추천' },
+  galleryTitle: { pt:'A app a sério, não só promessas', en:'The real app, not just promises', es:'La app de verdad, no solo promesas', fr:'L\'appli pour de vrai, pas que des promesses', de:'Die echte App, nicht nur Versprechen', it:'L\'app vera, non solo promesse', pl:'Prawdziwa aplikacja, nie tylko obietnice', ja:'約束だけじゃない、本物のアプリ', nl:'De echte app, geen loze beloftes', cs:'Skutečná aplikace, ne jen sliby', zh:'真实的应用,不只是承诺', ru:'Настоящее приложение, а не только обещания', ko:'약속이 아니라 진짜 앱이에요' },
+  galCapModels: { pt:'📚 Biblioteca de Modelos', en:'📚 Model Library', es:'📚 Biblioteca de Modelos', fr:'📚 Bibliothèque de Modèles', de:'📚 Modell-Bibliothek', it:'📚 Libreria Modelli', pl:'📚 Biblioteka Modeli', ja:'📚 モデルライブラリ', nl:'📚 Modellenbibliotheek', cs:'📚 Knihovna Modelů', zh:'📚 模型库', ru:'📚 Библиотека Моделей', ko:'📚 모델 라이브러리' },
+  galCapOrders: { pt:'📦 Fila de Produção', en:'📦 Production Queue', es:'📦 Cola de Producción', fr:'📦 File de Production', de:'📦 Produktionswarteschlange', it:'📦 Coda di Produzione', pl:'📦 Kolejka Produkcji', ja:'📦 生産キュー', nl:'📦 Productiewachtrij', cs:'📦 Fronta Výroby', zh:'📦 生产队列', ru:'📦 Очередь Производства', ko:'📦 생산 대기열' },
+  galCapClients: { pt:'👥 Clientes VIP', en:'👥 VIP Clients', es:'👥 Clientes VIP', fr:'👥 Clients VIP', de:'👥 VIP-Kunden', it:'👥 Clienti VIP', pl:'👥 Klienci VIP', ja:'👥 VIP顧客', nl:'👥 VIP-Klanten', cs:'👥 VIP Klienti', zh:'👥 VIP客户', ru:'👥 VIP-Клиенты', ko:'👥 VIP 고객' },
+  galCapDash: { pt:'📊 Analítica Financeira', en:'📊 Financial Analytics', es:'📊 Analítica Financiera', fr:'📊 Analytique Financière', de:'📊 Finanzanalyse', it:'📊 Analisi Finanziaria', pl:'📊 Analityka Finansowa', ja:'📊 財務分析', nl:'📊 Financiële Analyse', cs:'📊 Finanční Analytika', zh:'📊 财务分析', ru:'📊 Финансовая Аналитика', ko:'📊 재무 분석' },
   catsTitle: { pt:'O que a app faz', en:'What the app does', es:'Qué hace la app', fr:'Ce que fait l\'appli', de:'Was die App kann', it:'Cosa fa l\'app', pl:'Co robi aplikacja', ja:'アプリでできること', nl:'Wat de app doet', cs:'Co aplikace umí', zh:'应用能做什么', ru:'Что умеет приложение', ko:'앱이 하는 일' },
   catsSub: {
     pt:'Doze áreas, cada uma a resolver um problema real de quem vive de imprimir.',
