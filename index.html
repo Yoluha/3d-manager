@@ -63,11 +63,11 @@ h1, h2, h3, .price, .tiercode {
     text-wrap: balance;
 }
 
-.wrap { max-width: 980px; margin: 0 auto; padding: 44px 24px 100px; }
+.wrap { max-width: 980px; margin: 0 auto; padding: 24px 24px 100px; }
 
 /* ---------- Header ---------- */
 header.top {
-    padding: 56px 24px 40px;
+    padding: 56px 24px 24px;
     max-width: 980px;
     margin: 0 auto;
     position: relative;
@@ -135,12 +135,9 @@ header.top > * { position: relative; z-index: 1; }
 .btn-cta.primary { background: var(--accent); color: var(--accent-ink); }
 .btn-cta.secondary { background: transparent; color: var(--ink); border: 1px solid var(--border); }
 
-.layerlines { margin: 44px 0 8px; height: 46px; }
-.layerlines svg { width: 100%; height: 100%; display: block; }
-
 /* ---------- Product screenshot (browser-chrome frame) ---------- */
 .shot-frame {
-    margin: 48px 0 8px; border-radius: 14px; overflow: hidden;
+    margin: 8px 0 8px; border-radius: 14px; overflow: hidden;
     background: var(--surface); border: 1px solid var(--border);
     box-shadow: 0 4px 8px rgba(28,30,34,0.06), 0 28px 60px rgba(28,30,34,0.14);
 }
@@ -151,13 +148,36 @@ header.top > * { position: relative; z-index: 1; }
 .shot-frame .chrome span { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
 .shot-frame img { display: block; width: 100%; height: auto; }
 
-/* ---------- Product gallery ---------- */
+/* ---------- Product carousel ---------- */
 .gallery-title { font-size: 0.78rem; font-family: ui-monospace, "SF Mono", Consolas, monospace; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); margin: 30px 0 12px; text-align: center; }
-.gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 8px; }
-.gallery-item { border-radius: 10px; overflow: hidden; border: 1px solid var(--border); background: var(--surface); box-shadow: var(--shadow); }
-.gallery-item img { display: block; width: 100%; height: 110px; object-fit: cover; object-position: top; }
-.gallery-item .cap { padding: 8px 10px; font-size: 0.74rem; font-weight: 600; color: var(--muted); }
-@media (max-width: 760px) { .gallery { grid-template-columns: 1fr 1fr; } .gallery-item img { height: 130px; } }
+.carousel-wrap { position: relative; margin: 0 0 8px; }
+.carousel { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding: 2px 2px 8px; scrollbar-width: none; }
+.carousel::-webkit-scrollbar { display: none; }
+.carousel-item { flex: 0 0 auto; width: 210px; scroll-snap-align: start; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); background: var(--surface); box-shadow: var(--shadow); cursor: pointer; transition: transform 0.15s ease, border-color 0.15s ease; }
+.carousel-item:hover { transform: translateY(-2px); border-color: var(--accent); }
+.carousel-item img { display: block; width: 100%; height: 128px; object-fit: cover; object-position: top; background: var(--surface-2); }
+.carousel-item .cap { padding: 8px 10px; font-size: 0.76rem; font-weight: 600; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.carousel-nav { position: absolute; top: 46%; transform: translateY(-50%); width: 36px; height: 36px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.05rem; color: var(--ink); z-index: 2; }
+.carousel-nav.prev { left: -16px; }
+.carousel-nav.next { right: -16px; }
+.carousel-nav:hover { border-color: var(--accent); color: var(--accent); }
+@media (max-width: 760px) { .carousel-item { width: 168px; } .carousel-item img { height: 104px; } .carousel-nav { display: none; } }
+
+/* ---------- Lightbox ---------- */
+.lightbox-backdrop { position: fixed; inset: 0; background: rgba(10,10,14,0.72); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 24px; }
+.lightbox-backdrop.open { display: flex; }
+.lightbox { background: var(--surface); border-radius: 16px; max-width: 880px; width: 100%; max-height: 88vh; overflow: auto; box-shadow: 0 30px 80px rgba(0,0,0,0.45); position: relative; }
+.lightbox img { width: 100%; display: block; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+.lightbox-body { padding: 22px 26px 28px; }
+.lightbox-close, .lightbox-nav-btn { border: none; background: rgba(0,0,0,0.5); color: #fff; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.lightbox-close { position: absolute; top: 12px; right: 12px; width: 34px; height: 34px; font-size: 1.05rem; z-index: 3; }
+.lightbox-nav-btn { position: absolute; top: calc(50% - 20px); width: 42px; height: 42px; font-size: 1.3rem; z-index: 3; }
+.lightbox-nav-btn.prev { left: 12px; }
+.lightbox-nav-btn.next { right: 12px; }
+.lightbox-title { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.2rem; margin-bottom: 10px; }
+.lightbox-body ul { margin: 0; padding-left: 1.1em; color: var(--muted); font-size: 0.92rem; }
+.lightbox-body li { margin: 6px 0; }
+@media (max-width: 640px) { .lightbox-body { padding: 18px 18px 22px; } .lightbox-nav-btn { width: 36px; height: 36px; font-size: 1.1rem; } }
 
 /* ---------- Section titles ---------- */
 h2.section { font-size: 1.5rem; margin: 0 0 6px; letter-spacing: -0.01em; }
@@ -294,24 +314,33 @@ footer a { color: var(--muted); }
         <a class="btn-cta primary" href="#plans" id="heroCtaPrimary"></a>
         <a class="btn-cta secondary" href="https://discord.gg/9Vj4PxQTtb" target="_blank" rel="noopener" id="heroCtaSecondary"></a>
     </div>
-    <div class="layerlines" aria-hidden="true">
-        <svg viewBox="0 0 980 46" preserveAspectRatio="none"><g id="layerlines-g"></g></svg>
-    </div>
 </header>
 
 <div class="wrap">
 
     <div class="shot-frame">
         <div class="chrome"><span></span><span></span><span></span></div>
-        <img src="img/shot-calc.webp" alt="Calculadora de Orçamentos do 3D Manager — custo real e preço mínimo calculados automaticamente" loading="eager" width="1400" height="900">
+        <img id="heroShot" src="img/pt/shot-calc.webp" alt="Calculadora de Orçamentos do 3D Manager — custo real e preço mínimo calculados automaticamente" loading="eager" width="1400" height="900" onclick="openLightbox(0)" style="cursor:pointer;">
     </div>
 
     <div class="gallery-title" id="galleryTitle"></div>
-    <div class="gallery">
-        <div class="gallery-item"><img src="img/shot-models.webp" alt="Biblioteca de Modelos organizada por categoria" loading="lazy"><div class="cap" id="galCapModels"></div></div>
-        <div class="gallery-item"><img src="img/shot-orders.webp" alt="Fila de produção de Encomendas" loading="lazy"><div class="cap" id="galCapOrders"></div></div>
-        <div class="gallery-item"><img src="img/shot-clients.webp" alt="Diretório de Clientes com níveis VIP" loading="lazy"><div class="cap" id="galCapClients"></div></div>
-        <div class="gallery-item"><img src="img/shot-dash.webp" alt="Painel de Analítica financeira" loading="lazy"><div class="cap" id="galCapDash"></div></div>
+    <div class="carousel-wrap">
+        <button class="carousel-nav prev" onclick="carouselScroll(-1)" aria-label="Anterior">‹</button>
+        <div class="carousel" id="carousel"></div>
+        <button class="carousel-nav next" onclick="carouselScroll(1)" aria-label="Seguinte">›</button>
+    </div>
+
+    <div class="lightbox-backdrop" id="lightboxBackdrop" onclick="if(event.target===this) closeLightbox()">
+        <div class="lightbox">
+            <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+            <button class="lightbox-nav-btn prev" onclick="lightboxNav(-1)">‹</button>
+            <button class="lightbox-nav-btn next" onclick="lightboxNav(1)">›</button>
+            <img id="lightboxImg" src="" alt="">
+            <div class="lightbox-body">
+                <div class="lightbox-title"><span id="lightboxIcon"></span> <span id="lightboxName"></span> <span class="tier-pill" id="lightboxTier"></span></div>
+                <ul id="lightboxItems"></ul>
+            </div>
+        </div>
     </div>
 
     <h2 class="section" id="catsTitle"></h2>
@@ -378,23 +407,23 @@ const UI = {
     ko:'진지하게 3D 프린팅을 하는 사람들을 위한 비즈니스 관리 도구 — 견적부터 배송까지, 여기저기 흩어진 스프레드시트는 이제 그만.'
   },
   heroStats: {
-    pt:['💳 Pagamento único','🔌 100% offline','🌍 13 idiomas','🆓 14 dias grátis'],
-    en:['💳 One-time payment','🔌 100% offline','🌍 13 languages','🆓 14-day free trial'],
-    es:['💳 Pago único','🔌 100% offline','🌍 13 idiomas','🆓 14 días gratis'],
-    fr:['💳 Paiement unique','🔌 100% hors ligne','🌍 13 langues','🆓 14 jours gratuits'],
-    de:['💳 Einmalzahlung','🔌 100% offline','🌍 13 Sprachen','🆓 14 Tage gratis'],
-    it:['💳 Pagamento unico','🔌 100% offline','🌍 13 lingue','🆓 14 giorni gratis'],
-    pl:['💳 Płatność jednorazowa','🔌 100% offline','🌍 13 języków','🆓 14 dni za darmo'],
-    ja:['💳 買い切り','🔌 完全オフライン','🌍 13言語対応','🆓 14日間無料'],
-    nl:['💳 Eenmalige betaling','🔌 100% offline','🌍 13 talen','🆓 14 dagen gratis'],
-    cs:['💳 Jednorázová platba','🔌 100% offline','🌍 13 jazyků','🆓 14 dní zdarma'],
-    zh:['💳 一次性付费','🔌 100%离线','🌍 13种语言','🆓 14天免费试用'],
-    ru:['💳 Единоразовый платёж','🔌 100% офлайн','🌍 13 языков','🆓 14 дней бесплатно'],
-    ko:['💳 일회성 결제','🔌 100% 오프라인','🌍 13개 언어','🆓 14일 무료 체험']
+    pt:['🎁 Grátis para sempre','💳 Pagamento único','🔌 100% offline','🌍 13 idiomas','🆓 14 dias grátis'],
+    en:['🎁 Free forever','💳 One-time payment','🔌 100% offline','🌍 13 languages','🆓 14-day free trial'],
+    es:['🎁 Gratis para siempre','💳 Pago único','🔌 100% offline','🌍 13 idiomas','🆓 14 días gratis'],
+    fr:['🎁 Gratuit pour toujours','💳 Paiement unique','🔌 100% hors ligne','🌍 13 langues','🆓 14 jours gratuits'],
+    de:['🎁 Für immer kostenlos','💳 Einmalzahlung','🔌 100% offline','🌍 13 Sprachen','🆓 14 Tage gratis'],
+    it:['🎁 Gratis per sempre','💳 Pagamento unico','🔌 100% offline','🌍 13 lingue','🆓 14 giorni gratis'],
+    pl:['🎁 Zawsze za darmo','💳 Płatność jednorazowa','🔌 100% offline','🌍 13 języków','🆓 14 dni za darmo'],
+    ja:['🎁 永久無料','💳 買い切り','🔌 完全オフライン','🌍 13言語対応','🆓 14日間無料'],
+    nl:['🎁 Voor altijd gratis','💳 Eenmalige betaling','🔌 100% offline','🌍 13 talen','🆓 14 dagen gratis'],
+    cs:['🎁 Navždy zdarma','💳 Jednorázová platba','🔌 100% offline','🌍 13 jazyků','🆓 14 dní zdarma'],
+    zh:['🎁 永久免费','💳 一次性付费','🔌 100%离线','🌍 13种语言','🆓 14天免费试用'],
+    ru:['🎁 Всегда бесплатно','💳 Единоразовый платёж','🔌 100% офлайн','🌍 13 языков','🆓 14 дней бесплатно'],
+    ko:['🎁 영원히 무료','💳 일회성 결제','🔌 100% 오프라인','🌍 13개 언어','🆓 14일 무료 체험']
   },
   heroCtaPrimary: { pt:'Ver Planos ↓', en:'See Plans ↓', es:'Ver Planes ↓', fr:'Voir les Formules ↓', de:'Pläne Ansehen ↓', it:'Vedi i Piani ↓', pl:'Zobacz Plany ↓', ja:'プランを見る ↓', nl:'Bekijk Plannen ↓', cs:'Zobrazit Plány ↓', zh:'查看方案 ↓', ru:'Смотреть Планы ↓', ko:'플랜 보기 ↓' },
   featuredFlag: { pt:'🔥 Destaque', en:'🔥 Highlight', es:'🔥 Destacado', fr:'🔥 En Avant', de:'🔥 Highlight', it:'🔥 In Evidenza', pl:'🔥 Wyróżnione', ja:'🔥 おすすめ', nl:'🔥 Uitgelicht', cs:'🔥 Doporučujeme', zh:'🔥 亮点', ru:'🔥 Хит', ko:'🔥 추천' },
-  galleryTitle: { pt:'A app a sério, não só promessas', en:'The real app, not just promises', es:'La app de verdad, no solo promesas', fr:'L\'appli pour de vrai, pas que des promesses', de:'Die echte App, nicht nur Versprechen', it:'L\'app vera, non solo promesse', pl:'Prawdziwa aplikacja, nie tylko obietnice', ja:'約束だけじゃない、本物のアプリ', nl:'De echte app, geen loze beloftes', cs:'Skutečná aplikace, ne jen sliby', zh:'真实的应用,不只是承诺', ru:'Настоящее приложение, а не только обещания', ko:'약속이 아니라 진짜 앱이에요' },
+  galleryTitle: { pt:'A app por dentro', en:'Inside the app', es:'La app por dentro', fr:'L\'appli de l\'intérieur', de:'Die App im Detail', it:'L\'app da vicino', pl:'Aplikacja od środka', ja:'アプリの中身', nl:'De app van binnen', cs:'Aplikace zevnitř', zh:'应用内部一览', ru:'Приложение изнутри', ko:'앱 속으로' },
   galCapModels: { pt:'📚 Biblioteca de Modelos', en:'📚 Model Library', es:'📚 Biblioteca de Modelos', fr:'📚 Bibliothèque de Modèles', de:'📚 Modell-Bibliothek', it:'📚 Libreria Modelli', pl:'📚 Biblioteka Modeli', ja:'📚 モデルライブラリ', nl:'📚 Modellenbibliotheek', cs:'📚 Knihovna Modelů', zh:'📚 模型库', ru:'📚 Библиотека Моделей', ko:'📚 모델 라이브러리' },
   galCapOrders: { pt:'📦 Fila de Produção', en:'📦 Production Queue', es:'📦 Cola de Producción', fr:'📦 File de Production', de:'📦 Produktionswarteschlange', it:'📦 Coda di Produzione', pl:'📦 Kolejka Produkcji', ja:'📦 生産キュー', nl:'📦 Productiewachtrij', cs:'📦 Fronta Výroby', zh:'📦 生产队列', ru:'📦 Очередь Производства', ko:'📦 생산 대기열' },
   galCapClients: { pt:'👥 Clientes VIP', en:'👥 VIP Clients', es:'👥 Clientes VIP', fr:'👥 Clients VIP', de:'👥 VIP-Kunden', it:'👥 Clienti VIP', pl:'👥 Klienci VIP', ja:'👥 VIP顧客', nl:'👥 VIP-Klanten', cs:'👥 VIP Klienti', zh:'👥 VIP客户', ru:'👥 VIP-Клиенты', ko:'👥 VIP 고객' },
@@ -475,7 +504,7 @@ const UI = {
 };
 
 const CATS = [
-  { icon:'🧮', tier:'free',
+  { icon:'🧮', tier:'free', img:'shot-calc',
     name:{ pt:'Calculadora', en:'Calculator', es:'Calculadora', fr:'Calculateur', de:'Rechner', it:'Calcolatore', pl:'Kalkulator', ja:'計算機', nl:'Rekenmachine', cs:'Kalkulačka', zh:'计算器', ru:'Калькулятор', ko:'계산기' },
     items:{
       pt:['Custo real: material, energia, mão-de-obra, desgaste da máquina','Modo Filamento e Modo Resina (mL automático)','Importa .gcode/.3mf/.stl — peso e tempo sozinhos','Multi-Bed: várias impressões num orçamento só','Orçamentos guardados com foto, prontos a reutilizar'],
@@ -492,7 +521,7 @@ const CATS = [
       ru:['Реальная стоимость: материал, электричество, труд, износ станка','Режимы Filament и Resin (автоматический мл)','Импорт .gcode/.3mf/.stl — вес и время заполняются сами','Multi-Bed: несколько печатей в одной смете','Сохранённые сметы с фото, готовые к повторному использованию'],
       ko:['실제 원가 계산: 재료, 전기, 인건비, 기계 마모','필라멘트 모드와 레진 모드(자동 mL 계산)','.gcode/.3mf/.stl 가져오기 — 무게와 시간 자동 입력','멀티 베드: 여러 출력물을 하나의 견적으로','사진과 함께 저장된 견적, 언제든 재사용 가능']
     }},
-  { icon:'🧵', tier:'free',
+  { icon:'🧵', tier:'free', img:'shot-materials',
     name:{ pt:'Materiais', en:'Materials', es:'Materiales', fr:'Matériaux', de:'Materialien', it:'Materiali', pl:'Materiały', ja:'材料', nl:'Materialen', cs:'Materiály', zh:'材料', ru:'Материалы', ko:'재료' },
     items:{
       pt:['Armazém de filamentos e resinas, cor a cor','Alertas de stock baixo','Acabamentos (Matte/Silk/Glow…) com custo próprio'],
@@ -509,7 +538,7 @@ const CATS = [
       ru:['Склад филамента и смол, цвет за цветом','Оповещения о низком остатке','Отделка (Matte/Silk/Glow…) со своей стоимостью'],
       ko:['필라멘트 및 레진 재고를 색상별로 관리','재고 부족 알림','마감(무광/실크/글로우…)별 추가 비용 설정']
     }},
-  { icon:'🖨️', tier:'free',
+  { icon:'🖨️', tier:'free', img:'shot-farm',
     name:{ pt:'Máquinas', en:'Machines', es:'Máquinas', fr:'Machines', de:'Maschinen', it:'Macchine', pl:'Maszyny', ja:'マシン', nl:'Machines', cs:'Stroje', zh:'设备', ru:'Станки', ko:'기계' },
     items:{
       pt:['Frota de impressoras com consumo (Watts)','Cofre de Máquinas — vê o ROI de cada uma','Manutenção preventiva por horas reais de uso'],
@@ -526,7 +555,7 @@ const CATS = [
       ru:['Парк принтеров с учётом мощности (Ватт)','Сейф Станков — смотри окупаемость каждого','Профилактическое обслуживание по реальным часам работы'],
       ko:['프린터 함대의 전력 소비(와트) 관리','기계 금고 — 각 프린터의 ROI 확인','실제 사용 시간 기준 예방 정비']
     }},
-  { icon:'⚙️', tier:'free',
+  { icon:'⚙️', tier:'free', img:'shot-configs',
     name:{ pt:'Configurações', en:'Settings', es:'Configuración', fr:'Paramètres', de:'Einstellungen', it:'Impostazioni', pl:'Ustawienia', ja:'設定', nl:'Instellingen', cs:'Nastavení', zh:'设置', ru:'Настройки', ko:'설정' },
     items:{
       pt:['Backup/restauro completo num clique','+100 temas visuais, ou cria o teu','PIN de bloqueio com recuperação por pergunta'],
@@ -543,7 +572,7 @@ const CATS = [
       ru:['Полное резервное копирование/восстановление в один клик','Более 100 визуальных тем, или создай свою','PIN-блокировка с восстановлением по контрольному вопросу'],
       ko:['원클릭 전체 백업 및 복원','100개 이상의 비주얼 테마, 또는 직접 제작','보안 질문으로 복구 가능한 잠금 PIN']
     }},
-  { icon:'📚', tier:'basic', featured:true,
+  { icon:'📚', tier:'basic', featured:true, img:'shot-models',
     name:{ pt:'Modelos', en:'Models', es:'Modelos', fr:'Modèles', de:'Modelle', it:'Modelli', pl:'Modele', ja:'モデル', nl:'Modellen', cs:'Modely', zh:'模型', ru:'Модели', ko:'모델' },
     items:{
       pt:['Organiza automaticamente os teus ficheiros STL/3MF em pastas no PC — acaba de vez com a Área de Transferência a abarrotar','Biblioteca com mural visual por categoria','Histórico de vendas e taxa de sucesso por modelo'],
@@ -560,7 +589,7 @@ const CATS = [
       ru:['Автоматически раскладывает твои файлы STL/3MF по папкам на ПК — конец переполненной папке "Загрузки"','Библиотека с визуальной стеной категорий','История продаж и процент успеха по каждой модели'],
       ko:['STL/3MF 파일을 PC의 폴더로 자동 정리 — 다운로드 폴더가 엉망이 되는 일은 이제 그만','카테고리별 비주얼 월이 있는 라이브러리','모델별 판매 이력 및 성공률']
     }},
-  { icon:'📦', tier:'standard',
+  { icon:'📦', tier:'standard', img:'shot-orders',
     name:{ pt:'Encomendas', en:'Orders', es:'Pedidos', fr:'Commandes', de:'Bestellungen', it:'Ordini', pl:'Zamówienia', ja:'注文', nl:'Bestellingen', cs:'Objednávky', zh:'订单', ru:'Заказы', ko:'주문' },
     items:{
       pt:['Fila de produção — Kanban ou Grelha','Fatura A4, etiqueta CTT, certificado de autenticidade','Central de Mensagens: WhatsApp, Telegram, Email real','RMA/garantia por peça vendida'],
@@ -577,7 +606,7 @@ const CATS = [
       ru:['Очередь производства — вид Канбан или Сетка','Счёт A4, транспортная этикетка, сертификат подлинности','Центр сообщений: WhatsApp, Telegram, настоящая почта','Учёт RMA/гарантии по каждому изделию'],
       ko:['생산 대기열 — 칸반 또는 그리드 보기','A4 인보이스, 배송 라벨, 정품 인증서','메시지 센터: WhatsApp, Telegram, 실제 이메일','품목별 반품/보증 추적']
     }},
-  { icon:'👥', tier:'standard',
+  { icon:'👥', tier:'standard', img:'shot-clients',
     name:{ pt:'Clientes', en:'Clients', es:'Clientes', fr:'Clients', de:'Kunden', it:'Clienti', pl:'Klienci', ja:'顧客', nl:'Klanten', cs:'Klienti', zh:'客户', ru:'Клиенты', ko:'고객' },
     items:{
       pt:['Diretório com 7 escalões VIP automáticos','Estados: Em Suporte, Aguarda Resposta, Lista Negra','Alerta de clientes que precisam de atenção'],
@@ -594,7 +623,7 @@ const CATS = [
       ru:['Каталог с 7 автоматическими VIP-уровнями','Статусы: На поддержке, Ждёт ответа, Чёрный список','Оповещение о клиентах, требующих внимания'],
       ko:['7단계 자동 VIP 등급이 있는 고객 디렉토리','상태: 지원 중, 응답 대기, 블랙리스트','주의가 필요한 고객 알림']
     }},
-  { icon:'🗄️', tier:'standard',
+  { icon:'🗄️', tier:'standard', img:'shot-stock',
     name:{ pt:'Estoque', en:'Stock', es:'Inventario', fr:'Stock', de:'Lager', it:'Magazzino', pl:'Magazyn', ja:'在庫', nl:'Voorraad', cs:'Sklad', zh:'库存', ru:'Склад', ko:'재고' },
     items:{
       pt:['Prateleira virtual com faturação híbrida','Inventário físico com reconciliação','Alertas de stock baixo ou parado'],
@@ -611,7 +640,7 @@ const CATS = [
       ru:['Виртуальная полка с гибридной оплатой','Физическая инвентаризация со сверкой','Оповещения о низком или залежавшемся остатке'],
       ko:['하이브리드 결제가 가능한 가상 선반','실사 재고 조사 및 대조','재고 부족 또는 정체 알림']
     }},
-  { icon:'✅', tier:'standard',
+  { icon:'✅', tier:'standard', img:'shot-tasks',
     name:{ pt:'Tarefas', en:'Tasks', es:'Tareas', fr:'Tâches', de:'Aufgaben', it:'Attività', pl:'Zadania', ja:'タスク', nl:'Taken', cs:'Úkoly', zh:'任务', ru:'Задачи', ko:'작업' },
     items:{
       pt:['Hoje / Atrasadas / Próximas, ao estilo Todoist','Subtarefas, etiquetas, ligação a clientes e máquinas'],
@@ -628,7 +657,7 @@ const CATS = [
       ru:['Сегодня / Просрочено / Предстоящее, в стиле Todoist','Подзадачи, теги, привязка к клиентам и станкам'],
       ko:['오늘/기한 초과/예정, Todoist 스타일','하위 작업, 태그, 고객 및 기계와 연결']
     }},
-  { icon:'📊', tier:'pro',
+  { icon:'📊', tier:'pro', img:'shot-dash',
     name:{ pt:'Analítica', en:'Analytics', es:'Analítica', fr:'Analytique', de:'Analytik', it:'Analitica', pl:'Analityka', ja:'分析', nl:'Analytics', cs:'Analytika', zh:'数据分析', ru:'Аналитика', ko:'분석' },
     items:{
       pt:['Painel financeiro completo e histórico de vendas','Gráficos de tendência mensal'],
@@ -645,7 +674,7 @@ const CATS = [
       ru:['Полная финансовая панель и история продаж','Графики месячных трендов'],
       ko:['완전한 재무 대시보드 및 판매 이력','월별 추세 차트']
     }},
-  { icon:'📢', tier:'pro',
+  { icon:'📢', tier:'pro', img:'shot-marketing',
     name:{ pt:'Custos Fixos', en:'Fixed Costs', es:'Costos Fijos', fr:'Frais Fixes', de:'Fixkosten', it:'Costi Fissi', pl:'Koszty Stałe', ja:'固定費', nl:'Vaste Kosten', cs:'Fixní Náklady', zh:'固定成本', ru:'Постоянные Расходы', ko:'고정비' },
     items:{
       pt:['Subscrições e despesas fixas num só sítio','Alertas antes da data de pagamento'],
@@ -662,7 +691,7 @@ const CATS = [
       ru:['Подписки и постоянные расходы в одном месте','Оповещения перед датой платежа'],
       ko:['구독 및 고정 비용을 한곳에서 관리','결제일 전 알림']
     }},
-  { icon:'🏪', tier:'pro',
+  { icon:'🏪', tier:'pro', img:'shot-lojas',
     name:{ pt:'Parceiros B2B', en:'B2B Partners', es:'Socios B2B', fr:'Partenaires B2B', de:'B2B-Partner', it:'Partner B2B', pl:'Partnerzy B2B', ja:'B2Bパートナー', nl:'B2B-Partners', cs:'B2B Partneři', zh:'B2B合作伙伴', ru:'B2B-Партнёры', ko:'B2B 파트너' },
     items:{
       pt:['Consignação em lojas físicas, contratos automáticos','Extratos e comissões por parceiro','Ranking entre lojas'],
@@ -731,24 +760,61 @@ function renderPlans(lang) {
   }).join('');
 }
 
+let currentLang = 'pt';
+let lightboxIndex = 0;
+
+function renderCarousel(lang) {
+  document.getElementById('carousel').innerHTML = CATS.map((c, i) => `
+    <div class="carousel-item" onclick="openLightbox(${i})">
+      <img src="img/${lang}/${c.img}.webp" alt="${c.name[lang]}" loading="lazy">
+      <div class="cap">${c.icon} ${c.name[lang]}</div>
+    </div>
+  `).join('');
+}
+
+function carouselScroll(dir) {
+  const el = document.getElementById('carousel');
+  el.scrollBy({ left: dir * 232, behavior: 'smooth' });
+}
+
+function renderLightbox() {
+  const c = CATS[lightboxIndex];
+  document.getElementById('lightboxImg').src = `img/${currentLang}/${c.img}.webp`;
+  document.getElementById('lightboxImg').alt = c.name[currentLang];
+  document.getElementById('lightboxIcon').textContent = c.icon;
+  document.getElementById('lightboxName').textContent = c.name[currentLang];
+  const tierEl = document.getElementById('lightboxTier');
+  tierEl.textContent = TIER_LABEL[c.tier][currentLang];
+  tierEl.className = 'tier-pill tier-' + c.tier;
+  document.getElementById('lightboxItems').innerHTML = c.items[currentLang].map(i => `<li>${i}</li>`).join('');
+}
+
+function openLightbox(i) {
+  lightboxIndex = i;
+  renderLightbox();
+  document.getElementById('lightboxBackdrop').classList.add('open');
+}
+
+function closeLightbox() {
+  document.getElementById('lightboxBackdrop').classList.remove('open');
+}
+
+function lightboxNav(dir) {
+  lightboxIndex = (lightboxIndex + dir + CATS.length) % CATS.length;
+  renderLightbox();
+}
+
+document.addEventListener('keydown', (e) => {
+  if (!document.getElementById('lightboxBackdrop').classList.contains('open')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowRight') lightboxNav(1);
+  if (e.key === 'ArrowLeft') lightboxNav(-1);
+});
+
 function renderLangs(lang) {
   document.getElementById('langs-full').innerHTML = LANG_ORDER.map(code =>
     `<span class="lang-chip ${code===lang?'current':''}">${LANG_NAMES[code]}</span>`).join('');
   document.getElementById('langs-region').innerHTML = COUNTRY_NAMES.map(l => `<span class="lang-chip region">${l}</span>`).join('');
-}
-
-function drawLayerLines() {
-  const g = document.getElementById('layerlines-g');
-  const rows = 7;
-  let html = '';
-  for (let i = 0; i < rows; i++) {
-    const y = 4 + i * 6;
-    const inset = Math.abs(3 - i) * 60 + (Math.random() * 20);
-    const op = 0.16 + (i % 2 === 0 ? 0.06 : 0);
-    const color = i % 3 === 2 ? 'var(--teal)' : 'var(--accent)';
-    html += `<line x1="${inset}" y1="${y}" x2="${980-inset}" y2="${y}" stroke="${color}" stroke-width="1.4" stroke-linecap="round" opacity="${op}"/>`;
-  }
-  g.innerHTML = html;
 }
 
 function populateLangSelect(lang) {
@@ -758,6 +824,7 @@ function populateLangSelect(lang) {
 
 function setLang(lang) {
   if (!LANG_ORDER.includes(lang)) lang = 'pt';
+  currentLang = lang;
   Object.keys(UI).forEach(key => {
     const el = document.getElementById(key);
     if (el) el.textContent = UI[key][lang] || UI[key].en;
@@ -766,14 +833,17 @@ function setLang(lang) {
   if (heroStatsEl) heroStatsEl.innerHTML = (UI.heroStats[lang] || UI.heroStats.en).map(s => `<span class="hero-stat">${s}</span>`).join('');
   const heroCtaSecondaryEl = document.getElementById('heroCtaSecondary');
   if (heroCtaSecondaryEl) heroCtaSecondaryEl.textContent = '💬 ' + UI.discordBtn[lang];
+  const heroShotEl = document.getElementById('heroShot');
+  if (heroShotEl) heroShotEl.src = `img/${lang}/${CATS[0].img}.webp`;
   renderCats(lang);
   renderPlans(lang);
+  renderCarousel(lang);
+  if (document.getElementById('lightboxBackdrop').classList.contains('open')) renderLightbox();
   renderLangs(lang);
   populateLangSelect(lang);
   localStorage.setItem('ryu_pricing_lang', lang);
   document.documentElement.lang = lang;
 }
 
-drawLayerLines();
 setLang(localStorage.getItem('ryu_pricing_lang') || 'pt');
 </script>
