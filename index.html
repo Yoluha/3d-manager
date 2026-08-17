@@ -163,21 +163,39 @@ header.top > * { position: relative; z-index: 1; }
 .carousel-nav:hover { border-color: var(--accent); color: var(--accent); }
 @media (max-width: 760px) { .carousel-item { width: 168px; } .carousel-item img { height: 104px; } .carousel-nav { display: none; } }
 
-/* ---------- Lightbox ---------- */
-.lightbox-backdrop { position: fixed; inset: 0; background: rgba(10,10,14,0.72); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 24px; }
+/* ---------- Lightbox (maximized image + tooltip-style info popup) ---------- */
+.lightbox-backdrop { position: fixed; inset: 0; background: rgba(8,8,10,0.85); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 3vh 3vw; }
 .lightbox-backdrop.open { display: flex; }
-.lightbox { background: var(--surface); border-radius: 16px; max-width: 880px; width: 100%; max-height: 88vh; overflow: auto; box-shadow: 0 30px 80px rgba(0,0,0,0.45); position: relative; }
-.lightbox img { width: 100%; display: block; border-bottom: 1px solid var(--border); background: var(--surface-2); }
-.lightbox-body { padding: 22px 26px 28px; }
-.lightbox-close, .lightbox-nav-btn { border: none; background: rgba(0,0,0,0.5); color: #fff; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-.lightbox-close { position: absolute; top: 12px; right: 12px; width: 34px; height: 34px; font-size: 1.05rem; z-index: 3; }
-.lightbox-nav-btn { position: absolute; top: calc(50% - 20px); width: 42px; height: 42px; font-size: 1.3rem; z-index: 3; }
-.lightbox-nav-btn.prev { left: 12px; }
-.lightbox-nav-btn.next { right: 12px; }
-.lightbox-title { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.2rem; margin-bottom: 10px; }
-.lightbox-body ul { margin: 0; padding-left: 1.1em; color: var(--muted); font-size: 0.92rem; }
-.lightbox-body li { margin: 6px 0; }
-@media (max-width: 640px) { .lightbox-body { padding: 18px 18px 22px; } .lightbox-nav-btn { width: 36px; height: 36px; font-size: 1.1rem; } }
+.lightbox { background: #000; border-radius: 14px; max-width: 1300px; width: 100%; max-height: 94vh; overflow: hidden; box-shadow: 0 30px 90px rgba(0,0,0,0.55); position: relative; display: flex; }
+.lightbox img { width: 100%; max-height: 94vh; object-fit: contain; display: block; margin: auto; }
+.lightbox-close, .lightbox-nav-btn, .lightbox-info-toggle { border: none; background: rgba(20,20,24,0.68); color: #fff; cursor: pointer; }
+.lightbox-close, .lightbox-nav-btn { border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.lightbox-close { position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; font-size: 1.05rem; z-index: 4; }
+.lightbox-nav-btn { position: absolute; top: calc(50% - 21px); width: 44px; height: 44px; font-size: 1.3rem; z-index: 4; }
+.lightbox-nav-btn.prev { left: 14px; }
+.lightbox-nav-btn.next { right: 14px; }
+.lightbox-info-toggle {
+    position: absolute; bottom: 16px; left: 16px; z-index: 4;
+    border-radius: 999px; padding: 10px 18px 10px 14px; font-weight: 700; font-size: 0.85rem;
+    display: flex; align-items: center; gap: 8px; backdrop-filter: blur(6px);
+}
+.lightbox-popup {
+    position: absolute; bottom: 66px; left: 16px; z-index: 5;
+    max-width: 360px; width: calc(100% - 32px);
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    display: none; opacity: 0; transform: translateY(6px); transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.lightbox-popup.open { display: block; }
+.lightbox-popup.show { opacity: 1; transform: translateY(0); }
+.lightbox-title { display: flex; align-items: center; gap: 9px; font-weight: 700; font-size: 1.05rem; margin-bottom: 8px; color: var(--ink); }
+.lightbox-popup ul { margin: 0; padding-left: 1.1em; color: var(--muted); font-size: 0.86rem; }
+.lightbox-popup li { margin: 5px 0; }
+@media (max-width: 640px) {
+    .lightbox-nav-btn { width: 38px; height: 38px; font-size: 1.1rem; }
+    .lightbox-popup { max-width: none; width: calc(100% - 24px); left: 12px; bottom: 60px; }
+    .lightbox-info-toggle { left: 12px; bottom: 12px; padding: 9px 14px 9px 12px; font-size: 0.8rem; }
+}
 
 /* ---------- Section titles ---------- */
 h2.section { font-size: 1.5rem; margin: 0 0 6px; letter-spacing: -0.01em; }
@@ -336,8 +354,9 @@ footer a { color: var(--muted); }
             <button class="lightbox-nav-btn prev" onclick="lightboxNav(-1)">‹</button>
             <button class="lightbox-nav-btn next" onclick="lightboxNav(1)">›</button>
             <img id="lightboxImg" src="" alt="">
-            <div class="lightbox-body">
-                <div class="lightbox-title"><span id="lightboxIcon"></span> <span id="lightboxName"></span> <span class="tier-pill" id="lightboxTier"></span></div>
+            <button class="lightbox-info-toggle" id="lightboxInfoToggle" onclick="toggleLightboxInfo(event)">ℹ️ <span id="lightboxIcon"></span> <span id="lightboxName"></span></button>
+            <div class="lightbox-popup" id="lightboxPopup">
+                <div class="lightbox-title"><span id="lightboxIcon2"></span> <span id="lightboxName2"></span> <span class="tier-pill" id="lightboxTier"></span></div>
                 <ul id="lightboxItems"></ul>
             </div>
         </div>
@@ -407,19 +426,19 @@ const UI = {
     ko:'진지하게 3D 프린팅을 하는 사람들을 위한 비즈니스 관리 도구 — 견적부터 배송까지, 여기저기 흩어진 스프레드시트는 이제 그만.'
   },
   heroStats: {
-    pt:['🎁 Grátis para sempre','💳 Pagamento único','🔌 100% offline','🌍 13 idiomas','🆓 14 dias grátis'],
-    en:['🎁 Free forever','💳 One-time payment','🔌 100% offline','🌍 13 languages','🆓 14-day free trial'],
-    es:['🎁 Gratis para siempre','💳 Pago único','🔌 100% offline','🌍 13 idiomas','🆓 14 días gratis'],
-    fr:['🎁 Gratuit pour toujours','💳 Paiement unique','🔌 100% hors ligne','🌍 13 langues','🆓 14 jours gratuits'],
-    de:['🎁 Für immer kostenlos','💳 Einmalzahlung','🔌 100% offline','🌍 13 Sprachen','🆓 14 Tage gratis'],
-    it:['🎁 Gratis per sempre','💳 Pagamento unico','🔌 100% offline','🌍 13 lingue','🆓 14 giorni gratis'],
-    pl:['🎁 Zawsze za darmo','💳 Płatność jednorazowa','🔌 100% offline','🌍 13 języków','🆓 14 dni za darmo'],
-    ja:['🎁 永久無料','💳 買い切り','🔌 完全オフライン','🌍 13言語対応','🆓 14日間無料'],
-    nl:['🎁 Voor altijd gratis','💳 Eenmalige betaling','🔌 100% offline','🌍 13 talen','🆓 14 dagen gratis'],
-    cs:['🎁 Navždy zdarma','💳 Jednorázová platba','🔌 100% offline','🌍 13 jazyků','🆓 14 dní zdarma'],
-    zh:['🎁 永久免费','💳 一次性付费','🔌 100%离线','🌍 13种语言','🆓 14天免费试用'],
-    ru:['🎁 Всегда бесплатно','💳 Единоразовый платёж','🔌 100% офлайн','🌍 13 языков','🆓 14 дней бесплатно'],
-    ko:['🎁 영원히 무료','💳 일회성 결제','🔌 100% 오프라인','🌍 13개 언어','🆓 14일 무료 체험']
+    pt:['🎁 Plano Free, sempre grátis','💳 Pagamento único','🔌 100% offline','🌍 13 idiomas','🆓 14 dias grátis'],
+    en:['🎁 Free plan, always free','💳 One-time payment','🔌 100% offline','🌍 13 languages','🆓 14-day free trial'],
+    es:['🎁 Plan Free, siempre gratis','💳 Pago único','🔌 100% offline','🌍 13 idiomas','🆓 14 días gratis'],
+    fr:['🎁 Formule Free, toujours gratuite','💳 Paiement unique','🔌 100% hors ligne','🌍 13 langues','🆓 14 jours gratuits'],
+    de:['🎁 Free-Plan, immer kostenlos','💳 Einmalzahlung','🔌 100% offline','🌍 13 Sprachen','🆓 14 Tage gratis'],
+    it:['🎁 Piano Free, sempre gratis','💳 Pagamento unico','🔌 100% offline','🌍 13 lingue','🆓 14 giorni gratis'],
+    pl:['🎁 Plan Free, zawsze darmowy','💳 Płatność jednorazowa','🔌 100% offline','🌍 13 języków','🆓 14 dni za darmo'],
+    ja:['🎁 Freeプランは永久無料','💳 買い切り','🔌 完全オフライン','🌍 13言語対応','🆓 14日間無料'],
+    nl:['🎁 Free-plan, altijd gratis','💳 Eenmalige betaling','🔌 100% offline','🌍 13 talen','🆓 14 dagen gratis'],
+    cs:['🎁 Plán Free, navždy zdarma','💳 Jednorázová platba','🔌 100% offline','🌍 13 jazyků','🆓 14 dní zdarma'],
+    zh:['🎁 Free方案永久免费','💳 一次性付费','🔌 100%离线','🌍 13种语言','🆓 14天免费试用'],
+    ru:['🎁 План Free всегда бесплатный','💳 Единоразовый платёж','🔌 100% офлайн','🌍 13 языков','🆓 14 дней бесплатно'],
+    ko:['🎁 Free 플랜은 영원히 무료','💳 일회성 결제','🔌 100% 오프라인','🌍 13개 언어','🆓 14일 무료 체험']
   },
   heroCtaPrimary: { pt:'Ver Planos ↓', en:'See Plans ↓', es:'Ver Planes ↓', fr:'Voir les Formules ↓', de:'Pläne Ansehen ↓', it:'Vedi i Piani ↓', pl:'Zobacz Plany ↓', ja:'プランを見る ↓', nl:'Bekijk Plannen ↓', cs:'Zobrazit Plány ↓', zh:'查看方案 ↓', ru:'Смотреть Планы ↓', ko:'플랜 보기 ↓' },
   featuredFlag: { pt:'🔥 Destaque', en:'🔥 Highlight', es:'🔥 Destacado', fr:'🔥 En Avant', de:'🔥 Highlight', it:'🔥 In Evidenza', pl:'🔥 Wyróżnione', ja:'🔥 おすすめ', nl:'🔥 Uitgelicht', cs:'🔥 Doporučujeme', zh:'🔥 亮点', ru:'🔥 Хит', ko:'🔥 추천' },
@@ -783,6 +802,8 @@ function renderLightbox() {
   document.getElementById('lightboxImg').alt = c.name[currentLang];
   document.getElementById('lightboxIcon').textContent = c.icon;
   document.getElementById('lightboxName').textContent = c.name[currentLang];
+  document.getElementById('lightboxIcon2').textContent = c.icon;
+  document.getElementById('lightboxName2').textContent = c.name[currentLang];
   const tierEl = document.getElementById('lightboxTier');
   tierEl.textContent = TIER_LABEL[c.tier][currentLang];
   tierEl.className = 'tier-pill tier-' + c.tier;
@@ -797,11 +818,25 @@ function openLightbox(i) {
 
 function closeLightbox() {
   document.getElementById('lightboxBackdrop').classList.remove('open');
+  const popup = document.getElementById('lightboxPopup');
+  popup.classList.remove('open', 'show');
 }
 
 function lightboxNav(dir) {
   lightboxIndex = (lightboxIndex + dir + CATS.length) % CATS.length;
   renderLightbox();
+}
+
+function toggleLightboxInfo(e) {
+  if (e) e.stopPropagation();
+  const popup = document.getElementById('lightboxPopup');
+  if (popup.classList.contains('open')) {
+    popup.classList.remove('show');
+    setTimeout(() => popup.classList.remove('open'), 150);
+  } else {
+    popup.classList.add('open');
+    requestAnimationFrame(() => popup.classList.add('show'));
+  }
 }
 
 document.addEventListener('keydown', (e) => {
