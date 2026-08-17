@@ -67,10 +67,25 @@ h1, h2, h3, .price, .tiercode {
 
 /* ---------- Header ---------- */
 header.top {
-    padding: 56px 24px 0;
+    padding: 56px 24px 40px;
     max-width: 980px;
     margin: 0 auto;
+    position: relative;
+    overflow: hidden;
 }
+header.top::before {
+    content: '';
+    position: absolute; top: -180px; right: -160px; width: 480px; height: 480px;
+    background: radial-gradient(circle, color-mix(in srgb, var(--accent) 16%, transparent) 0%, transparent 68%);
+    pointer-events: none; z-index: 0;
+}
+header.top::after {
+    content: '';
+    position: absolute; top: 60px; left: -200px; width: 420px; height: 420px;
+    background: radial-gradient(circle, color-mix(in srgb, var(--teal) 12%, transparent) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+}
+header.top > * { position: relative; z-index: 1; }
 .langswitch { display: flex; justify-content: flex-end; margin-bottom: 32px; }
 .langswitch select {
     font-family: ui-monospace, "SF Mono", Consolas, monospace;
@@ -99,9 +114,28 @@ header.top {
     margin: 0;
 }
 .brand-mark .dim { color: var(--accent); }
-.tagline { color: var(--muted); font-size: 1.05rem; max-width: 60ch; margin: 14px 0 0; }
+.tagline { color: var(--muted); font-size: 1.15rem; max-width: 52ch; margin: 16px 0 0; line-height: 1.5; }
 
-.layerlines { margin: 40px 0 8px; height: 46px; }
+/* ---------- Hero trust bar + CTAs ---------- */
+.hero-stats { display: flex; flex-wrap: wrap; gap: 10px; margin: 26px 0 0; }
+.hero-stat {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 999px;
+    padding: 8px 15px; font-size: 0.83rem; font-weight: 600; box-shadow: var(--shadow);
+}
+.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin: 30px 0 0; }
+.btn-cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: ui-monospace, "SF Mono", Consolas, monospace;
+    font-size: 0.92rem; font-weight: 700; text-decoration: none;
+    padding: 13px 24px; border-radius: 10px; letter-spacing: -0.01em;
+    transition: transform 0.15s ease;
+}
+.btn-cta:hover { transform: translateY(-1px); }
+.btn-cta.primary { background: var(--accent); color: var(--accent-ink); }
+.btn-cta.secondary { background: transparent; color: var(--ink); border: 1px solid var(--border); }
+
+.layerlines { margin: 44px 0 8px; height: 46px; }
 .layerlines svg { width: 100%; height: 100%; display: block; }
 
 /* ---------- Section titles ---------- */
@@ -110,7 +144,16 @@ h2.section { font-size: 1.5rem; margin: 0 0 6px; letter-spacing: -0.01em; }
 
 /* ---------- Feature category cards ---------- */
 .cats { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 72px; }
-.cat { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px; box-shadow: var(--shadow); }
+.cat { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px; box-shadow: var(--shadow); transition: border-color 0.15s ease, transform 0.15s ease; }
+.cat.featured { border-color: var(--accent); box-shadow: 0 1px 2px rgba(28,30,34,0.04), 0 10px 28px color-mix(in srgb, var(--accent) 16%, transparent); position: relative; }
+.cat.featured::before {
+    content: attr(data-flag);
+    position: absolute; top: -10px; right: 16px;
+    background: var(--accent); color: var(--accent-ink);
+    font-family: ui-monospace, "SF Mono", Consolas, monospace;
+    font-size: 9.5px; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 999px;
+}
 .cat-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 4px; }
 .cat-name { font-weight: 700; font-size: 1.02rem; display: flex; align-items: center; gap: 8px; }
 .cat-icon { font-size: 1.15rem; }
@@ -154,8 +197,32 @@ h2.section { font-size: 1.5rem; margin: 0 0 6px; letter-spacing: -0.01em; }
 .plan-chip .ci { font-size: 0.9rem; }
 .plan-chip.new { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--surface-2)); }
 
+.plan-cta {
+    display: block; text-align: center; text-decoration: none;
+    font-family: ui-monospace, "SF Mono", Consolas, monospace;
+    font-size: 0.82rem; font-weight: 700;
+    margin-top: 18px; padding: 11px; border-radius: 9px;
+    background: var(--surface-2); color: var(--ink); border: 1px solid var(--border);
+    transition: transform 0.15s ease;
+}
+.plan-cta:hover { transform: translateY(-1px); }
+.plan.pro .plan-cta { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+
 @media (max-width: 760px) { .plans { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 480px) { .plans { grid-template-columns: 1fr; } }
+
+/* ---------- Mobile tightening ---------- */
+@media (max-width: 640px) {
+    .wrap { padding: 32px 18px 80px; }
+    header.top { padding: 36px 18px 28px; }
+    .langswitch { margin-bottom: 22px; }
+    .tagline { font-size: 1.02rem; }
+    .hero-stat { font-size: 0.78rem; padding: 7px 12px; }
+    .btn-cta { flex: 1 1 auto; justify-content: center; }
+    .cat { padding: 17px 18px; }
+    h2.section { font-size: 1.3rem; }
+    .discord-cta { padding: 22px 20px; }
+}
 
 /* ---------- Languages ---------- */
 .langs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
@@ -201,6 +268,11 @@ footer a { color: var(--muted); }
         <h1 class="brand-mark">3D<span class="dim">_</span>Manager</h1>
     </div>
     <p class="tagline" id="tagline"></p>
+    <div class="hero-stats" id="heroStats"></div>
+    <div class="hero-cta">
+        <a class="btn-cta primary" href="#plans" id="heroCtaPrimary"></a>
+        <a class="btn-cta secondary" href="https://discord.gg/9Vj4PxQTtb" target="_blank" rel="noopener" id="heroCtaSecondary"></a>
+    </div>
     <div class="layerlines" aria-hidden="true">
         <svg viewBox="0 0 980 46" preserveAspectRatio="none"><g id="layerlines-g"></g></svg>
     </div>
@@ -271,6 +343,23 @@ const UI = {
     ru:'Управление бизнесом для тех, кто печатает по-настоящему — от сметы до доставки, никаких разрозненных таблиц.',
     ko:'진지하게 3D 프린팅을 하는 사람들을 위한 비즈니스 관리 도구 — 견적부터 배송까지, 여기저기 흩어진 스프레드시트는 이제 그만.'
   },
+  heroStats: {
+    pt:['💳 Pagamento único','🔌 100% offline','🌍 13 idiomas','🆓 14 dias grátis'],
+    en:['💳 One-time payment','🔌 100% offline','🌍 13 languages','🆓 14-day free trial'],
+    es:['💳 Pago único','🔌 100% offline','🌍 13 idiomas','🆓 14 días gratis'],
+    fr:['💳 Paiement unique','🔌 100% hors ligne','🌍 13 langues','🆓 14 jours gratuits'],
+    de:['💳 Einmalzahlung','🔌 100% offline','🌍 13 Sprachen','🆓 14 Tage gratis'],
+    it:['💳 Pagamento unico','🔌 100% offline','🌍 13 lingue','🆓 14 giorni gratis'],
+    pl:['💳 Płatność jednorazowa','🔌 100% offline','🌍 13 języków','🆓 14 dni za darmo'],
+    ja:['💳 買い切り','🔌 完全オフライン','🌍 13言語対応','🆓 14日間無料'],
+    nl:['💳 Eenmalige betaling','🔌 100% offline','🌍 13 talen','🆓 14 dagen gratis'],
+    cs:['💳 Jednorázová platba','🔌 100% offline','🌍 13 jazyků','🆓 14 dní zdarma'],
+    zh:['💳 一次性付费','🔌 100%离线','🌍 13种语言','🆓 14天免费试用'],
+    ru:['💳 Единоразовый платёж','🔌 100% офлайн','🌍 13 языков','🆓 14 дней бесплатно'],
+    ko:['💳 일회성 결제','🔌 100% 오프라인','🌍 13개 언어','🆓 14일 무료 체험']
+  },
+  heroCtaPrimary: { pt:'Ver Planos ↓', en:'See Plans ↓', es:'Ver Planes ↓', fr:'Voir les Formules ↓', de:'Pläne Ansehen ↓', it:'Vedi i Piani ↓', pl:'Zobacz Plany ↓', ja:'プランを見る ↓', nl:'Bekijk Plannen ↓', cs:'Zobrazit Plány ↓', zh:'查看方案 ↓', ru:'Смотреть Планы ↓', ko:'플랜 보기 ↓' },
+  featuredFlag: { pt:'🔥 Destaque', en:'🔥 Highlight', es:'🔥 Destacado', fr:'🔥 En Avant', de:'🔥 Highlight', it:'🔥 In Evidenza', pl:'🔥 Wyróżnione', ja:'🔥 おすすめ', nl:'🔥 Uitgelicht', cs:'🔥 Doporučujeme', zh:'🔥 亮点', ru:'🔥 Хит', ko:'🔥 추천' },
   catsTitle: { pt:'O que a app faz', en:'What the app does', es:'Qué hace la app', fr:'Ce que fait l\'appli', de:'Was die App kann', it:'Cosa fa l\'app', pl:'Co robi aplikacja', ja:'アプリでできること', nl:'Wat de app doet', cs:'Co aplikace umí', zh:'应用能做什么', ru:'Что умеет приложение', ko:'앱이 하는 일' },
   catsSub: {
     pt:'Doze áreas, cada uma a resolver um problema real de quem vive de imprimir.',
@@ -303,7 +392,7 @@ const UI = {
     ru:'Единоразовый платёж, никаких подписок ни в одном плане. Попробуй 14 дней полного доступа перед решением. Каждый план включает всё из предыдущих планов.',
     ko:'모든 플랜은 일회성 결제이며 구독료가 없습니다. 결정하기 전에 14일간 전체 기능을 체험해 보세요. 각 플랜에는 이전 플랜의 모든 기능이 포함됩니다.'
   },
-  pricingNote: { pt:'* preços de lançamento, sujeitos a ajuste', en:'* launch pricing, subject to adjustment', es:'* precios de lanzamiento, sujetos a ajuste', fr:'* prix de lancement, sujets à ajustement', de:'* Einführungspreise, Anpassung vorbehalten', it:'* prezzi di lancio, soggetti a modifica', pl:'* ceny startowe, mogą ulec zmianie', ja:'※ローンチ価格、変更の可能性あり', nl:'* introductieprijzen, onder voorbehoud van aanpassing', cs:'* startovní ceny, mohou se změnit', zh:'* 上线价格,可能调整', ru:'* стартовые цены, могут быть скорректированы', ko:'* 출시 가격이며 조정될 수 있습니다' },
+  pricingNote: { pt:'* preços de lançamento, sujeitos a ajuste · IVA incluído', en:'* launch pricing, subject to adjustment · tax included', es:'* precios de lanzamiento, sujetos a ajuste · IVA incluido', fr:'* prix de lancement, sujets à ajustement · TVA incluse', de:'* Einführungspreise, Anpassung vorbehalten · inkl. MwSt.', it:'* prezzi di lancio, soggetti a modifica · IVA inclusa', pl:'* ceny startowe, mogą ulec zmianie · VAT wliczony', ja:'※ローンチ価格、変更の可能性あり・税込み', nl:'* introductieprijzen, onder voorbehoud van aanpassing · incl. btw', cs:'* startovní ceny, mohou se změnit · s DPH', zh:'* 上线价格,可能调整 · 含税', ru:'* стартовые цены, могут быть скорректированы · с учётом налога', ko:'* 출시 가격이며 조정될 수 있습니다 · 세금 포함' },
   discordTitle: { pt:'💬 Suporte, sugestões e a beta', en:'💬 Support, suggestions & the beta', es:'💬 Soporte, sugerencias y la beta', fr:'💬 Support, suggestions et la bêta', de:'💬 Support, Vorschläge & die Beta', it:'💬 Supporto, suggerimenti e la beta', pl:'💬 Wsparcie, sugestie i beta', ja:'💬 サポート・ご提案・ベータ版', nl:'💬 Ondersteuning, suggesties & de beta', cs:'💬 Podpora, návrhy a beta verze', zh:'💬 支持、建议与测试版', ru:'💬 Поддержка, предложения и бета', ko:'💬 지원, 제안 및 베타' },
   discordDesc: {
     pt:'Bugs, dúvidas, pedidos de funcionalidades, ou queres testar antes de todos — é tudo no Discord.',
@@ -415,22 +504,22 @@ const CATS = [
       ru:['Полное резервное копирование/восстановление в один клик','Более 100 визуальных тем, или создай свою','PIN-блокировка с восстановлением по контрольному вопросу'],
       ko:['원클릭 전체 백업 및 복원','100개 이상의 비주얼 테마, 또는 직접 제작','보안 질문으로 복구 가능한 잠금 PIN']
     }},
-  { icon:'📚', tier:'basic',
+  { icon:'📚', tier:'basic', featured:true,
     name:{ pt:'Modelos', en:'Models', es:'Modelos', fr:'Modèles', de:'Modelle', it:'Modelli', pl:'Modele', ja:'モデル', nl:'Modellen', cs:'Modely', zh:'模型', ru:'Модели', ko:'모델' },
     items:{
-      pt:['Biblioteca com mural visual por categoria','Organização automática dos ficheiros em pastas','Histórico de vendas e taxa de sucesso por modelo'],
-      en:['Library with a visual category wall','Automatic file organization into folders','Per-model sales history & success rate'],
-      es:['Biblioteca con muro visual por categoría','Organización automática de archivos en carpetas','Historial de ventas y tasa de éxito por modelo'],
-      fr:['Bibliothèque avec mur visuel par catégorie','Organisation automatique des fichiers en dossiers','Historique des ventes et taux de réussite par modèle'],
-      de:['Bibliothek mit visueller Kategorie-Wand','Automatische Dateiorganisation in Ordnern','Verkaufshistorie & Erfolgsquote pro Modell'],
-      it:['Libreria con muro visivo per categoria','Organizzazione automatica dei file in cartelle','Storico vendite e tasso di successo per modello'],
-      pl:['Biblioteka z wizualną ścianą kategorii','Automatyczna organizacja plików w folderach','Historia sprzedaży i wskaźnik sukcesu dla każdego modelu'],
-      ja:['カテゴリー別のビジュアルウォール付きライブラリ','ファイルをフォルダへ自動整理','モデルごとの販売履歴と成功率'],
-      nl:['Bibliotheek met visuele categoriewand','Automatische bestandsorganisatie in mappen','Verkoopgeschiedenis & succespercentage per model'],
-      cs:['Knihovna s vizuální zdí kategorií','Automatické třídění souborů do složek','Historie prodejů a úspěšnost pro každý model'],
-      zh:['带分类可视化墙的模型库','文件自动分类整理到文件夹','每个模型的销售历史与成功率'],
-      ru:['Библиотека с визуальной стеной категорий','Автоматическая организация файлов по папкам','История продаж и процент успеха по каждой модели'],
-      ko:['카테고리별 비주얼 월이 있는 라이브러리','파일을 폴더로 자동 정리','모델별 판매 이력 및 성공률']
+      pt:['Organiza automaticamente os teus ficheiros STL/3MF em pastas no PC — acaba de vez com a Área de Transferência a abarrotar','Biblioteca com mural visual por categoria','Histórico de vendas e taxa de sucesso por modelo'],
+      en:['Automatically organizes your STL/3MF files into folders on your PC — no more overflowing Downloads folder','Library with a visual category wall','Per-model sales history & success rate'],
+      es:['Organiza automáticamente tus archivos STL/3MF en carpetas en tu PC — se acabó la carpeta de Descargas desbordada','Biblioteca con muro visual por categoría','Historial de ventas y tasa de éxito por modelo'],
+      fr:['Organise automatiquement tes fichiers STL/3MF en dossiers sur ton PC — fini le dossier Téléchargements qui déborde','Bibliothèque avec mur visuel par catégorie','Historique des ventes et taux de réussite par modèle'],
+      de:['Organisiert deine STL/3MF-Dateien automatisch in Ordnern auf deinem PC — Schluss mit dem überquellenden Downloads-Ordner','Bibliothek mit visueller Kategorie-Wand','Verkaufshistorie & Erfolgsquote pro Modell'],
+      it:['Organizza automaticamente i tuoi file STL/3MF in cartelle sul PC — basta con la cartella Download stracolma','Libreria con muro visivo per categoria','Storico vendite e tasso di successo per modello'],
+      pl:['Automatycznie porządkuje pliki STL/3MF w folderach na Twoim PC — koniec z przepełnionym folderem Pobrane','Biblioteka z wizualną ścianą kategorii','Historia sprzedaży i wskaźnik sukcesu dla każdego modelu'],
+      ja:['STL/3MFファイルをPC上のフォルダへ自動整理 — ダウンロードフォルダがぐちゃぐちゃになるのはもう終わり','カテゴリー別のビジュアルウォール付きライブラリ','モデルごとの販売履歴と成功率'],
+      nl:['Organiseert je STL/3MF-bestanden automatisch in mappen op je pc — nooit meer een overvolle downloadmap','Bibliotheek met visuele categoriewand','Verkoopgeschiedenis & succespercentage per model'],
+      cs:['Automaticky třídí tvé soubory STL/3MF do složek v PC — konec s přeplněnou složkou Stažené','Knihovna s vizuální zdí kategorií','Historie prodejů a úspěšnost pro každý model'],
+      zh:['自动将STL/3MF文件整理到电脑文件夹中 — 告别混乱爆满的下载文件夹','带分类可视化墙的模型库','每个模型的销售历史与成功率'],
+      ru:['Автоматически раскладывает твои файлы STL/3MF по папкам на ПК — конец переполненной папке "Загрузки"','Библиотека с визуальной стеной категорий','История продаж и процент успеха по каждой модели'],
+      ko:['STL/3MF 파일을 PC의 폴더로 자동 정리 — 다운로드 폴더가 엉망이 되는 일은 이제 그만','카테고리별 비주얼 월이 있는 라이브러리','모델별 판매 이력 및 성공률']
     }},
   { icon:'📦', tier:'standard',
     name:{ pt:'Encomendas', en:'Orders', es:'Pedidos', fr:'Commandes', de:'Bestellungen', it:'Ordini', pl:'Zamówienia', ja:'注文', nl:'Bestellingen', cs:'Objednávky', zh:'订单', ru:'Заказы', ko:'주문' },
@@ -563,9 +652,9 @@ const TIER_LABEL = { free:{pt:'Grátis',en:'Free',es:'Gratis',fr:'Gratuit',de:'K
 // (ver window.RYU_TIER_LABELS em js/12_licensing.js) — são nomes de produto, não texto a traduzir.
 const PLANS = [
   { code:'free', price:'€0', altKey:'freeAlt', isFree:true },
-  { code:'basic', price:'€39', altKey:'oneTimeAlt' },
-  { code:'standard', price:'€89', altKey:'oneTimeAlt' },
-  { code:'pro', price:'€99', altKey:'proAlt', badgeKey:'proBadge' }
+  { code:'basic', price:'€45', altKey:'oneTimeAlt' },
+  { code:'standard', price:'€109', altKey:'oneTimeAlt' },
+  { code:'pro', price:'€119', altKey:'proAlt', badgeKey:'proBadge' }
 ];
 
 function tabsForPlan(planCode) {
@@ -575,7 +664,7 @@ function tabsForPlan(planCode) {
 
 function renderCats(lang) {
   document.getElementById('cats').innerHTML = CATS.map(c => `
-    <div class="cat">
+    <div class="cat ${c.featured ? 'featured' : ''}" ${c.featured ? `data-flag="${UI.featuredFlag[lang]}"` : ''}>
       <div class="cat-head">
         <span class="cat-name"><span class="cat-icon">${c.icon}</span>${c.name[lang]}</span>
         <span class="tier-pill tier-${c.tier}">${TIER_LABEL[c.tier][lang]}</span>
@@ -586,6 +675,7 @@ function renderCats(lang) {
 }
 
 function renderPlans(lang) {
+  const ctaText = '💬 ' + UI.discordBtn[lang];
   document.getElementById('plans').innerHTML = PLANS.map(p => {
     const included = tabsForPlan(p.code);
     return `
@@ -597,6 +687,7 @@ function renderPlans(lang) {
       <div class="plan-chips">
         ${included.map(c => `<span class="plan-chip ${c.tier===p.code ? 'new':''}"><span class="ci">${c.icon}</span>${c.name[lang]}</span>`).join('')}
       </div>
+      <a class="plan-cta" href="https://discord.gg/9Vj4PxQTtb" target="_blank" rel="noopener">${ctaText}</a>
     </div>`;
   }).join('');
 }
@@ -614,8 +705,9 @@ function drawLayerLines() {
   for (let i = 0; i < rows; i++) {
     const y = 4 + i * 6;
     const inset = Math.abs(3 - i) * 60 + (Math.random() * 20);
-    const op = 0.14 + (i % 2 === 0 ? 0.05 : 0);
-    html += `<line x1="${inset}" y1="${y}" x2="${980-inset}" y2="${y}" stroke="var(--accent)" stroke-width="1.4" stroke-linecap="round" opacity="${op}"/>`;
+    const op = 0.16 + (i % 2 === 0 ? 0.06 : 0);
+    const color = i % 3 === 2 ? 'var(--teal)' : 'var(--accent)';
+    html += `<line x1="${inset}" y1="${y}" x2="${980-inset}" y2="${y}" stroke="${color}" stroke-width="1.4" stroke-linecap="round" opacity="${op}"/>`;
   }
   g.innerHTML = html;
 }
@@ -631,6 +723,10 @@ function setLang(lang) {
     const el = document.getElementById(key);
     if (el) el.textContent = UI[key][lang] || UI[key].en;
   });
+  const heroStatsEl = document.getElementById('heroStats');
+  if (heroStatsEl) heroStatsEl.innerHTML = (UI.heroStats[lang] || UI.heroStats.en).map(s => `<span class="hero-stat">${s}</span>`).join('');
+  const heroCtaSecondaryEl = document.getElementById('heroCtaSecondary');
+  if (heroCtaSecondaryEl) heroCtaSecondaryEl.textContent = '💬 ' + UI.discordBtn[lang];
   renderCats(lang);
   renderPlans(lang);
   renderLangs(lang);
