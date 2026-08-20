@@ -367,9 +367,9 @@ footer a { color: var(--muted); }
                 <rect id="printedBandRect" x="0" y="560" width="520" height="560"></rect>
             </clipPath>
         </defs>
-        <image href="img/icon/apple-touch-icon.png" x="20" y="40" width="480" height="480" opacity="0.12"></image>
+        <image href="img/icon/hero-icon-nohead.png" x="20" y="40" width="480" height="480" opacity="0.12"></image>
         <g clip-path="url(#printedBand)">
-            <image href="img/icon/apple-touch-icon.png" x="20" y="40" width="480" height="480"></image>
+            <image href="img/icon/hero-icon-nohead.png" x="20" y="40" width="480" height="480"></image>
         </g>
         <line id="heroPrintHeadLine" x1="0" y1="560" x2="520" y2="560" stroke="var(--teal)" stroke-width="2.5"></line>
         <circle id="heroPrintHeadDot" cx="60" cy="560" r="8" fill="var(--teal)"></circle>
@@ -974,7 +974,7 @@ function setLang(lang) {
 }
 
 // ---------- Hero print scene: dragon silhouette revealed layer-by-layer (pure SVG, no WebGL) ----------
-const HERO_PRINT = { buildSeconds: 21, holdSeconds: 0.6, sweepSeconds: 0.7 };
+const HERO_PRINT = { buildSeconds: 63, holdSeconds: 0.6, sweepSeconds: 0.7 };
 HERO_PRINT.cycle = HERO_PRINT.buildSeconds + HERO_PRINT.holdSeconds;
 
 function initHeroPrintScene() {
