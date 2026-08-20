@@ -325,14 +325,21 @@ h2.section { font-size: 1.5rem; margin: 0 0 6px; letter-spacing: -0.01em; }
 
 /* ---------- Theme swatches ---------- */
 .themes-block { margin: 40px 0 0; }
-.theme-swatches { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin: 4px 0 8px; }
-.theme-swatch { width: 92px; text-align: center; }
+.theme-swatches { display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; margin: 4px 0 8px; }
+.theme-swatch { width: 148px; text-align: center; }
 .theme-swatch-box {
-    width: 92px; height: 62px; border-radius: 10px; position: relative; overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.08); box-shadow: var(--shadow);
+    width: 148px; height: 108px; border-radius: 10px; overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.1); box-shadow: var(--shadow);
+    transition: transform 0.15s ease;
 }
-.theme-swatch-accent { position: absolute; right: 8px; bottom: 8px; width: 16px; height: 16px; border-radius: 50%; box-shadow: 0 0 0 3px rgba(0,0,0,0.15); }
-.theme-swatch-name { font-size: 0.72rem; color: var(--muted); margin-top: 7px; font-family: ui-monospace, "SF Mono", Consolas, monospace; }
+.theme-swatch:hover .theme-swatch-box { transform: translateY(-3px); }
+.theme-swatch-chrome { display: flex; align-items: center; gap: 5px; padding: 7px 9px; }
+.theme-swatch-chrome span { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+.theme-swatch-body { padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+.theme-swatch-btn { width: 34px; height: 9px; border-radius: 4px; margin-bottom: 2px; }
+.theme-swatch-line { height: 6px; border-radius: 3px; }
+.theme-swatch-card { width: 100%; height: 22px; border-radius: 5px; border: 1px solid; margin-top: 2px; }
+.theme-swatch-name { font-size: 0.76rem; color: var(--muted); margin-top: 8px; font-family: ui-monospace, "SF Mono", Consolas, monospace; }
 
 /* ---------- Scroll reveal ---------- */
 .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
@@ -560,21 +567,29 @@ const UI = {
 };
 
 const THEMES = [
-  { name: 'Dracula', bg: '#282a36', accent: '#ff79c6' },
-  { name: 'Synthwave', bg: '#2b213a', accent: '#36f9f6' },
-  { name: 'Nord', bg: '#2e3440', accent: '#88c0d0' },
-  { name: 'Cyberpunk', bg: '#09090b', accent: '#facc15' },
-  { name: 'Discord', bg: '#36393f', accent: '#5865f2' },
-  { name: 'Netflix', bg: '#141414', accent: '#e50914' },
-  { name: 'Spotify', bg: '#121212', accent: '#1db954' },
-  { name: 'GitHub', bg: '#0d1117', accent: '#2f81f7' }
+  { name: 'Dracula', bg: '#282a36', card: '#44475a', input: '#282a36', text: '#f8f8f2', textSec: '#8be9fd', accent: '#ff79c6' },
+  { name: 'Synthwave', bg: '#2b213a', card: '#241b2f', input: '#1a1523', text: '#f92aad', textSec: '#ff7edb', accent: '#36f9f6' },
+  { name: 'Nord', bg: '#2e3440', card: '#3b4252', input: '#434c5e', text: '#eceff4', textSec: '#d8dee9', accent: '#88c0d0' },
+  { name: 'Cyberpunk', bg: '#09090b', card: '#18181b', input: '#27272a', text: '#06b6d4', textSec: '#22d3ee', accent: '#facc15' },
+  { name: 'Discord', bg: '#36393f', card: '#2f3136', input: '#202225', text: '#dcddde', textSec: '#8e9297', accent: '#5865f2' },
+  { name: 'Netflix', bg: '#141414', card: '#1f1f1f', input: '#000000', text: '#ffffff', textSec: '#808080', accent: '#e50914' },
+  { name: 'Spotify', bg: '#121212', card: '#181818', input: '#282828', text: '#ffffff', textSec: '#b3b3b3', accent: '#1db954' },
+  { name: 'GitHub', bg: '#0d1117', card: '#161b22', input: '#010409', text: '#c9d1d9', textSec: '#8b949e', accent: '#2f81f7' }
 ];
 
 function renderThemes() {
   document.getElementById('themeSwatches').innerHTML = THEMES.map(t => `
     <div class="theme-swatch">
       <div class="theme-swatch-box" style="background:${t.bg};">
-        <div class="theme-swatch-accent" style="background:${t.accent};"></div>
+        <div class="theme-swatch-chrome" style="background:${t.card};">
+          <span style="background:${t.accent};"></span><span style="background:${t.textSec};opacity:0.5;"></span><span style="background:${t.textSec};opacity:0.5;"></span>
+        </div>
+        <div class="theme-swatch-body">
+          <div class="theme-swatch-btn" style="background:${t.accent};"></div>
+          <div class="theme-swatch-line" style="background:${t.text};opacity:0.9;width:70%;"></div>
+          <div class="theme-swatch-line" style="background:${t.textSec};width:50%;"></div>
+          <div class="theme-swatch-card" style="background:${t.card};border-color:${t.input};"></div>
+        </div>
       </div>
       <div class="theme-swatch-name">${t.name}</div>
     </div>
