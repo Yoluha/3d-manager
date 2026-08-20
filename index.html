@@ -342,7 +342,7 @@ h2.section { font-size: 1.5rem; margin: 0 0 6px; letter-spacing: -0.01em; }
 .theme-swatch-name { font-size: 0.76rem; color: var(--muted); margin-top: 8px; font-family: ui-monospace, "SF Mono", Consolas, monospace; }
 
 /* ---------- Hero print scene ---------- */
-#heroPrintScene { position: absolute; top: -20px; right: -60px; width: 520px; height: 560px; opacity: 0.15; pointer-events: none; z-index: 0; }
+#heroPrintScene { position: absolute; top: -20px; right: -60px; width: 520px; height: 560px; opacity: 0.28; pointer-events: none; z-index: 0; }
 @media (max-width: 900px) { #heroPrintScene { display: none; } }
 @media (prefers-reduced-motion: reduce) { #heroPrintScene { display: none; } }
 
@@ -363,27 +363,14 @@ footer a { color: var(--muted); }
 <header class="top">
     <svg id="heroPrintScene" viewBox="0 0 520 560" aria-hidden="true">
         <defs>
-            <clipPath id="dragonSil">
-                <path d="M150,520 L100,470 L145,420 L105,370 L155,330 L120,285 L165,255 L190,215 L245,205 L232,155 L280,90 L262,150 L305,135 L340,65 L320,135 L370,150 L440,185 L495,205 L470,230 L505,250 L440,255 L385,245 L355,275 L320,265 L295,300 L330,325 L285,355 L215,340 L235,375 L195,405 L225,450 L180,485 L150,520 Z"></path>
-            </clipPath>
             <clipPath id="printedBand">
                 <rect id="printedBandRect" x="0" y="560" width="520" height="560"></rect>
             </clipPath>
-            <linearGradient id="dragonGrad" x1="0" y1="1" x2="0" y2="0">
-                <stop offset="0%" stop-color="var(--accent)"></stop>
-                <stop offset="100%" stop-color="var(--teal)"></stop>
-            </linearGradient>
         </defs>
-        <g clip-path="url(#dragonSil)">
-            <g clip-path="url(#printedBand)">
-                <rect x="0" y="0" width="520" height="560" fill="url(#dragonGrad)" opacity="0.95"></rect>
-                <g id="heroPrintFacetLines" stroke="#15171B" stroke-width="1.2" opacity="0.35"></g>
-                <g id="heroPrintFacetDiag" stroke="#15171B" stroke-width="1" opacity="0.22"></g>
-            </g>
-            <rect id="heroPrintOutlineTop" x="0" y="0" width="520" height="560" fill="none" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="3 4" opacity="0.5"></rect>
+        <image href="img/icon/apple-touch-icon.png" x="20" y="40" width="480" height="480" opacity="0.12"></image>
+        <g clip-path="url(#printedBand)">
+            <image href="img/icon/apple-touch-icon.png" x="20" y="40" width="480" height="480"></image>
         </g>
-        <path d="M150,520 L100,470 L145,420 L105,370 L155,330 L120,285 L165,255 L190,215 L245,205 L232,155 L280,90 L262,150 L305,135 L340,65 L320,135 L370,150 L440,185 L495,205 L470,230 L505,250 L440,255 L385,245 L355,275 L320,265 L295,300 L330,325 L285,355 L215,340 L235,375 L195,405 L225,450 L180,485 L150,520 Z"
-            fill="none" stroke="var(--border)" stroke-width="1.5" opacity="0.6"></path>
         <line id="heroPrintHeadLine" x1="0" y1="560" x2="520" y2="560" stroke="var(--teal)" stroke-width="2.5"></line>
         <circle id="heroPrintHeadDot" cx="60" cy="560" r="8" fill="var(--teal)"></circle>
     </svg>
@@ -994,34 +981,11 @@ function initHeroPrintScene() {
   const svg = document.getElementById('heroPrintScene');
   if (!svg || window.matchMedia('(max-width: 900px)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  const SVG_NS = 'http://www.w3.org/2000/svg';
-  const facetLinesG = document.getElementById('heroPrintFacetLines');
-  for (let i = 1; i < 14; i++) {
-    const line = document.createElementNS(SVG_NS, 'line');
-    const y = i * 40;
-    line.setAttribute('x1', 0); line.setAttribute('y1', y);
-    line.setAttribute('x2', 520); line.setAttribute('y2', y);
-    facetLinesG.appendChild(line);
-  }
-  const diagLines = [
-    [60,520,150,420], [150,420,105,330], [190,340,245,260], [245,260,232,180],
-    [300,300,340,220], [340,220,400,260], [400,260,470,280], [250,400,300,340],
-    [180,460,230,400], [320,265,380,300]
-  ];
-  const facetDiagG = document.getElementById('heroPrintFacetDiag');
-  diagLines.forEach(([x1, y1, x2, y2]) => {
-    const line = document.createElementNS(SVG_NS, 'line');
-    line.setAttribute('x1', x1); line.setAttribute('y1', y1);
-    line.setAttribute('x2', x2); line.setAttribute('y2', y2);
-    facetDiagG.appendChild(line);
-  });
-
   const bandRect = document.getElementById('printedBandRect');
-  const outlineTop = document.getElementById('heroPrintOutlineTop');
   const headLine = document.getElementById('heroPrintHeadLine');
   const headDot = document.getElementById('heroPrintHeadDot');
   const BUILD_START_Y = 560;
-  const BUILD_END_Y = 55;
+  const BUILD_END_Y = 25;
   const SWEEP_MIN_X = 40;
   const SWEEP_MAX_X = 480;
   const startTime = performance.now();
@@ -1036,7 +1000,6 @@ function initHeroPrintScene() {
       : BUILD_END_Y;
 
     bandRect.setAttribute('y', buildY);
-    outlineTop.setAttribute('height', Math.max(buildY, 0));
     headLine.setAttribute('y1', buildY);
     headLine.setAttribute('y2', buildY);
     headDot.setAttribute('cy', buildY);
