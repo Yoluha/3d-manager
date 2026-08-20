@@ -323,6 +323,17 @@ h2.section { font-size: 1.5rem; margin: 0 0 6px; letter-spacing: -0.01em; }
     padding: 12px 22px; border-radius: 10px; font-size: 0.92rem;
 }
 
+/* ---------- Theme swatches ---------- */
+.themes-block { margin: 40px 0 0; }
+.theme-swatches { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin: 4px 0 8px; }
+.theme-swatch { width: 92px; text-align: center; }
+.theme-swatch-box {
+    width: 92px; height: 62px; border-radius: 10px; position: relative; overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08); box-shadow: var(--shadow);
+}
+.theme-swatch-accent { position: absolute; right: 8px; bottom: 8px; width: 16px; height: 16px; border-radius: 50%; box-shadow: 0 0 0 3px rgba(0,0,0,0.15); }
+.theme-swatch-name { font-size: 0.72rem; color: var(--muted); margin-top: 7px; font-family: ui-monospace, "SF Mono", Consolas, monospace; }
+
 /* ---------- Scroll reveal ---------- */
 .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .reveal.in-view { opacity: 1; transform: translateY(0); }
@@ -378,6 +389,12 @@ footer a { color: var(--muted); }
                 <ul id="lightboxItems"></ul>
             </div>
         </div>
+    </div>
+
+    <div class="themes-block reveal">
+        <h2 class="section" id="themesTitle"></h2>
+        <p class="section-sub" id="themesSub"></p>
+        <div class="theme-swatches" id="themeSwatches"></div>
     </div>
 
     <h2 class="section" id="catsTitle"></h2>
@@ -537,8 +554,32 @@ const UI = {
   freeAlt: { pt:'para sempre', en:'forever', es:'para siempre', fr:'pour toujours', de:'für immer', it:'per sempre', pl:'na zawsze', ja:'永久無料', nl:'voor altijd', cs:'navždy', zh:'永久免费', ru:'навсегда', ko:'영원히' },
   oneTimeAlt: { pt:'pagamento único', en:'one-time', es:'pago único', fr:'paiement unique', de:'Einmalzahlung', it:'pagamento unico', pl:'płatność jednorazowa', ja:'買い切り', nl:'eenmalige betaling', cs:'jednorázová platba', zh:'一次性付费', ru:'единоразовый платёж', ko:'일회성 결제' },
   proAlt: { pt:'pagamento único · tudo incluído', en:'one-time · everything included', es:'pago único · todo incluido', fr:'paiement unique · tout inclus', de:'Einmalzahlung · alles inklusive', it:'pagamento unico · tutto incluso', pl:'płatność jednorazowa · wszystko wliczone', ja:'買い切り・すべて含む', nl:'eenmalige betaling · alles inbegrepen', cs:'jednorázová platba · vše zahrnuto', zh:'一次性付费 · 包含所有功能', ru:'единоразовый платёж · всё включено', ko:'일회성 결제 · 모든 기능 포함' },
-  proBadge: { pt:'Melhor valor', en:'Best value', es:'Mejor valor', fr:'Meilleure offre', de:'Bester Wert', it:'Miglior valore', pl:'Najlepsza wartość', ja:'ベストバリュー', nl:'Beste waarde', cs:'Nejlepší hodnota', zh:'最超值', ru:'Лучшая цена', ko:'최고 가치' }
+  proBadge: { pt:'Melhor valor', en:'Best value', es:'Mejor valor', fr:'Meilleure offre', de:'Bester Wert', it:'Miglior valore', pl:'Najlepsza wartość', ja:'ベストバリュー', nl:'Beste waarde', cs:'Nejlepší hodnota', zh:'最超值', ru:'Лучшая цена', ko:'최고 가치' },
+  themesTitle: { pt:'A tua cara, o teu estilo', en:'Your look, your style', es:'Tu cara, tu estilo', fr:'Ton style, ta patte', de:'Dein Look, dein Stil', it:'Il tuo stile, la tua faccia', pl:'Twój wygląd, twój styl', ja:'あなたらしいスタイルに', nl:'Jouw look, jouw stijl', cs:'Tvůj vzhled, tvůj styl', zh:'专属你的风格', ru:'Твой стиль, твой вид', ko:'나만의 스타일' },
+  themesSub: { pt:'+100 temas visuais prontos a usar — ou cria o teu de raiz. Estes são só uma amostra.', en:'100+ ready-made visual themes — or build your own from scratch. This is just a sample.', es:'+100 temas visuales listos para usar — o crea el tuyo desde cero. Esto es solo una muestra.', fr:'Plus de 100 thèmes visuels prêts à l\'emploi — ou crée le tien de zéro. Ceci n\'est qu\'un aperçu.', de:'100+ fertige visuelle Themes — oder erstelle dein eigenes von Grund auf. Das ist nur eine Auswahl.', it:'+100 temi visivi pronti all\'uso — o creane uno tuo da zero. Questo è solo un assaggio.', pl:'Ponad 100 gotowych motywów wizualnych — albo stwórz własny od podstaw. To tylko próbka.', ja:'100種類以上のビジュアルテーマをすぐに使えます — またはゼロから自分だけのテーマを作成。これはほんの一部です。', nl:'100+ kant-en-klare visuele thema\'s — of bouw je eigen thema helemaal zelf. Dit is maar een greep.', cs:'Více než 100 hotových vizuálních motivů — nebo si vytvoř vlastní od nuly. Toto je jen ukázka.', zh:'100多种现成视觉主题 — 或从零开始创建专属主题。这里只是一小部分示例。', ru:'Более 100 готовых визуальных тем — или создай свою с нуля. Это лишь небольшая часть.', ko:'100개 이상의 완성된 비주얼 테마 — 아니면 처음부터 나만의 테마를 만들어보세요. 이건 그저 일부일 뿐이에요.' }
 };
+
+const THEMES = [
+  { name: 'Dracula', bg: '#282a36', accent: '#ff79c6' },
+  { name: 'Synthwave', bg: '#2b213a', accent: '#36f9f6' },
+  { name: 'Nord', bg: '#2e3440', accent: '#88c0d0' },
+  { name: 'Cyberpunk', bg: '#09090b', accent: '#facc15' },
+  { name: 'Discord', bg: '#36393f', accent: '#5865f2' },
+  { name: 'Netflix', bg: '#141414', accent: '#e50914' },
+  { name: 'Spotify', bg: '#121212', accent: '#1db954' },
+  { name: 'GitHub', bg: '#0d1117', accent: '#2f81f7' }
+];
+
+function renderThemes() {
+  document.getElementById('themeSwatches').innerHTML = THEMES.map(t => `
+    <div class="theme-swatch">
+      <div class="theme-swatch-box" style="background:${t.bg};">
+        <div class="theme-swatch-accent" style="background:${t.accent};"></div>
+      </div>
+      <div class="theme-swatch-name">${t.name}</div>
+    </div>
+  `).join('');
+}
 
 const CATS = [
   { icon:'🧮', tier:'free', img:'shot-calc',
@@ -898,6 +939,7 @@ function setLang(lang) {
   document.documentElement.lang = lang;
 }
 
+renderThemes();
 setLang(localStorage.getItem('ryu_pricing_lang') || 'pt');
 </script>
 
