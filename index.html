@@ -987,7 +987,8 @@ function setLang(lang) {
 }
 
 // ---------- Hero print scene: dragon silhouette revealed layer-by-layer (pure SVG, no WebGL) ----------
-const HERO_PRINT = { buildFraction: 0.6, cycle: 7 };
+const HERO_PRINT = { buildSeconds: 21, holdSeconds: 0.6, sweepSeconds: 0.7 };
+HERO_PRINT.cycle = HERO_PRINT.buildSeconds + HERO_PRINT.holdSeconds;
 
 function initHeroPrintScene() {
   const svg = document.getElementById('heroPrintScene');
@@ -1021,15 +1022,17 @@ function initHeroPrintScene() {
   const headDot = document.getElementById('heroPrintHeadDot');
   const BUILD_START_Y = 560;
   const BUILD_END_Y = 55;
+  const SWEEP_MIN_X = 40;
+  const SWEEP_MAX_X = 480;
   const startTime = performance.now();
 
   function tick(now) {
     requestAnimationFrame(tick);
     const elapsed = (now - startTime) / 1000;
-    const phase = (elapsed % HERO_PRINT.cycle) / HERO_PRINT.cycle;
-    const building = phase < HERO_PRINT.buildFraction;
+    const cyclePos = elapsed % HERO_PRINT.cycle;
+    const building = cyclePos < HERO_PRINT.buildSeconds;
     const buildY = building
-      ? BUILD_START_Y - (phase / HERO_PRINT.buildFraction) * (BUILD_START_Y - BUILD_END_Y)
+      ? BUILD_START_Y - (cyclePos / HERO_PRINT.buildSeconds) * (BUILD_START_Y - BUILD_END_Y)
       : BUILD_END_Y;
 
     bandRect.setAttribute('y', buildY);
@@ -1039,6 +1042,12 @@ function initHeroPrintScene() {
     headDot.setAttribute('cy', buildY);
     headDot.style.display = building ? '' : 'none';
     headLine.style.display = building ? '' : 'none';
+
+    if (building) {
+      const sweepPhase = (elapsed % HERO_PRINT.sweepSeconds) / HERO_PRINT.sweepSeconds;
+      const sweepX = SWEEP_MIN_X + (0.5 - 0.5 * Math.cos(sweepPhase * Math.PI * 2)) * (SWEEP_MAX_X - SWEEP_MIN_X);
+      headDot.setAttribute('cx', sweepX);
+    }
   }
   requestAnimationFrame(tick);
 }
