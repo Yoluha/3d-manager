@@ -995,8 +995,10 @@ function initHeroPrintScene() {
     const elapsed = (now - startTime) / 1000;
     const cyclePos = elapsed % HERO_PRINT.cycle;
     const building = cyclePos < HERO_PRINT.buildSeconds;
+    const linearT = cyclePos / HERO_PRINT.buildSeconds;
+    const easedT = 1 - Math.pow(1 - linearT, 2); // quick start (past the low-contrast base), slows into the detailed top
     const buildY = building
-      ? BUILD_START_Y - (cyclePos / HERO_PRINT.buildSeconds) * (BUILD_START_Y - BUILD_END_Y)
+      ? BUILD_START_Y - easedT * (BUILD_START_Y - BUILD_END_Y)
       : BUILD_END_Y;
 
     bandRect.setAttribute('y', buildY);
