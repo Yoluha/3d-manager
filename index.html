@@ -460,6 +460,7 @@ footer a { color: var(--muted); }
     </footer>
 </div>
 
+<script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
 <script>
 // ---------- Idiomas suportados (mesma lista dos 12 traduzidos + PT nativo, ver js/9_i18n.js da app) ----------
 const LANG_NAMES = {
@@ -558,6 +559,8 @@ const UI = {
     ko:'버그, 질문, 기능 요청, 혹은 누구보다 먼저 체험해 보고 싶으신가요 — 모두 Discord에서 이루어집니다.'
   },
   discordBtn: { pt:'Entrar no Discord', en:'Join the Discord', es:'Unirse a Discord', fr:'Rejoindre Discord', de:'Discord beitreten', it:'Unisciti a Discord', pl:'Dołącz do Discorda', ja:'Discordに参加', nl:'Word lid van Discord', cs:'Připojit se na Discord', zh:'加入Discord', ru:'Присоединиться к Discord', ko:'Discord 참여하기' },
+  planBuyBtn: { pt:'Comprar Agora', en:'Buy Now', es:'Comprar Ahora', fr:'Acheter', de:'Jetzt Kaufen', it:'Acquista Ora', pl:'Kup Teraz', ja:'今すぐ購入', nl:'Nu Kopen', cs:'Koupit Nyní', zh:'立即购买', ru:'Купить Сейчас', ko:'지금 구매' },
+  planFreeBtn: { pt:'Descarregar Grátis', en:'Free Download', es:'Descarga Gratis', fr:'Télécharger Gratuitement', de:'Kostenlos Herunterladen', it:'Scarica Gratis', pl:'Pobierz Za Darmo', ja:'無料ダウンロード', nl:'Gratis Downloaden', cs:'Stáhnout Zdarma', zh:'免费下载', ru:'Скачать Бесплатно', ko:'무료 다운로드' },
   langsTitle: { pt:'Idiomas & Localizações', en:'Languages & Localizations', es:'Idiomas y Localizaciones', fr:'Langues et Localisations', de:'Sprachen & Lokalisierungen', it:'Lingue e Localizzazioni', pl:'Języki i Lokalizacje', ja:'言語・ローカライズ', nl:'Talen & Lokalisaties', cs:'Jazyky a Lokalizace', zh:'语言与本地化', ru:'Языки и Локализации', ko:'언어 및 현지화' },
   langsSub: {
     pt:'A interface inteira, traduzida — não só alguns menus.',
@@ -831,10 +834,10 @@ const TIER_LABEL = { free:{pt:'Grátis',en:'Free',es:'Gratis',fr:'Gratuit',de:'K
 // Nomes de plano (Free/Basic/Standard/Pro) ficam sempre em inglês, mesmo padrão da app real
 // (ver window.RYU_TIER_LABELS em js/12_licensing.js) — são nomes de produto, não texto a traduzir.
 const PLANS = [
-  { code:'free', price:'€0', altKey:'freeAlt', isFree:true },
-  { code:'basic', price:'€25', altKey:'oneTimeAlt' },
-  { code:'standard', price:'€109', altKey:'oneTimeAlt' },
-  { code:'pro', price:'€119', altKey:'proAlt', badgeKey:'proBadge' }
+  { code:'free', price:'€0', altKey:'freeAlt', isFree:true, checkoutUrl:'https://3dmanager.lemonsqueezy.com/checkout/buy/560407f3-0d4e-4c53-9178-0ae637f22389' },
+  { code:'basic', price:'€25', altKey:'oneTimeAlt', checkoutUrl:'https://3dmanager.lemonsqueezy.com/checkout/buy/053cc5e5-b0c3-4911-9ca7-bafe812ddfd3' },
+  { code:'standard', price:'€109', altKey:'oneTimeAlt', checkoutUrl:'https://3dmanager.lemonsqueezy.com/checkout/buy/b8a3913f-ded1-4d5c-8430-e6295d7b6d11' },
+  { code:'pro', price:'€119', altKey:'proAlt', badgeKey:'proBadge', checkoutUrl:'https://3dmanager.lemonsqueezy.com/checkout/buy/87acfe88-5cbb-4867-93ef-2f8916b434bb' }
 ];
 
 function tabsForPlan(planCode) {
@@ -855,9 +858,15 @@ function renderCats(lang) {
 }
 
 function renderPlans(lang) {
-  const ctaText = '💬 ' + UI.discordBtn[lang];
   document.getElementById('plans').innerHTML = PLANS.map(p => {
     const included = tabsForPlan(p.code);
+    let ctaHtml;
+    if (p.checkoutUrl) {
+      const btnText = p.isFree ? UI.planFreeBtn[lang] : UI.planBuyBtn[lang];
+      ctaHtml = `<a class="plan-cta lemonsqueezy-button" href="${p.checkoutUrl}?embed=1">${btnText}</a>`;
+    } else {
+      ctaHtml = `<a class="plan-cta" href="https://discord.gg/9Vj4PxQTtb" target="_blank" rel="noopener">💬 ${UI.discordBtn[lang]}</a>`;
+    }
     return `
     <div class="plan ${p.code}" ${p.badgeKey ? `data-badge="${UI[p.badgeKey][lang]}"` : ''}>
       <div class="plan-name">${p.code.charAt(0).toUpperCase() + p.code.slice(1)}</div>
@@ -867,7 +876,7 @@ function renderPlans(lang) {
       <div class="plan-chips">
         ${included.map(c => `<span class="plan-chip ${c.tier===p.code ? 'new':''}"><span class="ci">${c.icon}</span>${c.name[lang]}</span>`).join('')}
       </div>
-      <a class="plan-cta" href="https://discord.gg/9Vj4PxQTtb" target="_blank" rel="noopener">${ctaText}</a>
+      ${ctaHtml}
     </div>`;
   }).join('');
 }
