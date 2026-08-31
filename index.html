@@ -121,7 +121,6 @@ header.top > * { position: relative; z-index: 1; }
     letter-spacing: -0.02em;
     margin: 0;
 }
-.brand-mark .dim { color: inherit; }
 .tagline { color: var(--muted); font-size: 1.15rem; max-width: 52ch; margin: 16px 0 0; line-height: 1.5; }
 
 /* ---------- Hero trust bar + CTAs ---------- */
@@ -363,20 +362,22 @@ footer {
 footer a { color: var(--muted); }
 
 /* ---------- Other projects strip ---------- */
-.proj-strip-wrap { background: #10151d; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 14px 0; }
+.proj-strip-wrap { background: #10151d; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 0; }
 .proj-strip-inner { max-width: 980px; margin: 0 auto; padding: 0 24px; }
-.proj-strip-label { font-family: 'Space Mono', ui-monospace, monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: #8a94a3; margin: 0 0 10px; }
-.proj-strip { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 2px; }
+.proj-strip-row { display: flex; align-items: stretch; gap: 12px; }
+.proj-strip-label { font-family: 'Space Mono', ui-monospace, monospace; font-size: 0.64rem; letter-spacing: 0.15em; text-transform: uppercase; color: #8a94a3; margin: 0; writing-mode: vertical-rl; text-orientation: upright; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.proj-strip { display: flex; gap: 8px; overflow-x: auto; flex: 1; padding-bottom: 4px; }
 .proj-card-sm {
-    flex: 0 0 auto; width: 148px; min-height: 92px; border: 1px solid var(--border); border-radius: 10px;
-    padding: 8px 10px; text-decoration: none; display: flex; flex-direction: column; gap: 2px;
-    background-size: cover; background-position: center; transition: transform 0.15s ease, border-color 0.15s ease;
+    flex: 0 0 auto; width: 128px; min-height: 78px; border: 1px solid var(--border); border-radius: 9px;
+    padding: 7px 9px; text-decoration: none; display: flex; flex-direction: column; gap: 2px;
+    background-size: cover; background-position: center; position: relative; overflow: hidden;
+    transition: transform 0.15s ease, border-color 0.15s ease;
 }
 .proj-card-sm:hover { transform: translateY(-2px); border-color: var(--accent); }
-.proj-card-sm .proj-icon-sm { font-size: 1.1rem; margin-bottom: 4px; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.6)); }
-.proj-card-sm .proj-txt { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
-.proj-card-sm .proj-txt strong { font-family: 'Baloo 2', ui-rounded, "Segoe UI", sans-serif; font-weight: 700; color: #fff; font-size: 0.76rem; text-shadow: 0 1px 4px rgba(0,0,0,0.7); text-decoration: none; }
-.proj-card-sm .proj-txt span { color: rgba(255,255,255,0.88); font-size: 0.63rem; line-height: 1.25; text-shadow: 0 1px 3px rgba(0,0,0,0.7); white-space: normal; text-decoration: none; }
+.proj-card-sm .proj-icon-sm { position: absolute; right: -8px; bottom: -12px; font-size: 2.6rem; margin: 0; opacity: 0.35; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5)); line-height: 1; }
+.proj-card-sm .proj-txt { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.proj-card-sm .proj-txt strong { font-family: 'Baloo 2', ui-rounded, "Segoe UI", sans-serif; font-weight: 700; color: #fff; font-size: 0.7rem; text-shadow: 0 1px 4px rgba(0,0,0,0.7); text-decoration: none; }
+.proj-card-sm .proj-txt span { color: rgba(255,255,255,0.88); font-size: 0.58rem; line-height: 1.2; text-shadow: 0 1px 3px rgba(0,0,0,0.7); white-space: normal; text-decoration: none; }
 .proj-card-sm.grad-horas { background-image: linear-gradient(165deg, rgba(8,11,16,0.35), rgba(6,33,10,0.55) 55%, rgba(76,175,80,0.75) 100%), linear-gradient(160deg, #06210a, #1b5e20 55%, #4caf50); }
 .proj-card-sm.grad-jc { background-image: linear-gradient(165deg, rgba(8,11,16,0.35), rgba(10,61,82,0.55) 55%, rgba(201,122,18,0.75) 100%), linear-gradient(160deg, #10151d, #0a3d52 55%, #c97a12); }
 .proj-card-sm.grad-yb { background-image: linear-gradient(165deg, rgba(8,11,16,0.35), rgba(48,29,99,0.6) 55%, rgba(216,38,140,0.75) 100%), linear-gradient(135deg, #15102b, #4c1d95 55%, #d8268c); }
@@ -384,6 +385,7 @@ footer a { color: var(--muted); }
 
 <div class="proj-strip-wrap">
   <div class="proj-strip-inner">
+    <div class="proj-strip-row">
     <p class="proj-strip-label" id="stripLabel"></p>
     <div class="proj-strip">
       <a class="proj-card-sm grad-horas" href="https://yoluha.github.io/horas/">
@@ -398,6 +400,7 @@ footer a { color: var(--muted); }
         <span class="proj-icon-sm">🎧</span>
         <span class="proj-txt"><strong>Yoshiki Beats</strong><span id="stripYoshikiDesc"></span></span>
       </a>
+    </div>
     </div>
   </div>
 </div>
@@ -421,7 +424,7 @@ footer a { color: var(--muted); }
         <select id="langSelect" onchange="setLang(this.value)"></select>
     </div>
     <div class="brand-row">
-        <h1 class="brand-mark">3D<span class="dim">_</span>Manager</h1>
+        <h1 class="brand-mark">3D Manager</h1>
     </div>
     <p class="tagline" id="tagline"></p>
     <div class="hero-stats" id="heroStats"></div>
@@ -515,9 +518,9 @@ const COUNTRY_NAMES = ['Portugal','Brasil','España','México','Argentina','Colo
 
 // ---------- Textos de interface ----------
 const UI = {
-  stripLabel: { pt:'Outros projetos', en:'Other projects', es:'Otros proyectos', fr:'Autres projets', de:'Weitere Projekte', it:'Altri progetti', pl:'Inne projekty', ja:'他のプロジェクト', nl:'Andere projecten', cs:'Další projekty', zh:'其他项目', ru:'Другие проекты', ko:'다른 프로젝트', ne:'अन्य परियोजनाहरू' },
-  stripHorasDesc: { pt:'App de ponto', en:'Time clock app', es:'App de fichaje', fr:'App de pointage', de:'Stempeluhr-App', it:'App di timbratura', pl:'Aplikacja do rejestracji czasu', ja:'勤怠管理アプリ', nl:'Prikklok-app', cs:'Aplikace pro docházku', zh:'打卡应用', ru:'Приложение учёта времени', ko:'출퇴근 기록 앱', ne:'समय दर्ता एप' },
-  stripJcDesc: { pt:'Screensaver reinventado', en:'Screensaver, reborn', es:'Protector de pantalla renacido', fr:'Économiseur d\'écran renaissant', de:'Bildschirmschoner, neu belebt', it:'Salvaschermo rinato', pl:'Wygaszacz ekranu odrodzony', ja:'スクリーンセーバー復活', nl:'Screensaver herboren', cs:'Znovuzrozený spořič obrazovky', zh:'屏保重生', ru:'Скринсейвер возрождён', ko:'되살아난 스크린세이버', ne:'पुनर्जन्म भएको स्क्रिनसेभर' },
+  stripLabel: { pt:'Projetos', en:'Projects', es:'Proyectos', fr:'Projets', de:'Projekte', it:'Progetti', pl:'Projekty', ja:'プロジェクト', nl:'Projecten', cs:'Projekty', zh:'项目', ru:'Проекты', ko:'프로젝트', ne:'परियोजनाहरू' },
+  stripHorasDesc: { pt:'Ponto e deteção por WiFi', en:'Time clock, WiFi auto-detect', es:'Fichaje y detección por WiFi', fr:'Pointage, détection WiFi', de:'Stempeluhr, WLAN-Erkennung', it:'Timbratura, rilevamento WiFi', pl:'Rejestracja czasu, wykrywanie WiFi', ja:'勤怠管理・WiFi自動検出', nl:'Prikklok, WiFi-detectie', cs:'Docházka, detekce WiFi', zh:'打卡与WiFi自动检测', ru:'Учёт времени, определение по WiFi', ko:'근태 관리, WiFi 자동 감지', ne:'समय दर्ता, WiFi स्वतः पहिचान' },
+  stripJcDesc: { pt:'Screensaver de 1992, remasterizado', en:'The 1992 screensaver, remastered', es:'El protector de pantalla de 1992, remasterizado', fr:'L\'économiseur d\'écran de 1992, remasterisé', de:'Der Bildschirmschoner von 1992, neu aufgelegt', it:'Il salvaschermo del 1992, rimasterizzato', pl:'Wygaszacz ekranu z 1992 roku, odświeżony', ja:'1992年のスクリーンセーバー、リマスター版', nl:'De screensaver uit 1992, geremasterd', cs:'Spořič obrazovky z roku 1992, remasterovaný', zh:'1992年的屏保，重制版', ru:'Скринсейвер 1992 года, ремастер', ko:'1992년 스크린세이버, 리마스터', ne:'१९९२ को स्क्रिनसेभर, नयाँ रूपमा' },
   stripYoshikiDesc: { pt:'Instrumentais J-Trap e GΛRĀN', en:'Instrumental J-Trap and GΛRĀN', es:'Instrumental J-Trap y GΛRĀN', fr:'Instrumentaux J-Trap et GΛRĀN', de:'Instrumental J-Trap und GΛRĀN', it:'Strumentali J-Trap e GΛRĀN', pl:'Instrumentale J-Trap i GΛRĀN', ja:'インストゥルメンタルのJ-TrapとGΛRĀN', nl:'Instrumentale J-Trap en GΛRĀN', cs:'Instrumentální J-Trap a GΛRĀN', zh:'J-Trap 与 GΛRĀN 器乐', ru:'Инструментал J-Trap и GΛRĀN', ko:'인스트루멘탈 J-Trap과 GΛRĀN', ne:'इन्स्ट्रुमेन्टल J-Trap र GΛRĀN' },
   tagline: {
     pt:'Gestão de negócio para quem imprime a sério — do orçamento à entrega, sem folhas de cálculo soltas.',
