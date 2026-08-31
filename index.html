@@ -1111,6 +1111,9 @@ function initHeroPrintScene() {
 renderThemes();
 setLang(localStorage.getItem('ryu_pricing_lang') || 'pt');
 initHeroPrintScene();
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(fitProjLabel);
+}
 
 function fitProjLabel() {
   const el = document.getElementById('stripLabel');
