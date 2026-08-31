@@ -4,6 +4,9 @@
 <link rel="icon" type="image/png" sizes="32x32" href="img/icon/favicon-32.png">
 <link rel="icon" type="image/png" sizes="256x256" href="img/icon/favicon-256.png">
 <link rel="apple-touch-icon" href="img/icon/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
 <style>
 :root {
     --bg: #EDEEF1;
@@ -360,9 +363,9 @@ footer {
 footer a { color: var(--muted); }
 
 /* ---------- Other projects strip ---------- */
-.proj-strip-wrap { background: #10151d; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 0; }
+.proj-strip-wrap { background: #10151d; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 14px 0; }
 .proj-strip-inner { max-width: 980px; margin: 0 auto; padding: 0 24px; }
-.proj-strip-label { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: #8a94a3; margin: 0 0 8px; }
+.proj-strip-label { font-family: 'Space Mono', ui-monospace, monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: #8a94a3; margin: 0 0 10px; }
 .proj-strip { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 2px; }
 .proj-card-sm {
     flex: 0 0 auto; width: 148px; min-height: 92px; border: 1px solid var(--border); border-radius: 10px;
@@ -372,7 +375,7 @@ footer a { color: var(--muted); }
 .proj-card-sm:hover { transform: translateY(-2px); border-color: var(--accent); }
 .proj-card-sm .proj-icon-sm { font-size: 1.1rem; margin-bottom: 4px; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.6)); }
 .proj-card-sm .proj-txt { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
-.proj-card-sm .proj-txt strong { color: #fff; font-size: 0.76rem; text-shadow: 0 1px 4px rgba(0,0,0,0.7); text-decoration: none; }
+.proj-card-sm .proj-txt strong { font-family: 'Baloo 2', ui-rounded, "Segoe UI", sans-serif; font-weight: 700; color: #fff; font-size: 0.76rem; text-shadow: 0 1px 4px rgba(0,0,0,0.7); text-decoration: none; }
 .proj-card-sm .proj-txt span { color: rgba(255,255,255,0.88); font-size: 0.63rem; line-height: 1.25; text-shadow: 0 1px 3px rgba(0,0,0,0.7); white-space: normal; text-decoration: none; }
 .proj-card-sm.grad-horas { background-image: linear-gradient(165deg, rgba(8,11,16,0.35), rgba(6,33,10,0.55) 55%, rgba(76,175,80,0.75) 100%), linear-gradient(160deg, #06210a, #1b5e20 55%, #4caf50); }
 .proj-card-sm.grad-jc { background-image: linear-gradient(165deg, rgba(8,11,16,0.35), rgba(10,61,82,0.55) 55%, rgba(201,122,18,0.75) 100%), linear-gradient(160deg, #10151d, #0a3d52 55%, #c97a12); }
