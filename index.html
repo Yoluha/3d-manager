@@ -367,7 +367,8 @@ footer a { color: var(--muted); }
 .proj-strip-row { display: flex; align-items: stretch; height: 104px; gap: 12px; }
 .proj-strip-label { font-family: 'Space Mono', ui-monospace, monospace; font-size: 0.5rem; letter-spacing: 0.04em; line-height: 1; text-transform: uppercase; color: #8a94a3; margin: 0; writing-mode: vertical-rl; text-orientation: upright; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .proj-strip-viewport { position: relative; flex: 1; min-width: 0; }
-.proj-strip { display: flex; gap: 9px; overflow-x: auto; overflow-y: hidden; }
+.proj-strip { display: flex; height: 100%; gap: 9px; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; -ms-overflow-style: none; }
+.proj-strip::-webkit-scrollbar { display: none; }
 .proj-card-sm {
     flex: 0 0 auto; width: 142px; border: 1px solid var(--border); border-radius: 9px;
     padding: 8px 10px; text-decoration: none; display: flex; flex-direction: column; gap: 2px;
@@ -375,7 +376,7 @@ footer a { color: var(--muted); }
     transition: transform 0.15s ease, border-color 0.15s ease;
 }
 .proj-card-sm:hover { transform: translateY(-2px); border-color: var(--accent); }
-.proj-card-sm .proj-icon-sm { position: absolute; right: -6px; bottom: 4px; font-size: 4.6rem; margin: 0; opacity: 0.4; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5)); line-height: 1; }
+.proj-card-sm .proj-icon-sm { position: absolute; right: -6px; bottom: 4px; font-size: 3.8rem; margin: 0; opacity: 0.4; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5)); line-height: 1; }
 .proj-card-sm .proj-txt { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 1px; min-width: 0; }
 .proj-card-sm .proj-txt strong { font-family: 'Baloo 2', ui-rounded, "Segoe UI", sans-serif; font-weight: 700; color: #fff; font-size: 0.76rem; text-shadow: 0 1px 4px rgba(0,0,0,0.7); text-decoration: none; }
 .proj-card-sm .proj-txt span { color: rgba(255,255,255,0.88); font-size: 0.62rem; line-height: 1.25; text-shadow: 0 1px 3px rgba(0,0,0,0.7); white-space: normal; text-decoration: none; }
@@ -1060,6 +1061,7 @@ function setLang(lang) {
   populateLangSelect(lang);
   localStorage.setItem('ryu_pricing_lang', lang);
   document.documentElement.lang = lang;
+  fitProjLabel();
 }
 
 // ---------- Hero print scene: dragon silhouette revealed layer-by-layer (pure SVG, no WebGL) ----------
@@ -1110,6 +1112,20 @@ renderThemes();
 setLang(localStorage.getItem('ryu_pricing_lang') || 'pt');
 initHeroPrintScene();
 
+function fitProjLabel() {
+  const el = document.getElementById('stripLabel');
+  if (!el) return;
+  el.style.fontSize = '';
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  const natural = range.getBoundingClientRect().height;
+  if (!natural) return;
+  let scale = 90 / natural;
+  scale = Math.max(0.7, Math.min(scale, 2.2));
+  let rem = 0.5 * scale;
+  rem = Math.max(0.38, Math.min(rem, 0.95));
+  el.style.fontSize = rem.toFixed(3) + 'rem';
+}
 function scrollProjStrip(btn, dir) {
   const strip = btn.parentElement.querySelector('.proj-strip');
   const card = strip.querySelector('.proj-card-sm');
