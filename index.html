@@ -365,7 +365,12 @@ footer a { color: var(--muted); }
 .proj-strip-wrap { background: #10151d; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 0; }
 .proj-strip-inner { max-width: 980px; margin: 0; padding: 0 24px; }
 .proj-strip-row { display: flex; align-items: stretch; height: 104px; gap: 12px; }
-.proj-strip-label { font-family: 'Space Mono', ui-monospace, monospace; font-size: 0.5rem; letter-spacing: 0.04em; line-height: 1; text-transform: uppercase; color: #8a94a3; margin: 0; writing-mode: vertical-rl; text-orientation: upright; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+@keyframes projLabelGlow {
+    0% { text-shadow: 0 0 3px var(--accent); }
+    50% { text-shadow: 0 0 10px var(--accent), 0 0 4px var(--accent); }
+    100% { text-shadow: 0 0 3px var(--accent); }
+}
+.proj-strip-label { font-family: 'Space Mono', ui-monospace, monospace; font-size: 0.5rem; letter-spacing: 0.04em; line-height: 1; text-transform: uppercase; color: #8a94a3; margin: 0; writing-mode: vertical-rl; text-orientation: upright; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; animation: projLabelGlow 1.5s ease-in-out infinite; }
 .proj-strip-viewport { position: relative; flex: 1; min-width: 0; }
 .proj-strip { display: flex; height: 100%; gap: 9px; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; -ms-overflow-style: none; }
 .proj-strip::-webkit-scrollbar { display: none; }
