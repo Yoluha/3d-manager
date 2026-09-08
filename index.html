@@ -1,3 +1,7 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
 <title>3D Manager</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/png" sizes="16x16" href="img/icon/favicon-16.png">
@@ -22,6 +26,10 @@
     --teal-ink: #FFFFFF;
     --good: #2E8F5C;
     --shadow: 0 1px 2px rgba(28,30,34,0.04), 0 8px 24px rgba(28,30,34,0.06);
+    --aurora-1: transparent;
+    --aurora-2: transparent;
+    --aurora-3: transparent;
+    --glow-color: transparent;
 }
 @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
@@ -38,6 +46,10 @@
         --teal-ink: #10201F;
         --good: #4FBF85;
         --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 32px rgba(0,0,0,0.35);
+        --aurora-1: #E08A4B;
+        --aurora-2: #4CB5AC;
+        --aurora-3: #4FBF85;
+        --glow-color: rgba(224,138,75,0.5);
     }
 }
 :root[data-theme="dark"] {
@@ -54,6 +66,10 @@
     --teal-ink: #10201F;
     --good: #4FBF85;
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 32px rgba(0,0,0,0.35);
+    --aurora-1: #E08A4B;
+    --aurora-2: #4CB5AC;
+    --aurora-3: #4FBF85;
+    --glow-color: rgba(224,138,75,0.5);
 }
 
 * { box-sizing: border-box; }
@@ -65,7 +81,24 @@ body {
     font-size: 16px;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    position: relative;
 }
+
+.aurora { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.aurora span {
+    position: absolute; width: 40vw; height: 40vw; max-width: 520px; max-height: 520px;
+    border-radius: 50%; filter: blur(100px); opacity: 0.22; animation: auroraDrift 26s ease-in-out infinite alternate;
+}
+.aurora span:nth-child(1) { background: var(--aurora-1); top: -16%; left: -10%; }
+.aurora span:nth-child(2) { background: var(--aurora-2); bottom: -18%; right: -12%; animation-delay: -9s; }
+.aurora span:nth-child(3) { background: var(--aurora-3); bottom: 30%; left: 40%; animation-delay: -18s; }
+@keyframes auroraDrift {
+    0%   { transform: translate(0, 0) scale(1); }
+    50%  { transform: translate(4%, 5%) scale(1.1); }
+    100% { transform: translate(-3%, -4%) scale(0.95); }
+}
+@media (prefers-reduced-motion: reduce) { .aurora span { animation: none; } }
+.proj-strip-wrap, .wrap, header { position: relative; z-index: 1; }
 h1, h2, h3, .price, .tiercode {
     font-family: ui-monospace, "SF Mono", "Cascadia Code", "Consolas", "Roboto Mono", monospace;
     text-wrap: balance;
@@ -120,7 +153,13 @@ header.top > * { position: relative; z-index: 1; }
     font-size: clamp(2.2rem, 5vw, 3.4rem);
     letter-spacing: -0.02em;
     margin: 0;
+    animation: heroGlow 4s ease-in-out infinite;
 }
+@keyframes heroGlow {
+    0%, 100% { text-shadow: 0 0 16px var(--glow-color); }
+    50%      { text-shadow: 0 0 22px var(--glow-color); }
+}
+@media (prefers-reduced-motion: reduce) { .brand-mark { animation: none; } }
 .tagline { color: var(--muted); font-size: 1.15rem; max-width: 52ch; margin: 16px 0 0; line-height: 1.5; }
 
 /* ---------- Hero trust bar + CTAs ---------- */
@@ -377,10 +416,20 @@ footer a { color: var(--muted); }
     flex: 0 0 auto; width: 142px; border: 1px solid var(--border); border-radius: 9px;
     padding: 8px 10px; text-decoration: none; display: flex; flex-direction: column; gap: 2px;
     background-size: cover; background-position: center; position: relative; overflow: hidden;
-    transition: transform 0.15s ease, border-color 0.15s ease;
+    transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    opacity: 0; transform: translateY(14px); animation: projCardIn 0.5s ease forwards;
 }
-.proj-card-sm:hover { transform: translateY(-2px); border-color: var(--accent); }
-.proj-card-sm .proj-icon-sm { position: absolute; right: -6px; bottom: 4px; font-size: 3.8rem; margin: 0; opacity: 0.4; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5)); line-height: 1; }
+.proj-strip .proj-card-sm:nth-child(1) { animation-delay: 0.05s; }
+.proj-strip .proj-card-sm:nth-child(2) { animation-delay: 0.12s; }
+.proj-strip .proj-card-sm:nth-child(3) { animation-delay: 0.19s; }
+.proj-strip .proj-card-sm:nth-child(4) { animation-delay: 0.26s; }
+.proj-strip .proj-card-sm:nth-child(5) { animation-delay: 0.33s; }
+@keyframes projCardIn { to { opacity: 1; transform: translateY(0); } }
+.proj-card-sm:hover { transform: translateY(-3px) scale(1.02); border-color: var(--accent); box-shadow: 0 10px 24px rgba(0,0,0,0.4); }
+@media (prefers-reduced-motion: reduce) { .proj-card-sm { opacity: 1; transform: none; animation: none; } }
+.proj-card-sm .proj-icon-sm { position: absolute; right: -6px; bottom: 4px; font-size: 3.8rem; margin: 0; opacity: 0.4; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5)); line-height: 1; animation: projIconFloat 5s ease-in-out infinite; }
+@keyframes projIconFloat { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-6px) rotate(-3deg); } }
+@media (prefers-reduced-motion: reduce) { .proj-card-sm .proj-icon-sm { animation: none; } }
 .proj-card-sm .proj-txt { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 1px; min-width: 0; }
 .proj-card-sm .proj-txt strong { font-family: 'Baloo 2', ui-rounded, "Segoe UI", sans-serif; font-weight: 700; color: #fff; font-size: 0.76rem; text-shadow: 0 1px 4px rgba(0,0,0,0.7); text-decoration: none; }
 .proj-card-sm .proj-txt span { color: rgba(255,255,255,0.88); font-size: 0.62rem; line-height: 1.25; text-shadow: 0 1px 3px rgba(0,0,0,0.7); white-space: normal; text-decoration: none; }
@@ -401,6 +450,10 @@ footer a { color: var(--muted); }
 .proj-card-sm.grad-yb { background-image: linear-gradient(165deg, rgba(8,11,16,0.35), rgba(48,29,99,0.6) 55%, rgba(216,38,140,0.75) 100%), linear-gradient(135deg, #15102b, #4c1d95 55%, #d8268c); }
 .proj-card-sm.grad-synth { background-image: linear-gradient(165deg, rgba(8,11,16,0.4), rgba(30,10,60,0.6) 55%, rgba(255,61,127,0.7) 100%), linear-gradient(150deg, #0d0221, #5b1a8c 55%, #ff3d7f); }
 </style>
+</head>
+<body>
+
+<div class="aurora"><span></span><span></span><span></span></div>
 
 <div class="proj-strip-wrap">
   <div class="proj-strip-inner">
@@ -1178,3 +1231,5 @@ window.addEventListener('resize', () => document.querySelectorAll('.proj-strip')
   targets.forEach(el => observer.observe(el));
 })();
 </script>
+</body>
+</html>
