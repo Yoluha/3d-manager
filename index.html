@@ -399,6 +399,7 @@ footer a { color: var(--muted); }
 .proj-card-sm.grad-horas { background-image: linear-gradient(165deg, rgba(8,11,16,0.35), rgba(6,33,10,0.55) 55%, rgba(76,175,80,0.75) 100%), linear-gradient(160deg, #06210a, #1b5e20 55%, #4caf50); }
 .proj-card-sm.grad-jc { background-image: linear-gradient(165deg, rgba(8,11,16,0.35), rgba(10,61,82,0.55) 55%, rgba(201,122,18,0.75) 100%), linear-gradient(160deg, #10151d, #0a3d52 55%, #c97a12); }
 .proj-card-sm.grad-yb { background-image: linear-gradient(165deg, rgba(8,11,16,0.35), rgba(48,29,99,0.6) 55%, rgba(216,38,140,0.75) 100%), linear-gradient(135deg, #15102b, #4c1d95 55%, #d8268c); }
+.proj-card-sm.grad-synth { background-image: linear-gradient(165deg, rgba(8,11,16,0.4), rgba(30,10,60,0.6) 55%, rgba(255,61,127,0.7) 100%), linear-gradient(150deg, #0d0221, #5b1a8c 55%, #ff3d7f); }
 </style>
 
 <div class="proj-strip-wrap">
@@ -419,6 +420,10 @@ footer a { color: var(--muted); }
       <a class="proj-card-sm grad-yb" href="https://www.youtube.com/channel/UClEkyF0yv7Vyh2nRhKlvFlQ">
         <span class="proj-icon-sm">🎧</span>
         <span class="proj-txt"><strong>Yoshiki Beats</strong><span id="stripYoshikiDesc"></span></span>
+      </a>
+      <a class="proj-card-sm grad-synth" href="https://www.youtube.com/@SynthY%C3%98SHI">
+        <span class="proj-icon-sm">🌆</span>
+        <span class="proj-txt"><strong>SynthYØSHI</strong><span id="stripSynthDesc"></span></span>
       </a>
     </div>
     <button type="button" class="proj-nav proj-nav-next" onclick="scrollProjStrip(this,1)" aria-label="Seguinte" hidden>&#8250;</button>
@@ -544,6 +549,7 @@ const UI = {
   stripHorasDesc: { pt:'Ponto e deteção por WiFi', en:'Time clock, WiFi auto-detect', es:'Fichaje y detección por WiFi', fr:'Pointage, détection WiFi', de:'Stempeluhr, WLAN-Erkennung', it:'Timbratura, rilevamento WiFi', pl:'Rejestracja czasu, wykrywanie WiFi', ja:'勤怠管理・WiFi自動検出', nl:'Prikklok, WiFi-detectie', cs:'Docházka, detekce WiFi', zh:'打卡与WiFi自动检测', ru:'Учёт времени, определение по WiFi', ko:'근태 관리, WiFi 자동 감지', ne:'समय दर्ता, WiFi स्वतः पहिचान' },
   stripJcDesc: { pt:'Screensaver de 1992, remasterizado', en:'The 1992 screensaver, remastered', es:'El protector de pantalla de 1992, remasterizado', fr:'L\'économiseur d\'écran de 1992, remasterisé', de:'Der Bildschirmschoner von 1992, neu aufgelegt', it:'Il salvaschermo del 1992, rimasterizzato', pl:'Wygaszacz ekranu z 1992 roku, odświeżony', ja:'1992年のスクリーンセーバー、リマスター版', nl:'De screensaver uit 1992, geremasterd', cs:'Spořič obrazovky z roku 1992, remasterovaný', zh:'1992年的屏保，重制版', ru:'Скринсейвер 1992 года, ремастер', ko:'1992년 스크린세이버, 리마스터', ne:'१९९२ को स्क्रिनसेभर, नयाँ रूपमा' },
   stripYoshikiDesc: { pt:'Instrumentais J-Trap e GΛRĀN', en:'Instrumental J-Trap and GΛRĀN', es:'Instrumental J-Trap y GΛRĀN', fr:'Instrumentaux J-Trap et GΛRĀN', de:'Instrumental J-Trap und GΛRĀN', it:'Strumentali J-Trap e GΛRĀN', pl:'Instrumentale J-Trap i GΛRĀN', ja:'インストゥルメンタルのJ-TrapとGΛRĀN', nl:'Instrumentale J-Trap en GΛRĀN', cs:'Instrumentální J-Trap a GΛRĀN', zh:'J-Trap 与 GΛRĀN 器乐', ru:'Инструментал J-Trap и GΛRĀN', ko:'인스트루멘탈 J-Trap과 GΛRĀN', ne:'इन्स्ट्रुमेन्टल J-Trap र GΛRĀN' },
+  stripSynthDesc: { pt:'Darksynth e ChillSynth cinematográficos', en:'Cinematic Darksynth and ChillSynth', es:'Darksynth y ChillSynth cinematográficos', fr:'Darksynth et ChillSynth cinématographiques', de:'Cineastischer Darksynth und ChillSynth', it:'Darksynth e ChillSynth cinematici', pl:'Kinowy darksynth i chillsynth', ja:'映画的なダークシンセ＆チルシンセ', nl:'Cinematische darksynth en chillsynth', cs:'Kinematografický darksynth a chillsynth', zh:'电影感暗黑合成波与chill合成波', ru:'Кинематографичный darksynth и chillsynth', ko:'영화적인 다크신스와 칠신스', ne:'सिनेमैटिक डार्कसिन्थ र चिलसिन्थ' },
   tagline: {
     pt:'Gestão de negócio para quem imprime a sério — do orçamento à entrega, sem folhas de cálculo soltas.',
     en:'Business management for people who print seriously — from quote to delivery, no more scattered spreadsheets.',
