@@ -439,7 +439,7 @@ footer a { color: var(--muted); }
 @keyframes projCardIn { to { opacity: 1; transform: translateY(0); } }
 .proj-card-sm:hover { transform: translateY(-3px) scale(1.02); border-color: var(--accent); box-shadow: 0 10px 24px rgba(0,0,0,0.4); }
 @media (prefers-reduced-motion: reduce) { .proj-card-sm { opacity: 1; transform: none; animation: none; } }
-.proj-card-sm .proj-icon-sm { position: absolute; right: -6px; bottom: 4px; font-size: 3.8rem; margin: 0; opacity: 0.4; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5)); line-height: 1; animation: projIconFloat 5s ease-in-out infinite; }
+.proj-card-sm .proj-icon-sm { position: absolute; right: -6px; bottom: 4px; width: 60px; height: 60px; margin: 0; opacity: 0.45; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5)); border-radius: 14px; object-fit: cover; animation: projIconFloat 5s ease-in-out infinite; }
 @keyframes projIconFloat { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-6px) rotate(-3deg); } }
 @media (prefers-reduced-motion: reduce) { .proj-card-sm .proj-icon-sm { animation: none; } }
 .proj-card-sm .proj-txt { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 1px; min-width: 0; }
@@ -483,19 +483,19 @@ footer a { color: var(--muted); }
     <button type="button" class="proj-nav proj-nav-prev" onclick="scrollProjStrip(this,-1)" aria-label="Anterior" hidden>&#8249;</button>
     <div class="proj-strip" onscroll="updateProjNav(this)">
       <a class="proj-card-sm grad-horas" href="https://yoluha.github.io/horas/">
-        <span class="proj-icon-sm">⏱️</span>
+        <img class="proj-icon-sm" src="https://yoluha.github.io/horas/icon.svg" alt="">
         <span class="proj-txt"><strong>Ponto</strong><span id="stripHorasDesc"></span></span>
       </a>
       <a class="proj-card-sm grad-jc" href="https://yoluha.github.io/johnny-castaway-reborn/">
-        <span class="proj-icon-sm">🏝️</span>
+        <img class="proj-icon-sm" src="https://yoluha.github.io/johnny-castaway-reborn/icon.svg" alt="">
         <span class="proj-txt"><strong>Johnny Castaway Reborn</strong><span id="stripJcDesc"></span></span>
       </a>
       <a class="proj-card-sm grad-yb" href="https://yoluha.github.io/yoshiki-beats/">
-        <span class="proj-icon-sm">🎧</span>
+        <img class="proj-icon-sm" src="https://yt3.googleusercontent.com/tpUlhZiiNIF3l3ra8Z1UaBh7L6loJHgPF5dPxvTydivbBtKiGmhExnepSj1JyeLSesDUs72N0Q=s128-c-k-c0x00ffffff-no-rj" alt="">
         <span class="proj-txt"><strong>Yoshiki Beats</strong><span id="stripYoshikiDesc"></span></span>
       </a>
       <a class="proj-card-sm grad-synth" href="https://yoluha.github.io/synth-yoshi/">
-        <span class="proj-icon-sm">🌆</span>
+        <img class="proj-icon-sm" src="https://yt3.googleusercontent.com/TCVsD3rSXkZfDr1gTAmV2N9bYnNes7RLfSkMidbMr_e8YcuuD2ZL0mMY_827FGOVdIio_PeKEA=s128-c-k-c0x00ffffff-no-rj" alt="">
         <span class="proj-txt"><strong>Synth YØSHI</strong><span id="stripSynthDesc"></span></span>
       </a>
     </div>
