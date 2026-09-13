@@ -461,6 +461,7 @@ footer a { color: var(--muted); }
 .proj-card-sm.grad-jc { background-image: linear-gradient(165deg, rgba(8,11,16,0.35), rgba(10,61,82,0.55) 55%, rgba(201,122,18,0.75) 100%), linear-gradient(160deg, #10151d, #0a3d52 55%, #c97a12); }
 .proj-card-sm.grad-yb { background-image: linear-gradient(165deg, rgba(8,11,16,0.35), rgba(48,29,99,0.6) 55%, rgba(216,38,140,0.75) 100%), linear-gradient(135deg, #15102b, #4c1d95 55%, #d8268c); }
 .proj-card-sm.grad-synth { background-image: linear-gradient(165deg, rgba(8,11,16,0.4), rgba(30,10,60,0.6) 55%, rgba(255,61,127,0.7) 100%), linear-gradient(150deg, #0d0221, #5b1a8c 55%, #ff3d7f); }
+.proj-card-sm.grad-lista { background-image: linear-gradient(165deg, rgba(8,11,16,0.35), rgba(74,60,10,0.55) 55%, rgba(184,134,11,0.8) 100%), linear-gradient(150deg, #10151d, #4a3c0a 55%, #b8860b); }
 </style>
 </head>
 <body>
@@ -497,6 +498,10 @@ footer a { color: var(--muted); }
       <a class="proj-card-sm grad-synth" href="https://yoluha.github.io/synth-yoshi/">
         <img class="proj-icon-sm" src="https://yt3.googleusercontent.com/TCVsD3rSXkZfDr1gTAmV2N9bYnNes7RLfSkMidbMr_e8YcuuD2ZL0mMY_827FGOVdIio_PeKEA=s128-c-k-c0x00ffffff-no-rj" alt="">
         <span class="proj-txt"><strong>Synth YØSHI</strong><span id="stripSynthDesc"></span></span>
+      </a>
+      <a class="proj-card-sm grad-lista" href="https://yoluha.github.io/lista-pedidos/">
+        <img class="proj-icon-sm" src="https://yoluha.github.io/lista-pedidos/icon-192.png" alt="">
+        <span class="proj-txt"><strong>Lista</strong><span id="stripListaDesc"></span></span>
       </a>
     </div>
     <button type="button" class="proj-nav proj-nav-next" onclick="scrollProjStrip(this,1)" aria-label="Seguinte" hidden>&#8250;</button>
@@ -623,6 +628,7 @@ const UI = {
   stripJcDesc: { pt:'Screensaver de 1992, remasterizado', en:'The 1992 screensaver, remastered', es:'El protector de pantalla de 1992, remasterizado', fr:'L\'économiseur d\'écran de 1992, remasterisé', de:'Der Bildschirmschoner von 1992, neu aufgelegt', it:'Il salvaschermo del 1992, rimasterizzato', pl:'Wygaszacz ekranu z 1992 roku, odświeżony', ja:'1992年のスクリーンセーバー、リマスター版', nl:'De screensaver uit 1992, geremasterd', cs:'Spořič obrazovky z roku 1992, remasterovaný', zh:'1992年的屏保，重制版', ru:'Скринсейвер 1992 года, ремастер', ko:'1992년 스크린세이버, 리마스터', ne:'१९९२ को स्क्रिनसेभर, नयाँ रूपमा' },
   stripYoshikiDesc: { pt:'Instrumentais J-Trap e GΛRĀN', en:'Instrumental J-Trap and GΛRĀN', es:'Instrumental J-Trap y GΛRĀN', fr:'Instrumentaux J-Trap et GΛRĀN', de:'Instrumental J-Trap und GΛRĀN', it:'Strumentali J-Trap e GΛRĀN', pl:'Instrumentale J-Trap i GΛRĀN', ja:'インストゥルメンタルのJ-TrapとGΛRĀN', nl:'Instrumentale J-Trap en GΛRĀN', cs:'Instrumentální J-Trap a GΛRĀN', zh:'J-Trap 与 GΛRĀN 器乐', ru:'Инструментал J-Trap и GΛRĀN', ko:'인스트루멘탈 J-Trap과 GΛRĀN', ne:'इन्स्ट्रुमेन्टल J-Trap र GΛRĀN' },
   stripSynthDesc: { pt:'Darksynth e ChillSynth', en:'Darksynth and ChillSynth', es:'Darksynth y ChillSynth', fr:'Darksynth et ChillSynth', de:'Darksynth und ChillSynth', it:'Darksynth e ChillSynth', pl:'Darksynth i ChillSynth', ja:'Darksynth と ChillSynth', nl:'Darksynth en ChillSynth', cs:'Darksynth a ChillSynth', zh:'Darksynth 与 ChillSynth', ru:'Darksynth и ChillSynth', ko:'Darksynth와 ChillSynth', ne:'Darksynth र ChillSynth' },
+  stripListaDesc: { pt:'Listas de encomendas para o trabalho', en:'Work order lists, offline', es:'Listas de pedidos para el trabajo', fr:'Listes de commandes pour le travail', de:'Bestelllisten für die Arbeit', it:'Liste ordini per il lavoro', pl:'Listy zamówień do pracy', ja:'仕事の注文リスト', nl:'Bestellijsten voor het werk', cs:'Objednávkové seznamy do práce', zh:'工作订单清单', ru:'Списки заказов для работы', ko:'업무용 주문 목록', ne:'कामको लागि अर्डर सूची' },
   tagline: {
     pt:'Gestão de negócio para quem imprime a sério — do orçamento à entrega, sem folhas de cálculo soltas.',
     en:'Business management for people who print seriously — from quote to delivery, no more scattered spreadsheets.',
