@@ -477,7 +477,7 @@ footer a { color: var(--muted); }
 .proj-nav[hidden] { display: none; }
 .proj-card-sm.grad-horas { --glow: rgba(76,175,80,0.55); background-image: linear-gradient(165deg, rgba(8,11,16,0.35), rgba(6,33,10,0.55) 55%, rgba(76,175,80,0.75) 100%), linear-gradient(160deg, #06210a, #1b5e20 55%, #4caf50); }
 .proj-card-sm.grad-jc { --glow: rgba(201,122,18,0.55); background-image: linear-gradient(165deg, rgba(8,11,16,0.35), rgba(10,61,82,0.55) 55%, rgba(201,122,18,0.75) 100%), linear-gradient(160deg, #10151d, #0a3d52 55%, #c97a12); }
-.proj-card-sm.grad-yb { --glow: rgba(216,38,140,0.55); background-image: linear-gradient(165deg, rgba(8,11,16,0.35), rgba(48,29,99,0.6) 55%, rgba(216,38,140,0.75) 100%), linear-gradient(135deg, #15102b, #4c1d95 55%, #d8268c); }
+.proj-card-sm.grad-yb { --glow: rgba(168,120,30,0.55); background-image: linear-gradient(165deg, rgba(8,11,16,0.35), rgba(109,31,58,0.6) 55%, rgba(168,120,30,0.75) 100%), linear-gradient(135deg, #1a0d12, #6d1f3a 55%, #a8781e); }
 .proj-card-sm.grad-synth { --glow: rgba(255,61,127,0.55); background-image: linear-gradient(165deg, rgba(8,11,16,0.4), rgba(30,10,60,0.6) 55%, rgba(255,61,127,0.7) 100%), linear-gradient(150deg, #0d0221, #5b1a8c 55%, #ff3d7f); }
 .proj-card-sm.grad-lista { --glow: rgba(184,134,11,0.55); background-image: linear-gradient(165deg, rgba(8,11,16,0.35), rgba(74,60,10,0.55) 55%, rgba(184,134,11,0.8) 100%), linear-gradient(150deg, #10151d, #4a3c0a 55%, #b8860b); }
 </style>
@@ -501,14 +501,6 @@ footer a { color: var(--muted); }
     <div class="proj-strip-viewport">
     <button type="button" class="proj-nav proj-nav-prev" onclick="scrollProjStrip(this,-1)" aria-label="Anterior" hidden>&#8249;</button>
     <div class="proj-strip" onscroll="updateProjNav(this)">
-      <a class="proj-card-sm grad-horas" href="https://yoluha.github.io/horas/">
-        <img class="proj-icon-sm" src="https://yoluha.github.io/horas/icon.svg" alt="">
-        <span class="proj-txt"><strong>Ponto</strong><span id="stripHorasDesc"></span></span>
-      </a>
-      <a class="proj-card-sm grad-jc" href="https://yoluha.github.io/johnny-castaway-reborn/">
-        <img class="proj-icon-sm" src="https://yoluha.github.io/johnny-castaway-reborn/icon.svg" alt="">
-        <span class="proj-txt"><strong>Johnny Castaway Reborn</strong><span id="stripJcDesc"></span></span>
-      </a>
       <a class="proj-card-sm grad-yb" href="https://yoluha.github.io/yoshiki-beats/">
         <img class="proj-icon-sm" src="https://yt3.googleusercontent.com/tpUlhZiiNIF3l3ra8Z1UaBh7L6loJHgPF5dPxvTydivbBtKiGmhExnepSj1JyeLSesDUs72N0Q=s128-c-k-c0x00ffffff-no-rj" alt="">
         <span class="proj-txt"><strong>Yoshiki Beats</strong><span id="stripYoshikiDesc"></span></span>
@@ -516,6 +508,14 @@ footer a { color: var(--muted); }
       <a class="proj-card-sm grad-synth" href="https://yoluha.github.io/synth-yoshi/">
         <img class="proj-icon-sm" src="https://yt3.googleusercontent.com/TCVsD3rSXkZfDr1gTAmV2N9bYnNes7RLfSkMidbMr_e8YcuuD2ZL0mMY_827FGOVdIio_PeKEA=s128-c-k-c0x00ffffff-no-rj" alt="">
         <span class="proj-txt"><strong>Synth YØSHI</strong><span id="stripSynthDesc"></span></span>
+      </a>
+      <a class="proj-card-sm grad-horas" href="https://yoluha.github.io/horas/">
+        <img class="proj-icon-sm" src="https://yoluha.github.io/horas/icon.svg" alt="">
+        <span class="proj-txt"><strong>Ponto</strong><span id="stripHorasDesc"></span></span>
+      </a>
+      <a class="proj-card-sm grad-jc" href="https://yoluha.github.io/johnny-castaway-reborn/">
+        <img class="proj-icon-sm" src="https://yoluha.github.io/johnny-castaway-reborn/icon.svg" alt="">
+        <span class="proj-txt"><strong>Johnny Castaway Reborn</strong><span id="stripJcDesc"></span></span>
       </a>
       <a class="proj-card-sm grad-lista" href="https://yoluha.github.io/lista-pedidos/">
         <img class="proj-icon-sm" src="https://yoluha.github.io/lista-pedidos/icon-192.png" alt="">
