@@ -444,6 +444,7 @@ footer a { color: var(--muted); }
 .proj-strip .proj-card-sm:nth-child(3) { animation-delay: 0.19s; }
 .proj-strip .proj-card-sm:nth-child(4) { animation-delay: 0.26s; }
 .proj-strip .proj-card-sm:nth-child(5) { animation-delay: 0.33s; }
+.proj-strip .proj-card-sm:nth-child(6) { animation-delay: 0.40s; }
 @keyframes projCardIn { to { opacity: 1; transform: translateY(0); } }
 .proj-card-sm::before {
     content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
@@ -480,6 +481,7 @@ footer a { color: var(--muted); }
 .proj-card-sm.grad-yb { --glow: rgba(168,120,30,0.55); background-image: linear-gradient(165deg, rgba(8,11,16,0.35), rgba(109,31,58,0.6) 55%, rgba(168,120,30,0.75) 100%), linear-gradient(135deg, #1a0d12, #6d1f3a 55%, #a8781e); }
 .proj-card-sm.grad-synth { --glow: rgba(255,61,127,0.55); background-image: linear-gradient(165deg, rgba(8,11,16,0.4), rgba(30,10,60,0.6) 55%, rgba(255,61,127,0.7) 100%), linear-gradient(150deg, #0d0221, #5b1a8c 55%, #ff3d7f); }
 .proj-card-sm.grad-lista { --glow: rgba(184,134,11,0.55); background-image: linear-gradient(165deg, rgba(8,11,16,0.35), rgba(74,60,10,0.55) 55%, rgba(184,134,11,0.8) 100%), linear-gradient(150deg, #10151d, #4a3c0a 55%, #b8860b); }
+.proj-card-sm.grad-sushi { --glow: rgba(210,162,76,0.55); background-image: linear-gradient(165deg, rgba(8,11,16,0.35), rgba(30,24,10,0.55) 55%, rgba(210,162,76,0.75) 100%), linear-gradient(150deg, #12171a, #4a3a1a 55%, #d2a24c); }
 </style>
 </head>
 <body>
@@ -520,6 +522,10 @@ footer a { color: var(--muted); }
       <a class="proj-card-sm grad-lista" href="https://yoluha.github.io/lista-pedidos/">
         <img class="proj-icon-sm" src="https://yoluha.github.io/lista-pedidos/icon-192.png" alt="">
         <span class="proj-txt"><strong>Lista</strong><span id="stripListaDesc"></span></span>
+      </a>
+      <a class="proj-card-sm grad-sushi" href="https://yoluha.github.io/portfolio-sushi/">
+        <img class="proj-icon-sm" src="https://yoluha.github.io/portfolio-sushi/icon.svg" alt="">
+        <span class="proj-txt"><strong>Lucas Amaral</strong><span id="stripSushiDesc"></span></span>
       </a>
     </div>
     <button type="button" class="proj-nav proj-nav-next" onclick="scrollProjStrip(this,1)" aria-label="Seguinte" hidden>&#8250;</button>
@@ -656,6 +662,7 @@ const UI = {
   stripYoshikiDesc: { pt:'Instrumentais J-Trap e GΛRĀN', en:'Instrumental J-Trap and GΛRĀN', es:'Instrumental J-Trap y GΛRĀN', fr:'Instrumentaux J-Trap et GΛRĀN', de:'Instrumental J-Trap und GΛRĀN', it:'Strumentali J-Trap e GΛRĀN', pl:'Instrumentale J-Trap i GΛRĀN', ja:'インストゥルメンタルのJ-TrapとGΛRĀN', nl:'Instrumentale J-Trap en GΛRĀN', cs:'Instrumentální J-Trap a GΛRĀN', zh:'J-Trap 与 GΛRĀN 器乐', ru:'Инструментал J-Trap и GΛRĀN', ko:'인스트루멘탈 J-Trap과 GΛRĀN', ne:'इन्स्ट्रुमेन्टल J-Trap र GΛRĀN' },
   stripSynthDesc: { pt:'Darksynth e ChillSynth', en:'Darksynth and ChillSynth', es:'Darksynth y ChillSynth', fr:'Darksynth et ChillSynth', de:'Darksynth und ChillSynth', it:'Darksynth e ChillSynth', pl:'Darksynth i ChillSynth', ja:'Darksynth と ChillSynth', nl:'Darksynth en ChillSynth', cs:'Darksynth a ChillSynth', zh:'Darksynth 与 ChillSynth', ru:'Darksynth и ChillSynth', ko:'Darksynth와 ChillSynth', ne:'Darksynth र ChillSynth' },
   stripListaDesc: { pt:'Listas de encomendas para o trabalho', en:'Work order lists, offline', es:'Listas de pedidos para el trabajo', fr:'Listes de commandes pour le travail', de:'Bestelllisten für die Arbeit', it:'Liste ordini per il lavoro', pl:'Listy zamówień do pracy', ja:'仕事の注文リスト', nl:'Bestellijsten voor het werk', cs:'Objednávkové seznamy do práce', zh:'工作订单清单', ru:'Списки заказов для работы', ko:'업무용 주문 목록', ne:'कामको लागि अर्डर सूची' },
+  stripSushiDesc: { pt:'Chef de cozinha e sushi chef', en:'Head chef and sushi chef', es:'Chef de cocina y sushi chef', fr:'Chef cuisinier et chef sushi', de:'Küchenchef und Sushi-Meister', it:'Chef di cucina e sushi chef', pl:'Szef kuchni i mistrz sushi', ja:'料理長・寿司職人', nl:'Chef-kok en sushichef', cs:'Šéfkuchař a sushi mistr', zh:'主厨兼寿司师傅', ru:'Шеф-повар и суши-шеф', ko:'총주방장 겸 스시 셰프', ne:'प्रधान सेफ र सुशी सेफ' },
   tagline: {
     pt:'Gestão de negócio para quem imprime a sério — do orçamento à entrega, sem folhas de cálculo soltas.',
     en:'Business management for people who print seriously — from quote to delivery, no more scattered spreadsheets.',
